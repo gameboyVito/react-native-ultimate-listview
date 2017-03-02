@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {ListView, Platform, TouchableOpacity, View, Text, RefreshControl, ActivityIndicator} from "react-native";
-import styles from "./listview_styles";
+import styles from "./styles";
 
 
 // A helper function merged two objects into one
