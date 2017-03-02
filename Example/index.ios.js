@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {AppRegistry, StyleSheet, View, Alert, TouchableOpacity, Image} from "react-native";
 import {Card, CardItem, Left, Body, Thumbnail, Text} from "native-base";
 import styles from "./styles";
-import UltimateListView from "./ultimateListView.js";
+import UltimateListView from "react-native-ultimate-listview";
 
 
 const logo = require('./img/default-portrait.png');
