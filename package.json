@@ -1,0 +1,27 @@
+{
+  "name": "react-native-ultimate-listview",
+  "version": "1.0.1",
+  "description": "A ListView providing pull-to-refresh, auto-pagination, and infinite scrolling. The truly ultimate version decorated by fancy UI. You can use it conveniently without any extra code.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pull-to-refresh",
+    "refreshable",
+    "auto-pagination",
+    "infinite-scrolling",
+    "listview",
+    "react-native",
+    "react-component",
+    "react-native-component",
+    "android",
+    "ios",
+    "windows"
+  ],
+  "author": {
+    "name": "Chen Jiajie",
+    "email": "gameboyvito@gmail.com"
+  },
+  "license": "MIT"
+}
