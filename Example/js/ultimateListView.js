@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {ListView, Platform, TouchableOpacity, View, Text, RefreshControl, ActivityIndicator, Dimensions} from "react-native";
-import styles from "../listview_styles";
+import styles from "./listview_styles";
 
 // Get width and height of the current device
 const {width, height} = Dimensions.get('window');

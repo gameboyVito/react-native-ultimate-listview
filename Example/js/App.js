@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {StyleSheet, View, Alert, TouchableOpacity, Image, TouchableHighlight} from "react-native";
 import {Button, ListItem, Left, Right, Body, Thumbnail, Text, Icon} from "native-base";
 import styles from "./styles";
-import UltimateListView from "./ultimateListView";
+import UltimateListView from "react-native-ultimate-listview";
 
 
 const logo = require('../img/default-portrait.png');
@@ -111,9 +111,9 @@ export default class Example extends Component {
             <View style={styles.container}>
                 <UltimateListView
                     onFetch={this.onFetch}
-                    gridView={true}
+                    gridView={false}
                     gridColumn={2} // The number of fetching data must be a multiple of grid column
-                    //separator={true}
+                    separator={true}
                     enableEmptySections
                     headerView={this.renderHeaderView}
                     rowView={this.renderRowView}
