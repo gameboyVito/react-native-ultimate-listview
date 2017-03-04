@@ -21,7 +21,7 @@ export default class Example extends Component {
             //Simulate the network loading
             await this.sleep(2000);
 
-            let skip = (page - 1) * 12;
+            let skip = (page - 1) * 21;
             //let rowData = [];
             let rowData = [
                 'Friend ' + (skip),
@@ -35,7 +35,16 @@ export default class Example extends Component {
                 'Friend ' + (skip + 8),
                 'Friend ' + (skip + 9),
                 'Friend ' + (skip + 10),
-                'Friend ' + (skip + 11)
+                'Friend ' + (skip + 11),
+                'Friend ' + (skip + 12),
+                'Friend ' + (skip + 13),
+                'Friend ' + (skip + 14),
+                'Friend ' + (skip + 15),
+                'Friend ' + (skip + 16),
+                'Friend ' + (skip + 17),
+                'Friend ' + (skip + 18),
+                'Friend ' + (skip + 19),
+                'Friend ' + (skip + 20)
             ];
 
             //Simulate the end of the list because there is no more data to fetch from the server
@@ -111,12 +120,14 @@ export default class Example extends Component {
             <View style={styles.container}>
                 <UltimateListView
                     onFetch={this.onFetch}
-                    gridView={false}
-                    gridColumn={2} // The number of fetching data must be a multiple of grid column
-                    separator={true}
+                    separator={false}
                     enableEmptySections
                     headerView={this.renderHeaderView}
                     rowView={this.renderRowView}
+                    //gridView={true}
+                    //gridColumn={3} // The number of fetching data must be a multiple of grid column
+                    //pageSize={3}
+                    //rowView={this.renderGridView}
                     //emptyView={this.renderEmptyView}
                     //paginationFetchingView={this.paginationFetchingView}
                 />

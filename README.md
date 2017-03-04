@@ -1,6 +1,10 @@
 # react-native-ultimate-listview
 
-An RN ListView providing pull-to-refresh | auto-pagination | infinite-scrolling | and grid-view layout. The truly ultimate version decorated by fancy UI. You can use it conveniently without any extra code, I have done the most tricky part for you.
+An RN ListView providing **pull-to-refresh** | **auto-pagination** | **infinite-scrolling** | and **grid-view layout**. The truly ultimate version decorated by fancy UI. You can use it conveniently without any extra code, I have done the most tricky part for you.
+
+
+
+All codes are written in **ES6 syntax**. 
 
 
 
@@ -14,7 +18,7 @@ npm install react-native-ultimate-listview --save
 
 # Example
 
-There is an example in the `/Example` folder for your further reference. It's also a pretty nite starter project, if you are new to React-Native.
+There is an example in the `/Example` folder for your further reference. It's also a pretty nite starter project, so feel free to git clone and use it as your brand-new project.
 
 ```
 cd react-native-ultimate-listview/Example
@@ -134,6 +138,7 @@ Please read my code in the `/Example` folder.
 | ---------- | ------- | ------ | ---------------------------------------- |
 | gridView   | false   | bool   | If you are using gridView mode, please make sure you set the separator props to false |
 | gridColumn | 2       | number | If you are using gridView mode, please make sure the length of fetching array must be a multiple of the gridColumn |
+| pageSize   | 1       | number | Number of rows to render per event loop. You should set the value of pageSize as the same as gridColumn to ensure the load the list view row by row. |
 
 
 
