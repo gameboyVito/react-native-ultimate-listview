@@ -1,7 +1,9 @@
 import React, {Component} from "react";
-import {ListView, Platform, TouchableOpacity, View, Text, RefreshControl, ActivityIndicator} from "react-native";
-import styles from "./listview_styles";
+import {ListView, Platform, TouchableOpacity, View, Text, RefreshControl, ActivityIndicator, Dimensions} from "react-native";
+import styles from "../listview_styles";
 
+// Get width and height of the current device
+const {width, height} = Dimensions.get('window');
 
 // A helper function merged two objects into one
 const MergeRecursive = (obj1, obj2) => {
@@ -34,12 +36,13 @@ export default class UltimateListView extends Component {
 
         //Custom View
         headerView: null,
+        rowView: null,
         sectionHeaderView: null,
         paginationFetchingView: null,
         paginationAllLoadedView: null,
         paginationWaitingView: null,
         emptyView: null,
-        renderSeparator: null,
+        separator: null,
 
         //refreshable
         refreshable: true,
@@ -64,12 +67,33 @@ export default class UltimateListView extends Component {
         //pagination-button
         paginationBtnText: 'Load more...',
         paginationBtnStyle: null,
-        paginationBtnTextStyle: null
+        paginationBtnTextStyle: null,
+
+        //grid-view
+        gridView: false,
+        gridColumn: 2
     };
 
     static propTypes = {
         initialListSize: React.PropTypes.number,
         firstLoader: React.PropTypes.bool,
+        scrollEnabled: React.PropTypes.bool,
+        withSections: React.PropTypes.bool,
+        onFetch: React.PropTypes.func,
+        rowHasChanged: React.PropTypes.func,
+        distinctRows: React.PropTypes.func,
+
+        //Custom View
+        headerView: React.PropTypes.func,
+        rowView: React.PropTypes.func,
+        sectionHeaderView: React.PropTypes.func,
+        paginationFetchingView: React.PropTypes.func,
+        paginationAllLoadedView: React.PropTypes.func,
+        paginationWaitingView: React.PropTypes.func,
+        emptyView: React.PropTypes.func,
+        separator: React.PropTypes.any,
+
+        //refreshable
         refreshable: React.PropTypes.bool,
         refreshableColors: React.PropTypes.array,
         refreshableProgressBackgroundColor: React.PropTypes.string,
@@ -77,20 +101,6 @@ export default class UltimateListView extends Component {
         refreshableTitle: React.PropTypes.string,
         refreshableTintColor: React.PropTypes.string,
         renderRefreshControl: React.PropTypes.func,
-        headerView: React.PropTypes.func,
-        sectionHeaderView: React.PropTypes.func,
-        scrollEnabled: React.PropTypes.bool,
-        withSections: React.PropTypes.bool,
-        onFetch: React.PropTypes.func,
-
-        paginationFetchingView: React.PropTypes.func,
-        paginationAllLoadedView: React.PropTypes.func,
-        paginationWaitingView: React.PropTypes.func,
-        emptyView: React.PropTypes.func,
-        renderSeparator: React.PropTypes.func,
-
-        rowHasChanged: React.PropTypes.func,
-        distinctRows: React.PropTypes.func,
 
         //pagination
         autoPagination: React.PropTypes.bool,
@@ -106,7 +116,11 @@ export default class UltimateListView extends Component {
         //pagination-button
         paginationBtnText: React.PropTypes.string,
         paginationBtnStyle: React.PropTypes.object,
-        paginationBtnTextStyle: React.PropTypes.object
+        paginationBtnTextStyle: React.PropTypes.object,
+
+        //grid-view
+        gridView: React.PropTypes.bool,
+        gridColumn: React.PropTypes.number
     };
 
     constructor(props) {
@@ -163,6 +177,23 @@ export default class UltimateListView extends Component {
         return this.rows;
     };
 
+    emptyView = () => {
+        if (this.props.emptyView) {
+            return this.props.emptyView();
+        }
+
+        return (
+            <View style={styles.emptyView}>
+                <Text style={{alignSelf: 'center'}}>
+                    Sorry, there is no content to display
+                </Text>
+                <Text style={{alignSelf: 'center'}}>
+                    (Pull down to refresh)
+                </Text>
+            </View>
+        );
+    };
+
     paginationFetchingView = () => {
         if (this.props.paginationFetchingView) {
             return this.props.paginationFetchingView();
@@ -201,51 +232,89 @@ export default class UltimateListView extends Component {
                     <Text style={[styles.paginationViewText, {marginLeft: 5}]}>{this.props.waitingSpinnerText}</Text>
                 </View>
             );
-        } else {
-            return (
-                <TouchableOpacity
-                    onPress={paginateCallback}
-                    style={styles.paginationBtn}
-                >
-                    <Text style={[styles.paginationBtnText, this.props.paginationBtnTextStyle]}>
-                        {this.props.paginationBtnText}
-                    </Text>
-                </TouchableOpacity>
-            );
         }
+
+        return (
+            <TouchableOpacity
+                onPress={paginateCallback}
+                style={styles.paginationBtn}
+            >
+                <Text style={[styles.paginationBtnText, this.props.paginationBtnTextStyle]}>
+                    {this.props.paginationBtnText}
+                </Text>
+            </TouchableOpacity>
+        );
+
     };
 
-    headerView = () => {
+    renderHeaderView = () => {
         if (this.state.paginationStatus === 'firstLoad' || !this.props.headerView) {
             return null;
         }
+
         return this.props.headerView();
     };
 
-    emptyView = () => {
-        if (this.props.emptyView) {
-            return this.props.emptyView();
+    renderRowView = (rowData, sectionID, rowID) => {
+        if (this.props.rowView && this.props.gridView === false) {
+            return this.props.rowView(rowData, sectionID, rowID);
+        } else if (this.props.rowView && this.props.gridView === true) {
+            if (this.props.separator === true) {
+                throw 'If you are using gridView mode, please make sure you set the separator props to false';
+            }
+            return (
+                <View style={[styles.gridItem, {width: width / this.props.gridColumn, height: width / this.props.gridColumn}]}>
+                    {this.props.rowView(rowData, sectionID, rowID)}
+                </View>
+            );
         }
 
-        return (
-            <View style={styles.emptyView}>
-                <Text style={{alignSelf: 'center'}}>
-                    Sorry, there is no content to display
-                </Text>
-                <Text style={{alignSelf: 'center'}}>
-                    (Pull down to refresh)
-                </Text>
-            </View>
-        );
+        return null;
     };
 
-    renderSeparator = () => {
-        if (this.props.renderSeparator) {
-            return this.props.renderSeparator();
+    renderSeparatorView = (sectionID, rowID) => {
+        if (this.props.separator === true) {
+            return (
+                <View key={rowID} style={styles.separator}/>
+            );
+        } else if (typeof this.props.separator === 'function') {
+            return this.props.separator(sectionID, rowID);
+        }
+
+        return null;
+    };
+
+    renderFooterView = () => {
+        if ((this.state.paginationStatus === 'fetching') || (this.state.paginationStatus === 'firstLoad' && this.props.firstLoader === true)) {
+            return this.paginationFetchingView();
+        } else if (this.state.paginationStatus === 'waiting' && this.props.autoPagination === false && (this.props.withSections === true || this.getRows().length > 0)) {
+            return this.paginationWaitingView(this.onPaginate);
+        } else if (this.state.paginationStatus === 'waiting' && this.props.autoPagination === true && (this.props.withSections === true || this.getRows().length > 0)) {
+            return this.paginationWaitingView();
+        } else if (this.getRows().length !== 0 && this.state.paginationStatus === 'allLoaded') {
+            return this.paginationAllLoadedView();
+        } else if (this.getRows().length === 0) {
+            return this.emptyView();
+        }
+
+        return null;
+    };
+
+    renderRefreshControl = () => {
+        if (this.props.renderRefreshControl) {
+            return this.props.renderRefreshControl({onRefresh: this.onRefresh});
         }
 
         return (
-            <View style={{height: 1, backgroundColor: 'grey'}}/>
+            <RefreshControl
+                onRefresh={this.onRefresh}
+                refreshing={this.state.isRefreshing}
+                colors={this.props.refreshableColors}
+                progressBackgroundColor={this.props.refreshableProgressBackgroundColor}
+                size={this.props.refreshableSize}
+                tintColor={this.props.refreshableTintColor}
+                title={this.props.refreshableTitle}
+            />
         );
     };
 
@@ -326,39 +395,6 @@ export default class UltimateListView extends Component {
         }
     };
 
-    renderPaginationView = () => {
-        if ((this.state.paginationStatus === 'fetching') || (this.state.paginationStatus === 'firstLoad' && this.props.firstLoader === true)) {
-            return this.paginationFetchingView();
-        } else if (this.state.paginationStatus === 'waiting' && this.props.autoPagination === false && (this.props.withSections === true || this.getRows().length > 0)) {
-            return this.paginationWaitingView(this.onPaginate);
-        } else if (this.state.paginationStatus === 'waiting' && this.props.autoPagination === true && (this.props.withSections === true || this.getRows().length > 0)) {
-            return this.paginationWaitingView();
-        } else if (this.getRows().length !== 0 && this.state.paginationStatus === 'allLoaded') {
-            return this.paginationAllLoadedView();
-        } else if (this.getRows().length === 0) {
-            return this.emptyView();
-        } else {
-            return null;
-        }
-    };
-
-    renderRefreshControl = () => {
-        if (this.props.renderRefreshControl) {
-            return this.props.renderRefreshControl({onRefresh: this.onRefresh});
-        }
-        return (
-            <RefreshControl
-                onRefresh={this.onRefresh}
-                refreshing={this.state.isRefreshing}
-                colors={this.props.refreshableColors}
-                progressBackgroundColor={this.props.refreshableProgressBackgroundColor}
-                size={this.props.refreshableSize}
-                tintColor={this.props.refreshableTintColor}
-                title={this.props.refreshableTitle}
-            />
-        );
-    };
-
     onEndReached = () => {
         if (this.state.paginationStatus === 'waiting' && this.props.autoPagination) {
             this.onPaginate();
@@ -375,16 +411,17 @@ export default class UltimateListView extends Component {
                 scrollEnabled={this.props.scrollEnabled}
                 canCancelContentTouches={true}
 
-                renderRow={this.props.rowView}
+                renderRow={this.renderRowView}
                 renderSectionHeader={this.props.sectionHeaderView}
-                renderHeader={this.headerView}
-                renderFooter={this.renderPaginationView}
-                renderSeparator={this.renderSeparator}
+                renderHeader={this.renderHeaderView}
+                renderFooter={this.renderFooterView}
+                renderSeparator={this.renderSeparatorView}
 
                 refreshControl={this.props.refreshable === true ? this.renderRefreshControl() : null}
                 onEndReached={this.onEndReached}
                 onEndReachedThreshold={this.props.onEndReachedThreshold}
 
+                contentContainerStyle={this.props.gridView ? styles.gridView : undefined}
                 {...this.props}
             />
         );

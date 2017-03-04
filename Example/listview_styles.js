@@ -27,6 +27,12 @@ export default StyleSheet.create({
         color: 'white',
         fontWeight: 'bold'
     },
+    separator: {
+        height: 0.5,
+        marginLeft: 15,
+        marginRight: 15,
+        backgroundColor: 'lightgray'
+    },
     emptyView: {
         marginTop: 20,
         justifyContent: 'center',
@@ -34,5 +40,17 @@ export default StyleSheet.create({
     },
     allLoadedText: {
         alignSelf: 'center'
+    },
+    gridItem: {
+        borderWidth: 0.3,
+        borderColor: 'lightgray',
+        overflow: 'hidden',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    gridView: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        flexWrap: 'wrap'
     }
 });

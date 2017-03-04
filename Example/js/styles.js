@@ -6,7 +6,8 @@ export default {
         flex: 1
     },
     header: {
-        height: 80,
+        width: width,
+        height: 90,
         padding: 10,
         justifyContent: 'center',
         alignItems: 'center',
@@ -59,9 +60,16 @@ export default {
         padding: 0
     },
     thumb: {
-        width: 40,
-        height: 40,
-        borderRadius: 20
+        width: 50,
+        height: 50,
+        borderRadius: 25
+    },
+    gridThumb: {
+        alignSelf: 'center',
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        marginBottom: 10
     },
     cardTitle: {
         fontSize: 14
@@ -70,4 +78,18 @@ export default {
         marginTop: 3,
         fontSize: 11
     },
+    rightBtnGroup: {
+        flexDirection: 'row',
+        width: width * 0.3
+    },
+    rightBtn: {
+        margin: 0,
+        padding: 5
+    },
+    rightBtnIcon: {
+        color: 'dimgray'
+    },
+    gridText: {
+        textAlign: 'center'
+    }
 };
