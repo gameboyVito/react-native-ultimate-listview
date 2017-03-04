@@ -1,6 +1,6 @@
 {
   "name": "react-native-ultimate-listview",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "An RN ListView providing pull-to-refresh | auto-pagination | infinite-scrolling | and grid-view layout. The truly ultimate version decorated by fancy UI. You can use it conveniently without writing any extra code.",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,7 @@
     "refreshable",
     "auto-pagination",
     "infinite-scrolling",
+    "gridview",
     "listview",
     "native-base",
     "react-native",
@@ -24,5 +25,10 @@
     "name": "Chen Jiajie",
     "email": "gameboyvito@gmail.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gameboyVito/react-native-ultimate-listview.git"
+  },
+  "homepage": "https://github.com/gameboyVito/react-native-ultimate-listview#readme",
   "license": "MIT"
 }

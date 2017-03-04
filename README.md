@@ -17,7 +17,6 @@ npm install react-native-ultimate-listview --save
 There is an example in the `/Example` folder for your further reference. It's also a pretty nite starter project, if you are new to React-Native.
 
 ```
-git clone 
 cd react-native-ultimate-listview/Example
 npm install
 react-native link
@@ -31,11 +30,6 @@ react-native run-ios (or react-native run-android)
 ### Basic version:
 
 ```react
-sleep = (time) => {
-    return new Promise(function (resolve, reject) {
-            setTimeout(function () {resolve()}, time);
-        })
-    };
 onFetch = async(page = 1, callback, options) => {
     try {
         //Simulate the network loading
@@ -56,6 +50,8 @@ onFetch = async(page = 1, callback, options) => {
 - List-view layout:
 
   ```react
+  import UltimateListView from "react-native-ultimate-listview";
+
   <UltimateListView
   	enableEmptySections
       separator={true}
@@ -67,6 +63,8 @@ onFetch = async(page = 1, callback, options) => {
 - Grid-view layout:
 
   ```react
+  import UltimateListView from "react-native-ultimate-listview";
+
   <UltimateListView
   	enableEmptySections
   	gridView
@@ -88,45 +86,45 @@ Please read my code in the `/Example` folder.
 
 ### Custom View
 
-| Prop                    | Default | Type | Description |
-| ----------------------- | ------- | ---- | ----------- |
-| headerView              | null    | func |             |
-| rowView                 | null    | func |             |
-| sectionHeaderView       | null    | func |             |
-| paginationFetchingView  | null    | func |             |
-| paginationAllLoadedView | null    | func |             |
-| paginationWaitingView   | null    | func |             |
-| emptyView               | null    | func |             |
-| separator               | null    | func |             |
+| Prop                    | Default | Type | Description                              |
+| ----------------------- | ------- | ---- | ---------------------------------------- |
+| headerView              | null    | func | This is the header of the listview, which is always shown at the top of the list |
+| rowView                 | null    | func | This is the row content of the listview, which will be rendered row by row |
+| sectionHeaderView       | null    | func | If provided, a header is rendered for this section. |
+| paginationFetchingView  | null    | func | This view will be displayed when you are fetching the data from the server at the first time |
+| paginationAllLoadedView | null    | func | This view will be displayed, if there is no more rowView returned from the server. It means the list has been loaded completely |
+| paginationWaitingView   | null    | func | This view will be displayed when you are loading more data from the server. It should be the FooterView of the ListView. Defaultly, it will show a loading spinner |
+| emptyView               | null    | func | If there is no data while you are trying to fetch data from the server at the first time, this view will be displayed |
+| separator               | null    | any  | true, false, func. You can set it to *true* to display the separator in the default style, or *false* to hide the separator. And, you can customise it by passing your own View Component |
 
 
 
 ### RefreshControl
 
-| Props                              | Default                                 | Type   | Description |
-| ---------------------------------- | --------------------------------------- | ------ | ----------- |
-| refreshable                        | true                                    | bool   |             |
-| refreshableColors                  | ['lightskyblue', 'tomato', 'limegreen'] | array  |             |
-| refreshableProgressBackgroundColor | 'white'                                 | string |             |
-| refreshableSize                    | undefined                               | string |             |
-| refreshableTitle                   | 'Pull To Refresh'                       | string |             |
-| refreshableTintColor               | 'lightgray'                             | string |             |
-| renderRefreshControl               | null                                    | func   |             |
+| Props                              | Default                                 | Type   | Description                              |
+| ---------------------------------- | --------------------------------------- | ------ | ---------------------------------------- |
+| refreshable                        | true                                    | bool   | Set it to true to enable the RefreshControl component |
+| refreshableColors                  | ['lightskyblue', 'tomato', 'limegreen'] | array  | android only                             |
+| refreshableProgressBackgroundColor | 'white'                                 | string | android only                             |
+| refreshableSize                    | undefined                               | string | "small" or "large"                       |
+| refreshableTitle                   | 'Pull To Refresh'                       | string | The hint text when you are triggering the refresh event |
+| refreshableTintColor               | 'lightgray'                             | string | ios only                                 |
+| renderRefreshControl               | null                                    | func   | Customize your own View of the RefreshControl |
 
 
 
 ### Pagination
 
-| Props                 | Default        | Type   | Description |
-| --------------------- | -------------- | ------ | ----------- |
-| autoPagination        | true           | bool   |             |
-| onEndReachedThreshold | 50             | number |             |
-| allLoadedText         | 'The End'      | string |             |
-| spinnerColor          | 'gray'         | string |             |
-| fetchingSpinnerSize   | 'large'        | string |             |
-| waitingSpinnerSize    | 'small'        | string |             |
-| waitingSpinnerText    | 'Loading...'   | string |             |
-| paginationBtnText     | 'Load more...' | string |             |
+| Props                 | Default        | Type   | Description                              |
+| --------------------- | -------------- | ------ | ---------------------------------------- |
+| autoPagination        | true           | bool   | Set it to true to enable the auto pagination, if you want the feature of infinite-scrolling. |
+| onEndReachedThreshold | 50             | number | Threshold in pixels (virtual, not physical) for calling onEndReached |
+| allLoadedText         | 'The End'      | string | The text displayed in the  paginationAllLoadedView |
+| spinnerColor          | 'gray'         | string | The color of the loading spinner in the Footer |
+| fetchingSpinnerSize   | 'large'        | string | The size of the loading spinner in the paginationFetchingView |
+| waitingSpinnerSize    | 'small'        | string | The size of the loading spinner in the paginationWaitingView |
+| waitingSpinnerText    | 'Loading...'   | string | The text displayed in the paginationWaitingView, if the autoPagination is set to be true |
+| paginationBtnText     | 'Load more...' | string | The text displayed in the paginationWaitingView, if the autoPagination is set to be false |
 
 
 
