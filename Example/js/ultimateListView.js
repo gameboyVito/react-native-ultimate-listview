@@ -50,7 +50,7 @@ export default class UltimateListView extends Component {
         refreshableProgressBackgroundColor: 'white',
         refreshableSize: undefined,
         refreshableTitle: 'Pull To Refresh',
-        refreshableTintColor: 'lightgrey',
+        refreshableTintColor: 'lightgray',
         renderRefreshControl: null,
 
         //pagination
@@ -66,8 +66,6 @@ export default class UltimateListView extends Component {
 
         //pagination-button
         paginationBtnText: 'Load more...',
-        paginationBtnStyle: null,
-        paginationBtnTextStyle: null,
 
         //grid-view
         gridView: false,
@@ -115,8 +113,6 @@ export default class UltimateListView extends Component {
 
         //pagination-button
         paginationBtnText: React.PropTypes.string,
-        paginationBtnStyle: React.PropTypes.object,
-        paginationBtnTextStyle: React.PropTypes.object,
 
         //grid-view
         gridView: React.PropTypes.bool,
@@ -239,7 +235,7 @@ export default class UltimateListView extends Component {
                 onPress={paginateCallback}
                 style={styles.paginationBtn}
             >
-                <Text style={[styles.paginationBtnText, this.props.paginationBtnTextStyle]}>
+                <Text style={styles.paginationBtnText}>
                     {this.props.paginationBtnText}
                 </Text>
             </TouchableOpacity>

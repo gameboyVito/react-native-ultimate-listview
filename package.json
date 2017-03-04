@@ -1,7 +1,7 @@
 {
   "name": "react-native-ultimate-listview",
-  "version": "1.0.2",
-  "description": "A RN ListView providing pull-to-refresh | auto-pagination | infinite-scrolling | and grid-view layout. The truly ultimate version decorated by fancy UI. You can use it conveniently without any extra code.",
+  "version": "1.0.3",
+  "description": "An RN ListView providing pull-to-refresh | auto-pagination | infinite-scrolling | and grid-view layout. The truly ultimate version decorated by fancy UI. You can use it conveniently without writing any extra code.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

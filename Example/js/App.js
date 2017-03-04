@@ -8,7 +8,7 @@ import UltimateListView from "./ultimateListView";
 const logo = require('../img/default-portrait.png');
 export default class Example extends Component {
 
-    sleep(time) {
+    sleep = (time) => {
         return new Promise(function (resolve, reject) {
             setTimeout(function () {
                 resolve();
@@ -111,12 +111,14 @@ export default class Example extends Component {
             <View style={styles.container}>
                 <UltimateListView
                     onFetch={this.onFetch}
-                    gridView={false}
+                    gridView={true}
                     gridColumn={2} // The number of fetching data must be a multiple of grid column
-                    separator={true}
-                    enableEmptySections={true}
+                    //separator={true}
+                    enableEmptySections
                     headerView={this.renderHeaderView}
                     rowView={this.renderRowView}
+                    //emptyView={this.renderEmptyView}
+                    //paginationFetchingView={this.paginationFetchingView}
                 />
             </View>
         );
