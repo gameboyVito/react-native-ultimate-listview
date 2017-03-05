@@ -63,7 +63,7 @@ export default class Example extends Component {
     onFetch = async(page = 1, callback, options) => {
         try {
             //Simulate the network loading in ES7 syntax (async/await)
-            await this.sleep(2000);
+            await this.sleep(1000);
             let skip = (page - 1) * 21;
 
             //Generate dummy data
