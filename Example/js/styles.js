@@ -91,5 +91,13 @@ export default {
     },
     gridText: {
         textAlign: 'center'
+    },
+    gridBorder: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: width/3 - 10,
+        height: width/3 - 10,
+        borderWidth: 0.5,
+        borderColor: 'gray'
     }
 };

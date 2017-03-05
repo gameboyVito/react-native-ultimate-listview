@@ -1,5 +1,14 @@
 import React, {Component} from "react";
-import {ListView, Platform, TouchableOpacity, View, Text, RefreshControl, ActivityIndicator, Dimensions} from "react-native";
+import {
+    ListView,
+    Platform,
+    TouchableOpacity,
+    View,
+    Text,
+    RefreshControl,
+    ActivityIndicator,
+    Dimensions
+} from "react-native";
 import styles from "./listview_styles";
 
 // Get width and height of the current device
@@ -69,7 +78,9 @@ export default class UltimateListView extends Component {
 
         //grid-view
         gridView: false,
-        gridColumn: 2
+        gridColumn: 2,
+        gridBorder: true,
+        pageSize: 1
     };
 
     static propTypes = {
@@ -116,7 +127,9 @@ export default class UltimateListView extends Component {
 
         //grid-view
         gridView: React.PropTypes.bool,
-        gridColumn: React.PropTypes.number
+        gridColumn: React.PropTypes.number,
+        gridBorder: React.PropTypes.bool,
+        pageSize: React.PropTypes.number
     };
 
     constructor(props) {
@@ -258,8 +271,20 @@ export default class UltimateListView extends Component {
             if (this.props.separator === true) {
                 throw 'If you are using gridView mode, please make sure you set the separator props to false';
             }
+
+            const borderStyle = {
+                borderWidth: 0.3,
+                borderColor: 'lightgray'
+            };
             return (
-                <View style={[styles.gridItem, {width: width / this.props.gridColumn, height: width / this.props.gridColumn}]}>
+                <View style={this.props.gridBorder ? [borderStyle, styles.gridItem, {
+                        width: width / this.props.gridColumn,
+                        height: width / this.props.gridColumn
+                    }] : [styles.gridItem, {
+                        width: width / this.props.gridColumn,
+                        height: width / this.props.gridColumn
+                    }]
+                }>
                     {this.props.rowView(rowData, sectionID, rowID)}
                 </View>
             );

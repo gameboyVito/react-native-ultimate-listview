@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import {StyleSheet, View, Alert, TouchableOpacity, Image, TouchableHighlight} from "react-native";
 import {Button, ListItem, Left, Right, Body, Thumbnail, Text, Icon} from "native-base";
 import styles from "./styles";
-import UltimateListView from "react-native-ultimate-listview";
-
+//import UltimateListView from "react-native-ultimate-listview";
+import UltimateListView from "./ultimateListView";
 
 const logo = require('../img/default-portrait.png');
 export default class Example extends Component {
@@ -20,41 +20,17 @@ export default class Example extends Component {
         try {
             //Simulate the network loading
             await this.sleep(2000);
-
             let skip = (page - 1) * 21;
-            //let rowData = [];
-            let rowData = [
-                'Friend ' + (skip),
-                'Friend ' + (skip + 1),
-                'Friend ' + (skip + 2),
-                'Friend ' + (skip + 3),
-                'Friend ' + (skip + 4),
-                'Friend ' + (skip + 5),
-                'Friend ' + (skip + 6),
-                'Friend ' + (skip + 7),
-                'Friend ' + (skip + 8),
-                'Friend ' + (skip + 9),
-                'Friend ' + (skip + 10),
-                'Friend ' + (skip + 11),
-                'Friend ' + (skip + 12),
-                'Friend ' + (skip + 13),
-                'Friend ' + (skip + 14),
-                'Friend ' + (skip + 15),
-                'Friend ' + (skip + 16),
-                'Friend ' + (skip + 17),
-                'Friend ' + (skip + 18),
-                'Friend ' + (skip + 19),
-                'Friend ' + (skip + 20)
-            ];
 
-            //Simulate the end of the list because there is no more data to fetch from the server
-            if (page === 5) {
+            //Generate dummy data
+            let rowData = Array.from({length: 21}, (value, index) => index + skip);
+
+            //Simulate the end of the list if there is no more data returned from the server
+            if (page === 4) {
                 rowData = [];
             }
 
-            console.log(rowData);
             callback(rowData);
-
         } catch (err) {
             console.log(err);
         }
@@ -63,7 +39,7 @@ export default class Example extends Component {
     renderHeaderView = () => {
         return (
             <View style={styles.header}>
-                <Text style={{textAlign: 'center'}}>I'm the Header View, you can put some instructions or ads
+                <Text style={{textAlign: 'center'}}>I'm the Header View, you can put some Instructions or Ads
                     here!</Text>
             </View>
         );
@@ -77,7 +53,7 @@ export default class Example extends Component {
                 </Left>
                 <Body style={{borderBottomWidth: 0}}>
                 <Text>RowID: {rowID}</Text>
-                <Text note>Data: {rowData}</Text>
+                <Text note>Data: Friend {rowData}</Text>
                 </Body>
                 <Right style={{borderBottomWidth: 0}}>
                     <View style={styles.rightBtnGroup}>
@@ -120,14 +96,20 @@ export default class Example extends Component {
             <View style={styles.container}>
                 <UltimateListView
                     onFetch={this.onFetch}
-                    separator={true}
                     enableEmptySections
                     headerView={this.renderHeaderView}
+
+                    //normal mode
+                    separator={true}
                     rowView={this.renderRowView}
+
+                    //gridView mode
                     //gridView={true}
-                    //gridColumn={3} // The number of fetching data must be a multiple of grid column
+                    //gridBorder={true}
+                    //gridColumn={3}
                     //pageSize={3}
                     //rowView={this.renderGridView}
+
                     //emptyView={this.renderEmptyView}
                     //paginationFetchingView={this.paginationFetchingView}
                 />

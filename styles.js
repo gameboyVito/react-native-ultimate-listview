@@ -42,8 +42,6 @@ export default StyleSheet.create({
         alignSelf: 'center'
     },
     gridItem: {
-        borderWidth: 0.3,
-        borderColor: 'lightgray',
         overflow: 'hidden',
         alignItems: 'center',
         justifyContent: 'center',
