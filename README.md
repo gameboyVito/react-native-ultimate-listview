@@ -1,6 +1,6 @@
 # react-native-ultimate-listview
 
-An RN ListView providing **pull-to-refresh** | **auto-pagination** | **infinite-scrolling** | and **grid-view layout**. The truly ultimate version decorated by fancy UI. You can use it conveniently without any extra code, I have done the most tricky part for you.
+An RN ListView providing **pull-to-refresh** | **auto-pagination** | **infinite-scrolling** | and **grid-view layout**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instruction shown here to write your app.
 
 
 
@@ -10,10 +10,10 @@ All codes are written in **ES6 syntax**.
 
 # Demo
 
-|         | ListView | GridView |
-| ------- | -------- | -------- |
-| iOS     | ![]()    |          |
-| Android |          |          |
+|         | ListView                                 | GridView                                 |
+| ------- | ---------------------------------------- | ---------------------------------------- |
+| iOS     | ![ios-listview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-listview.gif) | ![ios-gridview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-gridview.gif) |
+| Android | ![android-listview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-listview.gif) | ![android-gridview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-gridview.gif) |
 
 
 
@@ -50,7 +50,6 @@ import React, {Component} from "react";
 import {StyleSheet, View, Alert, Text, TouchableOpacity} from "react-native";
 import UltimateListView from "react-native-ultimate-listview";
 
-const logo = require('../img/default-portrait.png');
 export default class Example extends Component {
 
     sleep = (time) => {
