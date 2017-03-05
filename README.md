@@ -13,7 +13,7 @@ All codes are written in **ES6 syntax**.
 |         | ListView                                 | GridView                                 |
 | ------- | ---------------------------------------- | ---------------------------------------- |
 | iOS     | ![ios-listview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-listview.gif) | ![ios-gridview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-gridview.gif) |
-| Android | ![android-listview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-listview.gif) | ![android-gridview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-gridview.gif) |
+| Android | ![android-listview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-listview.gif) | ![android-gridview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-gridview.gif) |
 
 
 
