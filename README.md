@@ -8,10 +8,21 @@ All codes are written in **ES6 syntax**.
 
 
 
+# Demo
+
+|         | ListView | GridView |
+| ------- | -------- | -------- |
+| iOS     | ![]()    |          |
+| Android |          |          |
+
+
+
 # Installation
 
 ```shell
 $ npm install react-native-ultimate-listview --save
+
+import UltimateListView from "react-native-ultimate-listview";
 ```
 
 
@@ -34,34 +45,80 @@ $ react-native run-ios
 
 ### Basic version:
 
-- List-view layout:
+```react
+import React, {Component} from "react";
+import {StyleSheet, View, Alert, Text, TouchableOpacity} from "react-native";
+import UltimateListView from "react-native-ultimate-listview";
 
-  ```react
-  import UltimateListView from "react-native-ultimate-listview";
+const logo = require('../img/default-portrait.png');
+export default class Example extends Component {
 
-  <UltimateListView
-  	enableEmptySections
-      separator={true}
-      onFetch={this.onFetch}
-      rowView={this.renderRowView}
-  />
-  ```
+    sleep = (time) => {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve();
+            }, time);
+        })
+    };
 
-- Grid-view layout:
+    onFetch = async(page = 1, callback, options) => {
+        try {
+            //Simulate the network loading in ES7 syntax (async/await)
+            await this.sleep(2000);
+            let skip = (page - 1) * 21;
 
-  ```react
-  import UltimateListView from "react-native-ultimate-listview";
+            //Generate dummy data
+            let rowData = Array.from({length: 21}, (value, index) => index + skip);
 
-  <UltimateListView
-  	enableEmptySections
-  	gridView
-  	gridColumn={3}
-      pageSize={3}
-      onFetch={this.onFetch}     
-      rowView={this.renderRowView}
-  />
-  ```
+            //Simulate the end of List if there's no more data returned from the server
+            if (page === 4) {
+                rowData = [];
+            }
+            callback(rowData);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
+    renderRowView = (rowData, sectionID, rowID) => {
+        //return your row layout in list view
+    };
+
+    renderGridView = (rowData, sectionID, rowID) => {
+        //return your grid layout in grid view
+    };
+
+    onPress = (rowID, rowData) => {
+        Alert.alert(rowID, `You're pressing on ${rowData}`);
+    };
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <UltimateListView
+                    onFetch={this.onFetch}
+                    enableEmptySections
+
+                    //----Normal Mode----
+                    separator={true}
+                    rowView={this.renderRowView}
+
+                    //----GridView Mode----
+                    //gridView={true}
+                    //gridBorder={true}
+                    //gridColumn={3}
+                    //pageSize={3}
+                    //rowView={this.renderGridView}                 
+                />
+            </View>
+        );
+    }
+}
+```
+
+
+
+### Advanced version:
 
 Please read my code in the `/Example` folder. => [App.js](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Example/js/App.js)
 

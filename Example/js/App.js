@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import {StyleSheet, View, Alert, TouchableOpacity, Image, TouchableHighlight} from "react-native";
 import {Button, ListItem, Left, Right, Body, Thumbnail, Text, Icon} from "native-base";
 import styles from "./appStyles";
-import UltimateListView from "react-native-ultimate-listview";
-//import UltimateListView from "./ultimateListView";
+//import UltimateListView from "react-native-ultimate-listview";
+import UltimateListView from "./ultimateListView";
 
 const logo = require('../img/default-portrait.png');
 export default class Example extends Component {
@@ -18,15 +18,15 @@ export default class Example extends Component {
 
     onFetch = async(page = 1, callback, options) => {
         try {
-            //Simulate the network loading
-            await this.sleep(2000);
+            //Simulate the network loading in ES7 syntax (async/await)
+            await this.sleep(1000);
             let skip = (page - 1) * 21;
 
             //Generate dummy data
             let rowData = Array.from({length: 21}, (value, index) => index + skip);
 
             //Simulate the end of the list if there is no more data returned from the server
-            if (page === 4) {
+            if (page === 3) {
                 rowData = [];
             }
 

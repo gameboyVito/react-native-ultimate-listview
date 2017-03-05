@@ -55,7 +55,7 @@ export default class UltimateListView extends Component {
 
         //refreshable
         refreshable: true,
-        refreshableColors: ['lightskyblue', 'tomato', 'limegreen'],
+        refreshableColors: ['dimgray', 'tomato', 'limegreen'],
         refreshableProgressBackgroundColor: 'white',
         refreshableSize: undefined,
         refreshableTitle: 'Pull To Refresh',
