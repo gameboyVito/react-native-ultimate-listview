@@ -7,10 +7,10 @@
     "test": "jest"
   },
   "dependencies": {
-    "native-base": "^2.0.11",
+    "native-base": "2.0.12",
     "react": "^15.4.2",
     "react-native": "^0.42.0",
-    "react-native-ultimate-listview": "^1.0.10"
+    "react-native-ultimate-listview": "^1.0.11"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
