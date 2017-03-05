@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {StyleSheet, View, Alert, TouchableOpacity, Image, TouchableHighlight} from "react-native";
 import {Button, ListItem, Left, Right, Body, Thumbnail, Text, Icon} from "native-base";
-import styles from "./styles";
-//import UltimateListView from "react-native-ultimate-listview";
-import UltimateListView from "./ultimateListView";
+import styles from "./appStyles";
+import UltimateListView from "react-native-ultimate-listview";
+//import UltimateListView from "./ultimateListView";
 
 const logo = require('../img/default-portrait.png');
 export default class Example extends Component {
@@ -99,16 +99,17 @@ export default class Example extends Component {
                     enableEmptySections
                     headerView={this.renderHeaderView}
 
-                    //normal mode
+                    //---Normal Mode---
                     separator={true}
                     rowView={this.renderRowView}
 
-                    //gridView mode
+                    //---GridView Mode---
                     //gridView={true}
                     //gridBorder={true}
                     //gridColumn={3}
                     //pageSize={3}
                     //rowView={this.renderGridView}
+
 
                     //emptyView={this.renderEmptyView}
                     //paginationFetchingView={this.paginationFetchingView}
