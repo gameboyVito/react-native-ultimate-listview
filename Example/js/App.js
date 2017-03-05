@@ -99,20 +99,25 @@ export default class Example extends Component {
                     enableEmptySections
                     headerView={this.renderHeaderView}
 
-                    //---Normal Mode---
+                    //----Normal Mode----
                     separator={true}
                     rowView={this.renderRowView}
 
-                    //---GridView Mode---
+                    //----GridView Mode----
                     //gridView={true}
                     //gridBorder={true}
                     //gridColumn={3}
                     //pageSize={3}
                     //rowView={this.renderGridView}
 
-
-                    //emptyView={this.renderEmptyView}
+                    //----Extra Config----
                     //paginationFetchingView={this.paginationFetchingView}
+                    //sectionHeaderView={this.renderSectionHeaderView}
+                    //paginationFetchingView={this.renderPaginationFetchingView}
+                    //paginationAllLoadedView={this.renderPaginationAllLoadedView}
+                    //paginationWaitingView={this.renderPaginationWaitingView}
+                    //emptyView={this.renderEmptyView}
+                    //separator={this.renderSeparatorView}
                 />
             </View>
         );
