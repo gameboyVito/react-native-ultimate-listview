@@ -120,7 +120,7 @@ export default class Example extends Component {
             <View style={styles.container}>
                 <UltimateListView
                     onFetch={this.onFetch}
-                    separator={false}
+                    separator={true}
                     enableEmptySections
                     headerView={this.renderHeaderView}
                     rowView={this.renderRowView}

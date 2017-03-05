@@ -10,8 +10,8 @@ All codes are written in **ES6 syntax**.
 
 # Installation
 
-```
-npm install react-native-ultimate-listview --save
+```shell
+$ npm install react-native-ultimate-listview --save
 ```
 
 
@@ -20,11 +20,12 @@ npm install react-native-ultimate-listview --save
 
 There is an example in the `/Example` folder for your further reference. It's also a pretty nite starter project, so feel free to git clone and use it as your brand-new project.
 
-```
-cd react-native-ultimate-listview/Example
-npm install
-react-native link
-react-native run-ios (or react-native run-android)
+```shell
+$ git clone https://github.com/gameboyVito/react-native-ultimate-listview.git
+$ cd react-native-ultimate-listview/Example
+$ npm install
+$ react-native link
+$ react-native run-ios
 ```
 
 
@@ -32,24 +33,6 @@ react-native run-ios (or react-native run-android)
 # Usage
 
 ### Basic version:
-
-```react
-onFetch = async(page = 1, callback, options) => {
-    try {
-        //Simulate the network loading
-        await this.sleep(2000);
-        let skip = (page - 1) * 12;
-        let rowData = ['Friend ' + (skip),'Friend ' + (skip + 1),'Friend ' + (skip + 2),'Friend ' + (skip + 3),'Friend ' + (skip + 4),'Friend ' + (skip + 5),'Friend ' + (skip + 6),'Friend ' + (skip + 7),'Friend ' + (skip + 8),'Friend ' + (skip + 9),'Friend ' + (skip + 10),'Friend ' + (skip + 11)];
-        //Simulate the end of the list
-        if (page === 5) {
-            rowData = [];
-        }
-        callback(rowData);
-    } catch (err) {
-        console.log(err);
-    }
-};
-```
 
 - List-view layout:
 
@@ -72,17 +55,15 @@ onFetch = async(page = 1, callback, options) => {
   <UltimateListView
   	enableEmptySections
   	gridView
-  	gridColumn={2}
+  	gridColumn={3}
+      pageSize={3}
       onFetch={this.onFetch}     
       rowView={this.renderRowView}
   />
   ```
 
 
-
-### Advanced Version
-
-Please read my code in the `/Example` folder.
+Please read my code in the `/Example` folder. => [App.js](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Example/js/App.js)
 
 
 
@@ -138,10 +119,24 @@ Please read my code in the `/Example` folder.
 | ---------- | ------- | ------ | ---------------------------------------- |
 | gridView   | false   | bool   | If you are using gridView mode, please make sure you set the separator props to false |
 | gridColumn | 2       | number | If you are using gridView mode, please make sure the length of fetching array must be a multiple of the gridColumn |
-| pageSize   | 1       | number | Number of rows to render per event loop. You should set the value of pageSize as the same as gridColumn to ensure the load the list view row by row. |
+| pageSize   | 1       | number | Number of rows to render per event loop. You should set this value as the same as the gridColumn, so that the listview can load the list row by row instead of item by item |
 
 
+
+# To-do-list
+
+- Swipe-to-left
+
+- Swipe-to-right
+
+  ​
 
 # Contribution
 
 - @gameboyVito
+
+  ​
+
+# License
+
+MIT
