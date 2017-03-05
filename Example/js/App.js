@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import {StyleSheet, View, Alert, TouchableOpacity, Image, TouchableHighlight} from "react-native";
 import {Button, ListItem, Left, Right, Body, Thumbnail, Text, Icon} from "native-base";
 import styles from "./appStyles";
-//import UltimateListView from "react-native-ultimate-listview";
-import UltimateListView from "./ultimateListView";
+import UltimateListView from "react-native-ultimate-listview";
+//import UltimateListView from "./ultimateListView";
 
 const logo = require('../img/default-portrait.png');
 export default class Example extends Component {
