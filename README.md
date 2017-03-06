@@ -19,11 +19,19 @@ All codes are written in **ES6 syntax**.
 
 # Installation
 
-```shell
-$ npm install react-native-ultimate-listview --save
+1. First of all, install this module from NPM
 
-import UltimateListView from "react-native-ultimate-listview";
-```
+   ```
+   $ npm install react-native-ultimate-listview --save
+   ```
+
+
+
+2. Then, import it into your project.
+
+   ```
+   import UltimateListView from "react-native-ultimate-listview";
+   ```
 
 
 
@@ -134,7 +142,7 @@ Please read my code in the `/Example` folder. => [App.js](https://github.com/gam
 | sectionHeaderView       | null    | func | If provided, a header is rendered for this section. |
 | paginationFetchingView  | null    | func | This view will be displayed when you are fetching the data from the server at the first time |
 | paginationAllLoadedView | null    | func | This view will be displayed, if there is no more rowView returned from the server. It means the list has been loaded completely |
-| paginationWaitingView   | null    | func | This view will be displayed when you are loading more data from the server. It should be the FooterView of the ListView. Defaultly, it will show a loading spinner |
+| paginationWaitingView   | null    | func | This view will be displayed when you are loading more data from the server. It should be the FooterView of the ListView. By default, it will show a loading spinner |
 | emptyView               | null    | func | If there is no data while you are trying to fetch data from the server at the first time, this view will be displayed |
 | separator               | null    | any  | true, false, func. You can set it to *true* to display the separator in the default style, or *false* to hide the separator. And, you can customise it by passing your own View Component |
 
@@ -171,12 +179,25 @@ Please read my code in the `/Example` folder. => [App.js](https://github.com/gam
 
 ### Grid View
 
-| Props      | Default | Type   | Desctiption                              |
+| Props      | Default | Type   | Description                              |
 | ---------- | ------- | ------ | ---------------------------------------- |
 | gridView   | false   | bool   | If you are using gridView mode, please make sure you set the separator props to false |
 | gridColumn | 2       | number | If you are using gridView mode, please make sure the length of fetching array must be a multiple of the gridColumn |
 | pageSize   | 1       | number | Number of rows to render per event loop. You should set this value as the same as the gridColumn, so that the listview can load the list row by row instead of item by item |
 | gridBorder | true    | bool   | You can set it to false, if you want to customize your own border in your grid item. |
+
+
+
+### Methods
+
+| Name             | Params       | Description                              |
+| ---------------- | ------------ | ---------------------------------------- |
+| getPage()        | -            | Get page                                 |
+| setPage(page)    | page: number | Set page                                 |
+| getRows()        | -            | Get the current DataSource               |
+| setRows(rows)    | rows: array  | Set the current DataSource               |
+| refresh()        | -            | Refresh the whole list. By default, it will set the page to 1 and fetch data from server |
+| updateRows(rows) | rows: array  | If you want to modify or updatethe DataSource, you can generate a  new array and pass it into this method. Then the ListView will be rerender automatically. |
 
 
 
