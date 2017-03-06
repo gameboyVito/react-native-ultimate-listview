@@ -35,6 +35,7 @@ All codes are written in **ES6 syntax**.
 
 
 
+
 # Example
 
 There is an example in the `/Example` folder for your further reference. It's also a pretty nite starter project, so feel free to git clone and use it as your brand-new project.
@@ -88,11 +89,11 @@ export default class Example extends Component {
     };
 
     renderRowView = (rowData, sectionID, rowID) => {
-        //return your row layout in list view
+        //write your own layout in list view
     };
 
     renderGridView = (rowData, sectionID, rowID) => {
-        //return your grid layout in grid view
+        //write your own layout in grid view
     };
 
     onPress = (rowID, rowData) => {
@@ -100,24 +101,22 @@ export default class Example extends Component {
     };
 
     render() {
-        return (
-            <View style={styles.container}>
-                <UltimateListView
-                    onFetch={this.onFetch}
-                    enableEmptySections
+        return (           
+          <UltimateListView
+            onFetch={this.onFetch}
+            enableEmptySections
 
-                    //----Normal Mode----
-                    separator={true}
-                    rowView={this.renderRowView}
+            //----Normal Mode----
+            separator={true}
+            rowView={this.renderRowView}
 
-                    //----GridView Mode----
-                    //gridView={true}
-                    //gridBorder={true}
-                    //gridColumn={3}
-                    //pageSize={3}
-                    //rowView={this.renderGridView}                 
-                />
-            </View>
+            //----GridView Mode----
+            //gridView={true}
+            //gridBorder={true}
+            //gridColumn={3}
+            //pageSize={3}
+            //rowView={this.renderGridView}                 
+            />
         );
     }
 }
@@ -150,15 +149,15 @@ Please read my code in the `/Example` folder. => [App.js](https://github.com/gam
 
 ### RefreshControl
 
-| Props                              | Default                                 | Type   | Description                              |
-| ---------------------------------- | --------------------------------------- | ------ | ---------------------------------------- |
-| refreshable                        | true                                    | bool   | Set it to true to enable the RefreshControl component |
-| refreshableColors                  | ['lightskyblue', 'tomato', 'limegreen'] | array  | android only                             |
-| refreshableProgressBackgroundColor | 'white'                                 | string | android only                             |
-| refreshableSize                    | undefined                               | string | "small" or "large"                       |
-| refreshableTitle                   | 'Pull To Refresh'                       | string | The hint text when you are triggering the refresh event |
-| refreshableTintColor               | 'lightgray'                             | string | ios only                                 |
-| renderRefreshControl               | null                                    | func   | Customize your own View of the RefreshControl |
+| Props                              | Default                            | Type   | Description                              |
+| ---------------------------------- | ---------------------------------- | ------ | ---------------------------------------- |
+| refreshable                        | true                               | bool   | Set it to true to enable the RefreshControl component |
+| refreshableColors                  | ['dimgray', 'tomato', 'limegreen'] | array  | android only                             |
+| refreshableProgressBackgroundColor | 'white'                            | string | android only                             |
+| refreshableSize                    | undefined                          | string | "small" or "large"                       |
+| refreshableTitle                   | 'Pull To Refresh'                  | string | The hint text when you are triggering the refresh event |
+| refreshableTintColor               | 'lightgray'                        | string | ios only                                 |
+| renderRefreshControl               | null                               | func   | Customize your own View of the RefreshControl |
 
 
 
@@ -190,14 +189,14 @@ Please read my code in the `/Example` folder. => [App.js](https://github.com/gam
 
 ### Methods
 
-| Name             | Params       | Description                              |
-| ---------------- | ------------ | ---------------------------------------- |
-| getPage()        | -            | Get page                                 |
-| setPage(page)    | page: number | Set page                                 |
-| getRows()        | -            | Get the current DataSource               |
-| setRows(rows)    | rows: array  | Set the current DataSource               |
-| refresh()        | -            | Refresh the whole list. By default, it will set the page to 1 and fetch data from server |
-| updateRows(rows) | rows: array  | If you want to modify or updatethe DataSource, you can generate a  new array and pass it into this method. Then the ListView will be rerender automatically. |
+| Name             | Params | Types  | Description                              |
+| ---------------- | ------ | ------ | ---------------------------------------- |
+| getPage()        | -      | -      | Get page                                 |
+| setPage(page)    | page   | number | Set page                                 |
+| getRows()        | -      | -      | Get the current DataSource               |
+| setRows(rows)    | rows   | array  | Set the current DataSource               |
+| refresh()        | -      | -      | Refresh the whole list. By default, it will set the page to 1 and fetch data from server |
+| updateRows(rows) | rows   | array  | If you want to modify or update your DataSource, you can generate a  new array and pass it into this method. Then the ListView will be rerender automatically. |
 
 
 
