@@ -20,10 +20,10 @@ export default class Example extends Component {
         try {
             //Simulate the network loading in ES7 syntax (async/await)
             await this.sleep(1000);
-            let skip = (page - 1) * 21;
+            let skip = (page - 1) * 24;
 
             //Generate dummy data
-            let rowData = Array.from({length: 21}, (value, index) => index + skip);
+            let rowData = Array.from({length: 24}, (value, index) => index + skip);
 
             //Simulate the end of the list if there is no more data returned from the server
             if (page === 3) {
@@ -106,8 +106,8 @@ export default class Example extends Component {
                     //----GridView Mode----
                     //gridView={true}
                     //gridBorder={true}
-                    //gridColumn={3}
-                    //pageSize={3}
+                    //gridColumn={2}
+                    //pageSize={2}
                     //rowView={this.renderGridView}
 
                     //----Extra Config----

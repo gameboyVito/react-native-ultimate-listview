@@ -1,7 +1,11 @@
-import {StyleSheet} from "react-native";
+import {StyleSheet, Dimensions} from "react-native";
+
+const {width, height} = Dimensions.get('window');
 
 export default StyleSheet.create({
     paginationView: {
+        flex: 0,
+        width: width,
         height: 55,
         flexDirection: 'row',
         justifyContent: 'center',
