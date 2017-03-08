@@ -355,6 +355,7 @@ export default class UltimateListView extends Component {
 
     postRefresh = (rows = [], options = {}) => {
         if (this.mounted) {
+            options.allLoaded = this.getRows().length === rows.length;
             this.updateRows(rows, options);
         }
     };
