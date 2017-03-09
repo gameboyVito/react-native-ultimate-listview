@@ -396,28 +396,54 @@ export default class UltimateListView extends Component {
     };
 
     updateRows = (rows = [], options = {}) => {
+        let paginationStatus = options.allLoaded ? 'allLoaded' : 'waiting';
+        if (options.external) {
+            this.updateRowsByExternal(rows);
+        } else {
+            if (rows !== null) {
+                this.setRows(rows);
+                if (this.props.withSections === true) {
+                    this.setState({
+                        dataSource: this.state.dataSource.cloneWithRowsAndSections(rows),
+                        isRefreshing: false,
+                        paginationStatus: paginationStatus,
+                    });
+                } else {
+                    this.setState({
+                        dataSource: this.state.dataSource.cloneWithRows(rows),
+                        isRefreshing: false,
+                        paginationStatus: paginationStatus,
+                    });
+                }
+            } else {
+                this.setState({
+                    isRefreshing: false,
+                    paginationStatus: paginationStatus,
+                });
+            }
+        }
+    };
+
+    updateRowsByExternal(rows = []) {
         if (rows !== null) {
             this.setRows(rows);
             if (this.props.withSections === true) {
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRowsAndSections(rows),
-                    isRefreshing: false,
-                    paginationStatus: (options.allLoaded === true ? 'allLoaded' : 'waiting'),
+                    isRefreshing: false
                 });
             } else {
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRows(rows),
-                    isRefreshing: false,
-                    paginationStatus: (options.allLoaded === true ? 'allLoaded' : 'waiting'),
+                    isRefreshing: false
                 });
             }
         } else {
             this.setState({
-                isRefreshing: false,
-                paginationStatus: (options.allLoaded === true ? 'allLoaded' : 'waiting'),
+                isRefreshing: false
             });
         }
-    };
+    }
 
     onEndReached = () => {
         if (this.state.paginationStatus === 'waiting' && this.props.autoPagination) {

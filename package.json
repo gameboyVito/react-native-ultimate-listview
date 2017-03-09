@@ -1,6 +1,6 @@
 {
   "name": "react-native-ultimate-listview",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "An RN ListView providing pull-to-refresh | auto-pagination | infinite-scrolling | and grid-view layout. The truly ultimate version that I have done the most tricky part for you, just simply follow the instruction shown here to write your app.",
   "main": "index.js",
   "scripts": {
