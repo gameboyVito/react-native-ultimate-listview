@@ -52,7 +52,7 @@ export default StyleSheet.create({
     },
     gridView: {
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         flexWrap: 'wrap'
     }
 });
