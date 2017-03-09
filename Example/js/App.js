@@ -20,17 +20,21 @@ export default class Example extends Component {
         try {
             //Simulate the network loading in ES7 syntax (async/await)
             await this.sleep(1000);
-            let skip = (page - 1) * 24;
+            const pageLimit = 24;
+            let skip = (page - 1) * pageLimit;
 
             //Generate dummy data
-            let rowData = Array.from({length: 24}, (value, index) => index + skip);
+            let rowData = Array.from({length: pageLimit}, (value, index) => index + skip);
 
             //Simulate the end of the list if there is no more data returned from the server
             if (page === 3) {
                 rowData = [];
             }
 
-            callback(rowData);
+            //This is required to determinate whether the first loading list is all loaded.
+            options.pageLimit = pageLimit;
+
+            callback(rowData, options);
         } catch (err) {
             console.log(err);
         }

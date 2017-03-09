@@ -73,16 +73,21 @@ export default class Example extends Component {
         try {
             //Simulate the network loading in ES7 syntax (async/await)
             await this.sleep(1000);
-            let skip = (page - 1) * 21;
+            const pageLimit = 24;
+            let skip = (page - 1) * pageLimit;
 
             //Generate dummy data
-            let rowData = Array.from({length: 21}, (value, index) => index + skip);
+            let rowData = Array.from({length: pageLimit}, (value, index) => index + skip);
 
-            //Simulate the end of List if there's no more data returned from the server
-            if (page === 4) {
+            //Simulate the end of the list if no more data returned from the server
+            if (page === 3) {
                 rowData = [];
             }
-            callback(rowData);
+
+            //This is important!!! to determinate if the first page is all loaded
+            options.pageLimit = pageLimit;
+
+            callback(rowData, options);
         } catch (err) {
             console.log(err);
         }
@@ -189,14 +194,15 @@ Please read my code in the `/Example` folder. => [App.js](https://github.com/gam
 
 ### Methods
 
-| Name             | Params | Types  | Description                              |
-| ---------------- | ------ | ------ | ---------------------------------------- |
-| getPage()        | -      | -      | Get page                                 |
-| setPage(page)    | page   | number | Set page                                 |
-| getRows()        | -      | -      | Get the current DataSource               |
-| setRows(rows)    | rows   | array  | Set the current DataSource               |
-| refresh()        | -      | -      | Refresh the whole list. By default, it will set the page to 1 and fetch data from server |
-| updateRows(rows) | rows   | array  | If you want to modify or update your DataSource, you can generate a  new array and pass it into this method. Then the ListView will be rerender automatically. |
+| Name                    | Params        | Types         | Description                              |
+| ----------------------- | ------------- | ------------- | ---------------------------------------- |
+| getPage()               | -             | -             | Get page                                 |
+| setPage(page)           | page          | number        | Set page                                 |
+| getRows()               | -             | -             | Get the current DataSource               |
+| setRows(rows)           | rows          | array         | Set the current DataSource               |
+| refresh()               | -             | -             | Refresh the whole list. By default, it will set the page to 1 and fetch data from server |
+| updateRows(rows)        | rows          | array         | If you want to modify or update your DataSource, you can generate a  new array and pass it into this method. Then the ListView will be rerender automatically. |
+| callback(data, options) | data, options | array, object | The data array is the array you fetch from the server, while the options object can contain the following keys: pageLimit(number) \| allLoaded(boolean) |
 
 
 
