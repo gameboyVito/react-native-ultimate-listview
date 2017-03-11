@@ -1,6 +1,6 @@
 # react-native-ultimate-listview
 
-An RN ListView providing **pull-to-refresh** | **auto-pagination** | **infinite-scrolling** | and **grid-view layout**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instruction shown here to write your app.
+An RN ListView providing **pull-to-refresh** | **auto-pagination** | **infinite-scrolling** | **grid-view layout** | **swipeable-row**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instruction shown here to write your app.
 
 
 
@@ -135,6 +135,29 @@ Please read my code in the `/Example` folder. => [App.js](https://github.com/gam
 
 
 
+### Swipeable Tip:
+
+If you want to use swipeable row in this listview, I highly recommend you to use [react-native-swipeout](https://github.com/dancormier/react-native-swipeout). To use it, simply put it into the `renderRowView()` method and wrap your own `<View/>` into `<Swipeout/>`  component. 
+
+```
+import Swipeout from "react-native-swipeout"
+import {Text, View} from "react-native";
+
+const swipeoutBtns = [
+  {
+    text: 'Button'
+  }
+]
+
+<Swipeout right={swipeoutBtns}>
+  <View>
+    <Text>Swipe me</Text>
+  </View>
+</Swipeout>
+```
+
+
+
 # API
 
 ### Custom View
@@ -204,15 +227,7 @@ Please read my code in the `/Example` folder. => [App.js](https://github.com/gam
 | updateRows(rows, options) | rows, options | array, object | If you want to modify or update your DataSource, you can generate a  new array and pass it into this method. Then the ListView will be rerender automatically. Be careful, the options here is required: `options.external=true` |
 | callback(data, options)   | data, options | array, object | The data array is the array you fetch from the server, while the options object can contain the following keys: pageLimit(number) \| allLoaded(boolean) \| external(boolean) |
 
-
-
-# To-do-list
-
-- Swipe-to-left
-
-- Swipe-to-right
-
-  ​
+​
 
 # Contribution
 
