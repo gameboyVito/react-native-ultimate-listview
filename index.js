@@ -80,7 +80,9 @@ export default class UltimateListView extends Component {
         gridView: false,
         gridColumn: 2,
         gridBorder: true,
-        pageSize: 1
+        pageSize: 1,
+        cellWidth: undefined,
+        cellHeight: undefined
     };
 
     static propTypes = {
@@ -129,7 +131,9 @@ export default class UltimateListView extends Component {
         gridView: React.PropTypes.bool,
         gridColumn: React.PropTypes.number,
         gridBorder: React.PropTypes.bool,
-        pageSize: React.PropTypes.number
+        pageSize: React.PropTypes.number,
+        cellWidth: React.PropTypes.number,
+        cellHeight: React.PropTypes.number
     };
 
     constructor(props) {
@@ -276,13 +280,16 @@ export default class UltimateListView extends Component {
                 borderWidth: 0.3,
                 borderColor: 'lightgray'
             };
+
+            const cellWidth = this.props.cellWidth? this.props.cellWidth : width / this.props.gridColumn;
+            const cellHeight = this.props.cellHeight ? this.props.cellHeight: width / this.props.gridColumn;
             return (
                 <View style={this.props.gridBorder ? [borderStyle, styles.gridItem, {
-                        width: width / this.props.gridColumn,
-                        height: width / this.props.gridColumn
+                        width: cellWidth,
+                        height: cellHeight
                     }] : [styles.gridItem, {
-                        width: width / this.props.gridColumn,
-                        height: width / this.props.gridColumn
+                        width: cellWidth,
+                        height: cellHeight
                     }]
                 }>
                     {this.props.rowView(rowData, sectionID, rowID)}

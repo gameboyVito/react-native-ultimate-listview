@@ -206,12 +206,14 @@ const swipeoutBtns = [
 
 ### Grid View
 
-| Props      | Default | Type   | Description                              |
-| ---------- | ------- | ------ | ---------------------------------------- |
-| gridView   | false   | bool   | If you are using gridView mode, please make sure you set the separator props to false |
-| gridColumn | 2       | number | If you are using gridView mode, please make sure the length of fetching array must be a multiple of the gridColumn |
-| pageSize   | 1       | number | Number of rows to render per event loop. You should set this value as the same as the gridColumn, so that the listview can load the list row by row instead of item by item |
-| gridBorder | true    | bool   | You can set it to false, if you want to customize your own border in your grid item. |
+| Props      | Default  | Type   | Description                              |
+| ---------- | -------- | ------ | ---------------------------------------- |
+| gridView   | false    | bool   | If you are using gridView mode, please make sure you set the separator props to false |
+| gridColumn | 2        | number | If you are using gridView mode, please make sure the length of fetching array must be a multiple of the gridColumn |
+| pageSize   | 1        | number | Number of rows to render per event loop. You should set this value as the same as the gridColumn, so that the listview can load the list row by row instead of item by item |
+| gridBorder | true     | bool   | You can set it to false, if you want to customize your own border in your grid item. |
+| cellWidth  | undefine | number | Set the width of each item               |
+| cellHeight | undefine | number | Set the height of each item              |
 
 
 
