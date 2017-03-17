@@ -231,9 +231,9 @@ const swipeoutBtns = [
 
 # Contribution
 
-- @gameboyVito
+gameboyVito
 
-  ​
+​
 
 # License
 

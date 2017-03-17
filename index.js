@@ -343,6 +343,14 @@ export default class UltimateListView extends Component {
         this.onRefresh({external: true});
     };
 
+    stopRefresh = () => {
+        if (this.mounted) {
+            this.setState({
+                isRefreshing: false,
+            });
+        }
+    };
+
     onRefresh = (options = {}) => {
         if (this.mounted) {
             this.setState({
