@@ -99,6 +99,7 @@ export default class Example extends Component {
         return (
             <View style={styles.container}>
                 <UltimateListView
+                    ref={(ref) => this._listView = ref}
                     onFetch={this.onFetch}
                     enableEmptySections
                     headerView={this.renderHeaderView}
@@ -107,6 +108,10 @@ export default class Example extends Component {
                     separator={true}
                     rowView={this.renderRowView}
 
+                    refreshableTitleWillRefresh="Pull To Refresh"
+                    refreshableTitleInRefreshing="Refreshing..."
+                    refreshableTitleDidRefresh="Finished"
+                    refreshableTitleDidRefreshDuration={1000}
                     //----GridView Mode----
                     //gridView={true}
                     //gridBorder={true}

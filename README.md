@@ -8,6 +8,16 @@ All codes are written in **ES6 syntax**.
 
 
 
+### *What's new in the 1.0.20 ?*
+
+- New props to dynamically control your refreshing title !!!
+-  `refreshableTitleWillRefresh`
+- `refreshableTitleInRefreshing` 
+- `refreshableTitleDidRefresh`
+- `refreshableTitleDidRefreshDuration`
+
+
+
 # Demo
 
 |         | ListView                                 | GridView                                 |
@@ -183,7 +193,10 @@ const swipeoutBtns = [
 | refreshableColors                  | ['dimgray', 'tomato', 'limegreen'] | array  | android only                             |
 | refreshableProgressBackgroundColor | 'white'                            | string | android only                             |
 | refreshableSize                    | undefined                          | string | "small" or "large"                       |
-| refreshableTitle                   | 'Pull To Refresh'                  | string | The hint text when you are triggering the refresh event |
+| refreshableTitleWillRefresh        | 'Pull To Refresh'                  | string | The initial/default title shown at the top |
+| refreshableTitleInRefreshing       | 'Refreshing...'                    | string | Title will be changed to this when you are refreshing |
+| refreshableTitleDidRefresh         | 'Finished'                         | string | Ttile will be set to this value when the refreshing is done |
+| refreshableTitleDidRefreshDuration | 1000                               | number | This duration is to set how long you want your `refreshableTitleDidRefresh` shown at the top.After this duration, the title will be automatically set back to the default one `refreshableTitleWillRefresh` |
 | refreshableTintColor               | 'lightgray'                        | string | ios only                                 |
 | renderRefreshControl               | null                               | func   | Customize your own View of the RefreshControl |
 
