@@ -60,8 +60,6 @@ export default class UltimateListView extends Component {
         refreshableSize: undefined,
         refreshableTitleWillRefresh: 'Pull To Refresh',
         refreshableTitleInRefreshing: 'Refreshing...',
-        refreshableTitleDidRefresh: 'Finished',
-        refreshableTitleDidRefreshDuration: 1000,
         refreshableTintColor: 'lightgray',
         renderRefreshControl: null,
 
@@ -114,8 +112,6 @@ export default class UltimateListView extends Component {
         refreshableSize: React.PropTypes.string,
         refreshableTitleWillRefresh: React.PropTypes.string,
         refreshableTitleInRefreshing: React.PropTypes.string,
-        refreshableTitleDidRefresh: React.PropTypes.string,
-        refreshableTitleDidRefreshDuration: React.PropTypes.number,
         refreshableTintColor: React.PropTypes.string,
         renderRefreshControl: React.PropTypes.func,
 
@@ -157,7 +153,6 @@ export default class UltimateListView extends Component {
             this.state = {
                 dataSource: ds.cloneWithRowsAndSections(this.getRows()),
                 isRefreshing: false,
-                refreshingStatus: 'init',
                 paginationStatus: 'firstLoad',
             };
         } else {
@@ -167,7 +162,6 @@ export default class UltimateListView extends Component {
             this.state = {
                 dataSource: ds.cloneWithRows(this.getRows()),
                 isRefreshing: false,
-                refreshingStatus: 'init',
                 paginationStatus: 'firstLoad',
             };
         }
@@ -349,14 +343,6 @@ export default class UltimateListView extends Component {
             return this.props.renderRefreshControl({onRefresh: this.onRefresh});
         }
 
-        let title;
-        if (this.state.refreshingStatus === 'init') {
-            title = this.props.refreshableTitleWillRefresh;
-        } else if (this.state.refreshingStatus === 'refreshing') {
-            title = this.props.refreshableTitleInRefreshing;
-        } else {
-            title = this.props.refreshableTitleDidRefresh;
-        }
         return (
             <RefreshControl
                 onRefresh={this.onRefresh}
@@ -365,7 +351,7 @@ export default class UltimateListView extends Component {
                 progressBackgroundColor={this.props.refreshableProgressBackgroundColor}
                 size={this.props.refreshableSize}
                 tintColor={this.props.refreshableTintColor}
-                title={title}
+                title={this.state.isRefreshing ? this.props.refreshableTitleInRefreshing : this.props.refreshableTitleWillRefresh}
             />
         );
     };
@@ -377,8 +363,7 @@ export default class UltimateListView extends Component {
     stopRefresh = () => {
         if (this.mounted) {
             this.setState({
-                isRefreshing: false,
-                refreshingStatus: 'done'
+                isRefreshing: false
             });
         }
     };
@@ -386,8 +371,7 @@ export default class UltimateListView extends Component {
     onRefresh = (options = {}) => {
         if (this.mounted) {
             this.setState({
-                isRefreshing: true,
-                refreshingStatus: 'refreshing'
+                isRefreshing: true
             });
             this.setPage(1);
             this.props.onFetch(this.getPage(), this.postRefresh, options);
@@ -447,27 +431,22 @@ export default class UltimateListView extends Component {
                     this.setState({
                         dataSource: this.state.dataSource.cloneWithRowsAndSections(rows),
                         isRefreshing: false,
-                        refreshingStatus: 'done',
                         paginationStatus: paginationStatus,
                     });
                 } else {
                     this.setState({
                         dataSource: this.state.dataSource.cloneWithRows(rows),
                         isRefreshing: false,
-                        refreshingStatus: 'done',
                         paginationStatus: paginationStatus,
                     });
                 }
             } else {
                 this.setState({
                     isRefreshing: false,
-                    refreshingStatus: 'done',
                     paginationStatus: paginationStatus,
                 });
             }
         }
-        await this.sleep(this.props.refreshableTitleDidRefreshDuration);
-        this.setState({refreshingStatus: 'init'});
     };
 
     updateRowsByExternal(rows = []) {
@@ -476,20 +455,17 @@ export default class UltimateListView extends Component {
             if (this.props.withSections === true) {
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRowsAndSections(rows),
-                    isRefreshing: false,
-                    refreshingStatus: 'done'
+                    isRefreshing: false
                 });
             } else {
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRows(rows),
-                    isRefreshing: false,
-                    refreshingStatus: 'done'
+                    isRefreshing: false
                 });
             }
         } else {
             this.setState({
-                isRefreshing: false,
-                refreshingStatus: 'done'
+                isRefreshing: false
             });
         }
     }
