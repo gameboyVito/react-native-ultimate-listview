@@ -26,9 +26,9 @@ An RN ListView providing **advanced pull-to-refresh** | **auto-pagination & infi
 | iOS     | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-listview.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-gridview.gif) |
 | Android | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-listview.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-gridview.gif) |
 
-| New  | iOS                                      | Android                                  |
-| ---- | ---------------------------------------- | ---------------------------------------- |
-|      | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-advanced.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-advanced.gif) |
+| New     | iOS                                      | Android                                  |
+| ------- | ---------------------------------------- | ---------------------------------------- |
+| Refresh | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-advanced.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-advanced.gif) |
 
 
 
