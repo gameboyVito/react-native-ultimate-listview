@@ -21,14 +21,14 @@ An RN ListView providing **advanced pull-to-refresh** | **auto-pagination & infi
 
 # Demo
 
-| Basic   | ListView | GridView |
-| ------- | -------- | -------- |
-| iOS     |          |          |
-| Android |          |          |
+| Basic   | ListView                                 | GridView                                 |
+| ------- | ---------------------------------------- | ---------------------------------------- |
+| iOS     | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-listview.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-gridview.gif) |
+| Android | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-listview.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-gridview.gif) |
 
-| Advanced    | iOS  | Android |
-| ----------- | ---- | ------- |
-| RefreshView |      |         |
+| New  | iOS                                      | Android                                  |
+| ---- | ---------------------------------------- | ---------------------------------------- |
+|      | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-advanced.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-advanced.gif) |
 
 
 
