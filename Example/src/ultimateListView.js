@@ -42,6 +42,7 @@ export default class UltimateListView extends Component {
         separator: null,
 
         //Refreshable
+        refreshable: true,
         refreshableMode: 'basic', //basic or advanced
 
         //RefreshControl
@@ -56,7 +57,7 @@ export default class UltimateListView extends Component {
         refreshableTitleRefreshing: 'Refreshing...',
         refreshableTitleRelease: 'Release To Refresh',
         customRefreshView: null,
-        customRefreshViewHeight: 80,
+        customRefreshViewHeight: 90,
         displayDate: true,
         dateFormat: 'yyyy-MM-dd hh:mm',
         dateTitle: 'Last updated time: ',
@@ -105,6 +106,7 @@ export default class UltimateListView extends Component {
         separator: React.PropTypes.any,
 
         //Refreshable
+        refreshable: React.PropTypes.bool,
         refreshableMode: React.PropTypes.string,
 
         //RefreshControl
@@ -210,6 +212,10 @@ export default class UltimateListView extends Component {
         })
     };
 
+    refresh = () => {
+      this.onRefresh();
+    };
+
     onRefresh = () => {
         //console.log('onRefresh()');
         if (this.mounted) {
@@ -240,7 +246,7 @@ export default class UltimateListView extends Component {
                 });
             }
         } else {
-            this.scrollView.endRefresh();
+            if (this.props.refreshable) this.scrollView.endRefresh();
         }
     };
 
@@ -471,37 +477,42 @@ export default class UltimateListView extends Component {
     };
 
     renderScrollComponent = (props) => {
-        if (this.props.refreshableMode === 'basic') {
+        if (this.props.refreshableMode === 'advanced' && this.props.refreshable) {
             return (
-                <ScrollView
+                <RefreshableScrollView
                     {...props}
+                    onRefresh={this.onRefresh}
                     ref={(ref) => this.scrollView = ref}/>
             );
         }
+
         return (
-            <RefreshableScrollView
+            <ScrollView
                 {...props}
-                onRefresh={this.onRefresh}
                 ref={(ref) => this.scrollView = ref}/>
         );
     };
 
     renderRefreshControl = () => {
-        if (this.props.renderRefreshControl) {
-            return this.props.renderRefreshControl({onRefresh: this.onRefresh});
+        if (this.props.refreshableMode === 'basic' && this.props.refreshable) {
+            if (this.props.renderRefreshControl) {
+                return this.props.renderRefreshControl({onRefresh: this.onRefresh});
+            }
+
+            return (
+                <RefreshControl
+                    onRefresh={this.onRefresh}
+                    refreshing={this.state.isRefreshing}
+                    colors={this.props.refreshableColors}
+                    progressBackgroundColor={this.props.refreshableProgressBackgroundColor}
+                    size={this.props.refreshableSize}
+                    tintColor={this.props.refreshableTintColor}
+                    title={this.props.refreshableTitlePull}
+                />
+            );
         }
 
-        return (
-            <RefreshControl
-                onRefresh={this.onRefresh}
-                refreshing={this.state.isRefreshing}
-                colors={this.props.refreshableColors}
-                progressBackgroundColor={this.props.refreshableProgressBackgroundColor}
-                size={this.props.refreshableSize}
-                tintColor={this.props.refreshableTintColor}
-                title={this.props.refreshableTitlePull}
-            />
-        );
+        return null;
     };
 
     render() {
@@ -521,7 +532,7 @@ export default class UltimateListView extends Component {
                 renderSeparator={this.renderSeparatorView}
 
                 renderScrollComponent={this.renderScrollComponent}
-                refreshControl={this.props.refreshableMode === 'basic' ? this.renderRefreshControl() : null}
+                refreshControl={this.renderRefreshControl()}
 
                 onEndReached={this.onEndReached}
                 onEndReachedThreshold={this.props.onEndReachedThreshold}

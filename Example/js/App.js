@@ -109,8 +109,10 @@ export default class Example extends Component {
                     separator={true}
                     rowView={this.renderRowView}
 
-                    refreshableMode="advanced"
+                    //refreshable={false}
+                    refreshableMode="advanced" //basic | advanced
                     refreshableTitlePull="Pull To Refresh"
+
                     //----GridView Mode----
                     //gridView={true}
                     //gridBorder={true}
