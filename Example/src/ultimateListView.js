@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     View,
     Text,
+    Alert,
     ScrollView,
     RefreshControl,
     ActivityIndicator,
@@ -57,7 +58,7 @@ export default class UltimateListView extends Component {
         refreshableTitleRefreshing: 'Refreshing...',
         refreshableTitleRelease: 'Release To Refresh',
         customRefreshView: null,
-        customRefreshViewHeight: 90,
+        customRefreshViewHeight: -1,
         displayDate: true,
         dateFormat: 'yyyy-MM-dd hh:mm',
         dateTitle: 'Last updated time: ',
@@ -214,6 +215,14 @@ export default class UltimateListView extends Component {
 
     refresh = () => {
       this.onRefresh();
+    };
+
+    scrollTo = (option) => {
+        this.scrollView.scrollTo(option);
+    };
+
+    scrollToEnd = (option) => {
+        this.scrollView.scrollToEnd(option);
     };
 
     onRefresh = () => {
@@ -482,6 +491,7 @@ export default class UltimateListView extends Component {
                 <RefreshableScrollView
                     {...props}
                     onRefresh={this.onRefresh}
+                    paginationStatus={this.state.paginationStatus}
                     ref={(ref) => this.scrollView = ref}/>
             );
         }
@@ -515,10 +525,25 @@ export default class UltimateListView extends Component {
         return null;
     };
 
+    contentContainerStyle() {
+        if (this.props.gridView) {
+            return styles.gridView;
+        } else {
+            if (Platform.OS === 'ios') {
+                return undefined;
+            } else {
+                if (this.props.customRefreshViewHeight !== -1) {
+                    return {minHeight: height + this.props.customRefreshViewHeight - 20};
+                }
+                return {minHeight: height + 70};
+            }
+        }
+    }
+
     render() {
         return (
             <ListView
-                ref="listview"
+                ref={(ref) => this.listView = ref}
                 style={this.props.style}
                 dataSource={this.state.dataSource}
                 automaticallyAdjustContentInsets={false}
@@ -537,7 +562,7 @@ export default class UltimateListView extends Component {
                 onEndReached={this.onEndReached}
                 onEndReachedThreshold={this.props.onEndReachedThreshold}
 
-                contentContainerStyle={this.props.gridView ? styles.gridView : undefined}
+                contentContainerStyle={this.contentContainerStyle()}
                 {...this.props}
             />
         );

@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import {StyleSheet, View, Alert, TouchableOpacity, Image, TouchableHighlight} from "react-native";
 import {Button, ListItem, Left, Right, Body, Thumbnail, Text, Icon} from "native-base";
 import styles from "./appStyles";
-//import UltimateListView from "react-native-ultimate-listview";
-import UltimateListView from "../src/ultimateListView";
+import UltimateListView from "react-native-ultimate-listview";
+//import UltimateListView from "../src/ultimateListView";
 //import UltimateListView from "../src/copy";
 
 const logo = require('../img/default-portrait.png');
@@ -34,7 +34,6 @@ export default class Example extends Component {
             //Simulate the network loading in ES7 syntax (async/await)
             await this.sleep(2000);
             startFetch(rowData, pageLimit);
-
         } catch (err) {
             abortFetch(); //manually stop the refresh or pagination if encounter network error
             console.log(err);
@@ -116,8 +115,8 @@ export default class Example extends Component {
                     //----GridView Mode----
                     //gridView={true}
                     //gridBorder={true}
-                    //gridColumn={2}
-                    //pageSize={2}
+                    //gridColumn={3}
+                    //pageSize={3}
                     //rowView={this.renderGridView}
 
                     //----Extra Config----

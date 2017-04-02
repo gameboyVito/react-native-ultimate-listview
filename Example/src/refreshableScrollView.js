@@ -9,7 +9,8 @@ import {
     Easing,
     Dimensions,
     Image,
-    AsyncStorage
+    AsyncStorage,
+    Platform
 } from "react-native";
 import {dateFormat} from "./util";
 const {width, height}=Dimensions.get('window');
@@ -18,6 +19,11 @@ const RefreshStatus = {
     pullToRefresh: 0,
     releaseToRefresh: 1,
     refreshing: 2
+};
+const PaginationStatus = {
+    firstLoad: 0,
+    waiting: 1,
+    allLoaded: 2
 };
 
 export default class RefreshableScrollView extends ScrollView {
@@ -48,15 +54,20 @@ export default class RefreshableScrollView extends ScrollView {
                 });
             }
         });
+        if (Platform.OS === 'android') {
+            const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : 90;
+            setTimeout(() => this.refs.scrollView.scrollTo({x: 0, y: height, animated: true}), 10);
+        }
     }
 
     onScroll = (event) => {
         let y = event.nativeEvent.contentOffset.y;
         this.offsetY = y;
         if (this.dragFlag) {
-            let height = this.props.customRefreshView ? this.props.customRefreshViewHeight : 70
+            let height = this.props.customRefreshView ? this.props.customRefreshViewHeight : 90;
+            //if (Platform.OS === 'android') this.offsetY = y-height;
             if (!this.isRefreshing) {
-                if (y <= -height) {
+                if (Platform.OS === 'ios' ? y <= -height : y <= 5) {
                     this.setState({
                         refreshStatus: RefreshStatus.releaseToRefresh,
                         refreshTitle: this.props.refreshableTitleRelease
@@ -78,7 +89,6 @@ export default class RefreshableScrollView extends ScrollView {
                     }).start();
                 }
             }
-
         }
         if (this.props.onScroll) {
             this.props.onScroll(event)
@@ -107,17 +117,29 @@ export default class RefreshableScrollView extends ScrollView {
                     refreshStatus: RefreshStatus.refreshing,
                     refreshTitle: this.props.refreshableTitleRefreshing
                 });
-                this.refs.scrollView.scrollTo({x: 0, y: -height, animated: true});
+                this.refs.scrollView.scrollTo({x: 0, y: Platform.OS === 'ios' ? -height : 0, animated: true});
                 this.props.onRefresh();
+            } else {
+                if (Platform.OS === 'android' && y <= height) {
+                    this.refs.scrollView.scrollTo({x: 0, y: height, animated: true});
+                }
             }
         } else {
-            if (y <= 0) {
-                this.refs.scrollView.scrollTo({x: 0, y: -height, animated: true});
+            if (y <= Platform.OS === 'ios' ? 0 : height) {
+                this.refs.scrollView.scrollTo({x: 0, y: Platform.OS === 'ios' ? -height : 0, animated: true});
             }
         }
         if (this.props.onScrollEndDrag) {
             this.props.onScrollEndDrag(event)
         }
+    };
+
+    scrollTo = (option) => {
+        this.refs.scrollView.scrollTo(option);
+    };
+
+    scrollToEnd = (option) => {
+        this.refs.scrollView.scrollToEnd(option);
     };
 
     onRefreshEnd = () => {
@@ -136,7 +158,8 @@ export default class RefreshableScrollView extends ScrollView {
                 duration: 100,
                 easing: Easing.inOut(Easing.quad)
             }).start();
-            this.refs.scrollView.scrollTo({x: 0, y: 0, animated: true});
+            const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : 90;
+            this.refs.scrollView.scrollTo({x: 0, y: Platform.OS === 'ios' ? 0 : height, animated: true});
         }
     };
 
@@ -208,15 +231,20 @@ export default class RefreshableScrollView extends ScrollView {
 }
 
 const defaultHeaderStyles = StyleSheet.create({
-    background: {
-        alignItems: 'center',
-        position: 'absolute',
-        top: -85,
-        left: 0,
-        right: 0,
-        height: 90,
-        justifyContent: 'center',
-    },
+    background: Platform.OS === 'ios' ? {
+            alignItems: 'center',
+            position: 'absolute',
+            top: -85,
+            left: 0,
+            right: 0,
+            height: 90,
+            justifyContent: 'center',
+        } : {
+            width: width,
+            alignItems: 'center',
+            height: 90,
+            justifyContent: 'center',
+        },
     status: {
         flexDirection: 'row',
         alignItems: 'center'

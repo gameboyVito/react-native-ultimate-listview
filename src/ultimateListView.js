@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     View,
     Text,
+    Alert,
     ScrollView,
     RefreshControl,
     ActivityIndicator,
@@ -42,6 +43,7 @@ export default class UltimateListView extends Component {
         separator: null,
 
         //Refreshable
+        refreshable: true,
         refreshableMode: 'basic', //basic or advanced
 
         //RefreshControl
@@ -56,7 +58,7 @@ export default class UltimateListView extends Component {
         refreshableTitleRefreshing: 'Refreshing...',
         refreshableTitleRelease: 'Release To Refresh',
         customRefreshView: null,
-        customRefreshViewHeight: 80,
+        customRefreshViewHeight: -1,
         displayDate: true,
         dateFormat: 'yyyy-MM-dd hh:mm',
         dateTitle: 'Last updated time: ',
@@ -105,6 +107,7 @@ export default class UltimateListView extends Component {
         separator: React.PropTypes.any,
 
         //Refreshable
+        refreshable: React.PropTypes.bool,
         refreshableMode: React.PropTypes.string,
 
         //RefreshControl
@@ -210,6 +213,18 @@ export default class UltimateListView extends Component {
         })
     };
 
+    refresh = () => {
+      this.onRefresh();
+    };
+
+    scrollTo = (option) => {
+        this.scrollView.scrollTo(option);
+    };
+
+    scrollToEnd = (option) => {
+        this.scrollView.scrollToEnd(option);
+    };
+
     onRefresh = () => {
         //console.log('onRefresh()');
         if (this.mounted) {
@@ -240,7 +255,7 @@ export default class UltimateListView extends Component {
                 });
             }
         } else {
-            this.scrollView.endRefresh();
+            if (this.props.refreshable) this.scrollView.endRefresh();
         }
     };
 
@@ -471,43 +486,64 @@ export default class UltimateListView extends Component {
     };
 
     renderScrollComponent = (props) => {
-        if (this.props.refreshableMode === 'basic') {
+        if (this.props.refreshableMode === 'advanced' && this.props.refreshable) {
             return (
-                <ScrollView
+                <RefreshableScrollView
                     {...props}
+                    onRefresh={this.onRefresh}
+                    paginationStatus={this.state.paginationStatus}
                     ref={(ref) => this.scrollView = ref}/>
             );
         }
+
         return (
-            <RefreshableScrollView
+            <ScrollView
                 {...props}
-                onRefresh={this.onRefresh}
                 ref={(ref) => this.scrollView = ref}/>
         );
     };
 
     renderRefreshControl = () => {
-        if (this.props.renderRefreshControl) {
-            return this.props.renderRefreshControl({onRefresh: this.onRefresh});
+        if (this.props.refreshableMode === 'basic' && this.props.refreshable) {
+            if (this.props.renderRefreshControl) {
+                return this.props.renderRefreshControl({onRefresh: this.onRefresh});
+            }
+
+            return (
+                <RefreshControl
+                    onRefresh={this.onRefresh}
+                    refreshing={this.state.isRefreshing}
+                    colors={this.props.refreshableColors}
+                    progressBackgroundColor={this.props.refreshableProgressBackgroundColor}
+                    size={this.props.refreshableSize}
+                    tintColor={this.props.refreshableTintColor}
+                    title={this.props.refreshableTitlePull}
+                />
+            );
         }
 
-        return (
-            <RefreshControl
-                onRefresh={this.onRefresh}
-                refreshing={this.state.isRefreshing}
-                colors={this.props.refreshableColors}
-                progressBackgroundColor={this.props.refreshableProgressBackgroundColor}
-                size={this.props.refreshableSize}
-                tintColor={this.props.refreshableTintColor}
-                title={this.props.refreshableTitlePull}
-            />
-        );
+        return null;
     };
+
+    contentContainerStyle() {
+        if (this.props.gridView) {
+            return styles.gridView;
+        } else {
+            if (Platform.OS === 'ios') {
+                return undefined;
+            } else {
+                if (this.props.customRefreshViewHeight !== -1) {
+                    return {minHeight: height + this.props.customRefreshViewHeight - 20};
+                }
+                return {minHeight: height + 70};
+            }
+        }
+    }
 
     render() {
         return (
             <ListView
-                ref="listview"
+                ref={(ref) => this.listView = ref}
                 style={this.props.style}
                 dataSource={this.state.dataSource}
                 automaticallyAdjustContentInsets={false}
@@ -521,12 +557,12 @@ export default class UltimateListView extends Component {
                 renderSeparator={this.renderSeparatorView}
 
                 renderScrollComponent={this.renderScrollComponent}
-                refreshControl={this.props.refreshableMode === 'basic' ? this.renderRefreshControl() : null}
+                refreshControl={this.renderRefreshControl()}
 
                 onEndReached={this.onEndReached}
                 onEndReachedThreshold={this.props.onEndReachedThreshold}
 
-                contentContainerStyle={this.props.gridView ? styles.gridView : undefined}
+                contentContainerStyle={this.contentContainerStyle()}
                 {...this.props}
             />
         );
