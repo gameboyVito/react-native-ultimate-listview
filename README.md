@@ -1,6 +1,6 @@
 # react-native-ultimate-listview
 
-An RN ListView providing **pull-to-refresh** | **auto-pagination** | **infinite-scrolling** | **grid-view layout** | **swipeable-row**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instruction shown here to write your app.
+An RN ListView providing **advanced pull-to-refresh** | **auto-pagination & infinite-scrolling** | **gridview layout** | **swipeable-row**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instructions shown below to use it your app.
 
 
 
@@ -8,13 +8,13 @@ All codes are written in **ES6 syntax**.
 
 
 
-### *What's new in the 1.0.21 ?*
+### *What's new in the 2.0 ?* *(Breaking Changes)*
 
-- New props to dynamically control your refreshing title
+- Added an advanced version of RefreshView
 
-- `refreshableTitleWillRefresh`
+- Kept the RefreshControl as a basic version
 
-- `refreshableTitleInRefreshing` 
+- You can switch there two modes by passing props `refreshableMode:'basic' or 'advanced'`
 
   ​
 
@@ -22,7 +22,7 @@ All codes are written in **ES6 syntax**.
 
 # Demo
 
-|         | ListView                                 | GridView                                 |
+| Basic   | ListView                                 | GridView                                 |
 | ------- | ---------------------------------------- | ---------------------------------------- |
 | iOS     | ![ios-listview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-listview.gif) | ![ios-gridview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-gridview.gif) |
 | Android | ![android-listview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-listview.gif) | ![android-gridview](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-gridview.gif) |

@@ -2,8 +2,9 @@ import React, {Component} from "react";
 import {StyleSheet, View, Alert, TouchableOpacity, Image, TouchableHighlight} from "react-native";
 import {Button, ListItem, Left, Right, Body, Thumbnail, Text, Icon} from "native-base";
 import styles from "./appStyles";
-import UltimateListView from "react-native-ultimate-listview";
-//import UltimateListView from "./ultimateListView";
+//import UltimateListView from "react-native-ultimate-listview";
+import UltimateListView from "../src/ultimateListView";
+//import UltimateListView from "../src/copy";
 
 const logo = require('../img/default-portrait.png');
 export default class Example extends Component {
@@ -16,10 +17,9 @@ export default class Example extends Component {
         })
     };
 
-    onFetch = async(page = 1, callback, options) => {
+    onFetch = async(page = 1, startFetch, abortFetch) => {
         try {
-            //Simulate the network loading in ES7 syntax (async/await)
-            await this.sleep(1000);
+            //This is required to determinate whether the first loading list is all loaded.
             const pageLimit = 24;
             let skip = (page - 1) * pageLimit;
 
@@ -31,11 +31,12 @@ export default class Example extends Component {
                 rowData = [];
             }
 
-            //This is required to determinate whether the first loading list is all loaded.
-            options.pageLimit = pageLimit;
+            //Simulate the network loading in ES7 syntax (async/await)
+            await this.sleep(2000);
+            startFetch(rowData, pageLimit);
 
-            callback(rowData, options);
         } catch (err) {
+            abortFetch(); //manually stop the refresh or pagination if encounter network error
             console.log(err);
         }
     };
@@ -108,10 +109,8 @@ export default class Example extends Component {
                     separator={true}
                     rowView={this.renderRowView}
 
-                    refreshableTitleWillRefresh="Pull To Refresh"
-                    refreshableTitleInRefreshing="Refreshing..."
-                    refreshableTitleDidRefresh="Finished"
-                    refreshableTitleDidRefreshDuration={1000}
+                    refreshableMode="advanced"
+                    refreshableTitlePull="Pull To Refresh"
                     //----GridView Mode----
                     //gridView={true}
                     //gridBorder={true}

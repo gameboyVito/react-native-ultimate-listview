@@ -8,8 +8,8 @@ export default {
     header: {
         width: width,
         height: 90,
-        padding: 10,
-        justifyContent: 'center',
+        padding: 20,
+        justifyContent: 'flex-end',
         alignItems: 'center',
         borderBottomWidth: 0.5,
         borderColor: 'lightgray',
