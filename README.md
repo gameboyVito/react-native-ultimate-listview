@@ -8,13 +8,15 @@ An RN ListView providing **advanced pull-to-refresh** | **auto-pagination & infi
 
 ### *What's new in the 2.0 ?* *(Breaking Changes)*
 
-- Added an advanced version of RefreshView
+- Added an advanced version of RefreshView and kept the RefreshControl as a basic version
 
-- Kept the RefreshControl as a basic version
+- Updated the [RefreshView API](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/RefreshView-API)
 
 - You can switch there two modes by passing props `refreshableMode:'basic' or 'advanced'`
 
 - `this.onFetch(page=1, startFetch, abortFetch)`,  now it takes three diffrent callback
+
+- Added a [Wiki](https://github.com/gameboyVito/react-native-ultimate-listview/wiki) to provide you a better experience
 
   ​
 
