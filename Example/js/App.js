@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import {StyleSheet, View, Alert, TouchableOpacity, Image, TouchableHighlight} from "react-native";
 import {Button, ListItem, Left, Right, Body, Thumbnail, Text, Icon} from "native-base";
 import styles from "./appStyles";
-//import UltimateListView from "react-native-ultimate-listview";
-import UltimateListView from "../src/ultimateListView";
+import UltimateListView from "react-native-ultimate-listview";
+//import UltimateListView from "../src/ultimateListView";
 //import UltimateListView from "../src/copy";
 
 const logo = require('../img/default-portrait.png');
@@ -20,14 +20,14 @@ export default class Example extends Component {
     onFetch = async(page = 1, startFetch, abortFetch) => {
         try {
             //This is required to determinate whether the first loading list is all loaded.
-            const pageLimit = 2;
+            const pageLimit = 24;
             let skip = (page - 1) * pageLimit;
 
             //Generate dummy data
             let rowData = Array.from({length: pageLimit}, (value, index) => index + skip);
 
             //Simulate the end of the list if there is no more data returned from the server
-            if (page === 2) {
+            if (page === 3) {
                 rowData = [];
             }
 

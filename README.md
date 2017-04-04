@@ -2,11 +2,9 @@
 
 An RN ListView providing **advanced pull-to-refresh** | **auto-pagination & infinite-scrolling** | **gridview layout** | **swipeable-row**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instructions shown below to use it your app.
 
-This module supports both of **iOS** and **Android** platforms.
+*This module supports both of **iOS** and **Android** platforms.*
 
 *All codes are written in **ES6 syntax**.* 
-
-
 
 
 
