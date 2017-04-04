@@ -8,15 +8,15 @@ An RN ListView providing **advanced pull-to-refresh** | **auto-pagination & infi
 
 ### *What's new in the 2.0 ?* *(Breaking Changes)*
 
-- Added an advanced version of RefreshView and kept the RefreshControl as a basic version
+- Added a [Wiki](https://github.com/gameboyVito/react-native-ultimate-listview/wiki) to provide you a better experience
 
 - Updated the [RefreshView API](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/RefreshView-API)
+
+- Added an advanced version of **RefreshView** and kept the **RefreshControl** as a basic version
 
 - You can switch there two modes by passing props `refreshableMode:'basic' or 'advanced'`
 
 - `this.onFetch(page=1, startFetch, abortFetch)`,  now it takes three diffrent callback
-
-- Added a [Wiki](https://github.com/gameboyVito/react-native-ultimate-listview/wiki) to provide you a better experience
 
   ​
 
@@ -25,12 +25,12 @@ An RN ListView providing **advanced pull-to-refresh** | **auto-pagination & infi
 
 | New     | iOS                                      | Android                                  |
 | ------- | ---------------------------------------- | ---------------------------------------- |
-| Refresh | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-advanced.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-advanced.gif) |
+| Refresh | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/ios-advanced.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/android-advanced.gif) |
 
 | Basic   | ListView                                 | GridView                                 |
 | ------- | ---------------------------------------- | ---------------------------------------- |
-| iOS     | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-listview.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/ios-gridview.gif) |
-| Android | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-listview.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/gif/android-gridview.gif) |
+| iOS     | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/ios-listview.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/ios-gridview.gif) |
+| Android | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/android-listview.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/android-gridview.gif) |
 
 
 

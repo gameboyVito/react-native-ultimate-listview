@@ -219,7 +219,7 @@ export default class RefreshableScrollView extends ScrollView {
                 {...this.props}
                 scrollEventThrottle={16}
                 onScroll={this.onScroll}
-                onMomentumScrollEnd={(event) => this.onScrollEndDrag(event, true)}
+                onMomentumScrollEnd={this.onScrollEndDrag}
                 onScrollEndDrag={this.onScrollEndDrag}
                 onScrollBeginDrag={this.onScrollBeginDrag}>
                 {this.renderRefreshHeader()}

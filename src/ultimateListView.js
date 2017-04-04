@@ -51,7 +51,7 @@ export default class UltimateListView extends Component {
         refreshableProgressBackgroundColor: 'white',
         refreshableSize: undefined,
         refreshableTintColor: 'lightgray',
-        renderRefreshControl: null,
+        customRefreshControl: null,
 
         //Advanced RefreshView
         refreshableTitlePull: 'Pull down to refresh',
@@ -115,7 +115,7 @@ export default class UltimateListView extends Component {
         refreshableProgressBackgroundColor: React.PropTypes.string,
         refreshableSize: React.PropTypes.string,
         refreshableTintColor: React.PropTypes.string,
-        renderRefreshControl: React.PropTypes.func,
+        customRefreshControl: React.PropTypes.func,
 
         //Advanced RefreshView
         refreshableTitlePull: React.PropTypes.string,
@@ -247,7 +247,7 @@ export default class UltimateListView extends Component {
     };
 
     endFetch = () => {
-        console.log('endRefresh()');
+        //console.log('endRefresh()');
         if (this.props.refreshableMode === 'basic') {
             if (this.mounted) {
                 this.setState({
@@ -507,8 +507,8 @@ export default class UltimateListView extends Component {
 
     renderRefreshControl = () => {
         if (this.props.refreshableMode === 'basic' && this.props.refreshable) {
-            if (this.props.renderRefreshControl) {
-                return this.props.renderRefreshControl(this.state.isRefreshing, this.onRefresh);
+            if (this.props.customRefreshControl) {
+                return this.props.customRefreshControl(this.state.isRefreshing, this.onRefresh);
             }
 
             return (
