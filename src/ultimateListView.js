@@ -20,7 +20,7 @@ const PaginationStatus = {
     waiting: 1,
     allLoaded: 2
 };
-
+const headerHeight = 80;
 export default class UltimateListView extends Component {
 
     static defaultProps = {
@@ -531,14 +531,10 @@ export default class UltimateListView extends Component {
         if (this.props.gridView) {
             return styles.gridView;
         } else {
-            if (Platform.OS === 'ios') {
-                return undefined;
-            } else {
-                if (this.props.customRefreshViewHeight !== -1) {
-                    return {minHeight: height + this.props.customRefreshViewHeight - 20};
-                }
-                return {minHeight: height + 70};
+            if (this.props.customRefreshViewHeight !== -1) {
+                return {minHeight: height + this.props.customRefreshViewHeight};
             }
+            return {minHeight: height + headerHeight};
         }
     }
 

@@ -43,12 +43,16 @@ export default class RefreshableScrollView extends ScrollView {
     }
 
     endRefresh() {
-        this.onRefreshEnd()
+        this.onRefreshEnd();
     }
 
     componentDidMount() {
         const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : headerHeight;
-        setTimeout(() => this.refs.scrollView.scrollTo({x: 0, y: height, animated: true}), 5);
+        if (Platform.OS === 'ios') {
+            this.refs.scrollView.scrollTo({x: 0, y: height, animated: false});
+        } else {
+            setTimeout(() => this.refs.scrollView.scrollTo({x: 0, y: height, animated: true}), 1);
+        }
         AsyncStorage.getItem(dateKey, (error, result) => {
             if (result) {
                 result = parseInt(result);

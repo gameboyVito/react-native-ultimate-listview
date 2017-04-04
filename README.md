@@ -1,12 +1,16 @@
-# react-native-ultimate-listview
+# React Native Ultimate Listview
 
 An RN ListView providing **advanced pull-to-refresh** | **auto-pagination & infinite-scrolling** | **gridview layout** | **swipeable-row**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instructions shown below to use it your app.
+
+This module supports both of **iOS** and **Android** platforms.
 
 *All codes are written in **ES6 syntax**.* 
 
 
 
-### *What's new in the 2.0 ?* *(Breaking Changes)*
+
+
+### What's new in the ^2.0.0 (Breaking Changes)
 
 - Added a [Wiki](https://github.com/gameboyVito/react-native-ultimate-listview/wiki) to provide you a better experience
 
