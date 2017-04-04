@@ -54,15 +54,15 @@ export default class UltimateListView extends Component {
         renderRefreshControl: null,
 
         //Advanced RefreshView
-        refreshableTitlePull: 'Pull To Refresh',
-        refreshableTitleRefreshing: 'Refreshing...',
-        refreshableTitleRelease: 'Release To Refresh',
+        refreshableTitlePull: 'Pull down to refresh',
+        refreshableTitleRefreshing: 'Loading...',
+        refreshableTitleRelease: 'Release to refresh',
         customRefreshView: null,
         customRefreshViewHeight: -1,
         displayDate: true,
         dateFormat: 'yyyy-MM-dd hh:mm',
         dateTitle: 'Last updated time: ',
-        arrowImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAABQBAMAAAD8TNiNAAAAJ1BMVEUAAACqqqplZWVnZ2doaGhqampoaGhpaWlnZ2dmZmZlZWVmZmZnZ2duD78kAAAADHRSTlMAA6CYqZOlnI+Kg/B86E+1AAAAhklEQVQ4y+2LvQ3CQAxGLSHEBSg8AAX0jECTnhFosgcjZKr8StE3VHz5EkeRMkF0rzk/P58k9rgOW78j+TE99OoeKpEbCvcPVDJ0OvsJ9bQs6Jxs26h5HCrlr9w8vi8zHphfmI0fcvO/ZXJG8wDzcvDFO2Y/AJj9ADE7gXmlxFMIyVpJ7DECzC9J2EC2ECAAAAAASUVORK5CYII=',
+        arrowImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABD0lEQVRIS92V7w2BMRCHHxMwAhNgAmxgBCuYABtYwQY2wASYgBGYgPySEpq2d6+8EXFf+qHXe+5vr8GXpPElDj8JGgIzQKdkDSyAgycrVSKSwW5kdPcCLvKqgG4JS2egU3dEKZAYLmddSkAbOGU8d9lwKYU6bDKgvqch6gCNgK1Vp58DzcMMpRyfAsu6IiqBNLS6rzxH6rA90LIeZ+4vYbZ0PiVVo14AfcjhGsbBBAlQSpXlQLJmpa5Tyw4sq9H9Cpik3pRAqpFg8UeaYx/DYL+l7KFszZHqJVjTiCxZF6sZYpsWTBDtqOJesiJ6QHMwF8T9xQdaDHNDqoKkL5hWuAo+BrT4XOJNnctYSen/QHcJ7i8bTYJ5dAAAAABJRU5ErkJggg==',
 
         //Pagination
         autoPagination: true,
@@ -82,7 +82,7 @@ export default class UltimateListView extends Component {
         gridView: false,
         gridColumn: 2,
         gridBorder: true,
-        pageSize: 10,
+        pageSize: 1,
         cellWidth: undefined,
         cellHeight: undefined
     };
@@ -214,7 +214,7 @@ export default class UltimateListView extends Component {
     };
 
     refresh = () => {
-      this.onRefresh();
+        this.onRefresh();
     };
 
     scrollTo = (option) => {
@@ -490,6 +490,8 @@ export default class UltimateListView extends Component {
             return (
                 <RefreshableScrollView
                     {...props}
+                    bounces={false}
+                    scrollsToTop={false}
                     onRefresh={this.onRefresh}
                     paginationStatus={this.state.paginationStatus}
                     ref={(ref) => this.scrollView = ref}/>
@@ -506,7 +508,7 @@ export default class UltimateListView extends Component {
     renderRefreshControl = () => {
         if (this.props.refreshableMode === 'basic' && this.props.refreshable) {
             if (this.props.renderRefreshControl) {
-                return this.props.renderRefreshControl({onRefresh: this.onRefresh});
+                return this.props.renderRefreshControl(this.state.isRefreshing, this.onRefresh);
             }
 
             return (

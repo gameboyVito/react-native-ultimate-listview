@@ -25,6 +25,7 @@ const PaginationStatus = {
     waiting: 1,
     allLoaded: 2
 };
+const headerHeight = 80;
 
 export default class RefreshableScrollView extends ScrollView {
     offsetY = 0;
@@ -46,6 +47,8 @@ export default class RefreshableScrollView extends ScrollView {
     }
 
     componentDidMount() {
+        const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : headerHeight;
+        setTimeout(() => this.refs.scrollView.scrollTo({x: 0, y: height, animated: true}), 5);
         AsyncStorage.getItem(dateKey, (error, result) => {
             if (result) {
                 result = parseInt(result);
@@ -54,39 +57,41 @@ export default class RefreshableScrollView extends ScrollView {
                 });
             }
         });
-        if (Platform.OS === 'android') {
-            const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : 90;
-            setTimeout(() => this.refs.scrollView.scrollTo({x: 0, y: height, animated: true}), 10);
-        }
     }
 
     onScroll = (event) => {
-        let y = event.nativeEvent.contentOffset.y;
-        this.offsetY = y;
+        //console.log('onScroll()');
+        const y = event.nativeEvent.contentOffset.y;
+        const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : headerHeight;
+        if (y <= height) {
+            this.offsetY = y - height;
+        }
         if (this.dragFlag) {
-            let height = this.props.customRefreshView ? this.props.customRefreshViewHeight : 90;
-            //if (Platform.OS === 'android') this.offsetY = y-height;
             if (!this.isRefreshing) {
-                if (Platform.OS === 'ios' ? y <= -height : y <= 5) {
-                    this.setState({
-                        refreshStatus: RefreshStatus.releaseToRefresh,
-                        refreshTitle: this.props.refreshableTitleRelease
-                    });
-                    Animated.timing(this.state.arrowAngle, {
-                        toValue: 1,
-                        duration: 50,
-                        easing: Easing.inOut(Easing.quad)
-                    }).start();
+                if (y <= 10) {
+                    if (this.state.refresStatus != RefreshStatus.releaseToRefresh) {
+                        this.setState({
+                            refreshStatus: RefreshStatus.releaseToRefresh,
+                            refreshTitle: this.props.refreshableTitleRelease
+                        });
+                        Animated.timing(this.state.arrowAngle, {
+                            toValue: 1,
+                            duration: 50,
+                            easing: Easing.inOut(Easing.quad)
+                        }).start();
+                    }
                 } else {
-                    this.setState({
-                        refreshStatus: RefreshStatus.pullToRefresh,
-                        refreshTitle: this.props.refreshableTitlePull
-                    });
-                    Animated.timing(this.state.arrowAngle, {
-                        toValue: 0,
-                        duration: 100,
-                        easing: Easing.inOut(Easing.quad)
-                    }).start();
+                    if (this.state.refresStatus != RefreshStatus.pullToRefresh) {
+                        this.setState({
+                            refreshStatus: RefreshStatus.pullToRefresh,
+                            refreshTitle: this.props.refreshableTitlePull
+                        });
+                        Animated.timing(this.state.arrowAngle, {
+                            toValue: 0,
+                            duration: 50,
+                            easing: Easing.inOut(Easing.quad)
+                        }).start();
+                    }
                 }
             }
         }
@@ -98,7 +103,8 @@ export default class RefreshableScrollView extends ScrollView {
     onScrollBeginDrag = (event) => {
         //console.log('onScrollBeginDrag()');
         this.dragFlag = true;
-        this.offsetY = event.nativeEvent.contentOffset.y;
+        const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : headerHeight;
+        this.offsetY = event.nativeEvent.contentOffset.y - height;
         if (this.props.onScrollBeginDrag) {
             this.props.onScrollBeginDrag(event)
         }
@@ -107,9 +113,9 @@ export default class RefreshableScrollView extends ScrollView {
     onScrollEndDrag = (event) => {
         //console.log('onScrollEndDrag()');
         this.dragFlag = false;
-        let y = event.nativeEvent.contentOffset.y;
-        this.offsetY = y;
-        let height = this.props.customRefreshView ? this.props.customRefreshViewHeight : 90;
+        const y = event.nativeEvent.contentOffset.y;
+        const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : headerHeight;
+        this.offsetY = y - height;
         if (!this.isRefreshing) {
             if (this.state.refreshStatus == RefreshStatus.releaseToRefresh) {
                 this.isRefreshing = true;
@@ -117,16 +123,16 @@ export default class RefreshableScrollView extends ScrollView {
                     refreshStatus: RefreshStatus.refreshing,
                     refreshTitle: this.props.refreshableTitleRefreshing
                 });
-                this.refs.scrollView.scrollTo({x: 0, y: Platform.OS === 'ios' ? -height : 0, animated: true});
+                this.refs.scrollView.scrollTo({x: 0, y: 0, animated: true});
                 this.props.onRefresh();
             } else {
-                if (Platform.OS === 'android' && y <= height) {
+                if (y <= height) {
                     this.refs.scrollView.scrollTo({x: 0, y: height, animated: true});
                 }
             }
         } else {
-            if (y <= Platform.OS === 'ios' ? 0 : height) {
-                this.refs.scrollView.scrollTo({x: 0, y: Platform.OS === 'ios' ? -height : 0, animated: true});
+            if (y <= height) {
+                this.refs.scrollView.scrollTo({x: 0, y: 0, animated: true});
             }
         }
         if (this.props.onScrollEndDrag) {
@@ -146,7 +152,7 @@ export default class RefreshableScrollView extends ScrollView {
         //console.log('onRefreshEnd()');
         if (this.state.refreshStatus === RefreshStatus.refreshing) {
             this.isRefreshing = false;
-            let now = new Date().getTime();
+            const now = new Date().getTime();
             this.setState({
                 refreshStatus: RefreshStatus.pullToRefresh,
                 refreshTitle: this.props.refreshableTitlePull,
@@ -155,26 +161,18 @@ export default class RefreshableScrollView extends ScrollView {
             AsyncStorage.setItem(dateKey, now.toString());
             Animated.timing(this.state.arrowAngle, {
                 toValue: 0,
-                duration: 100,
+                duration: 50,
                 easing: Easing.inOut(Easing.quad)
             }).start();
-            const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : 90;
-            this.refs.scrollView.scrollTo({x: 0, y: Platform.OS === 'ios' ? 0 : height, animated: true});
+            const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : headerHeight;
+            this.refs.scrollView.scrollTo({x: 0, y: height, animated: true});
         }
     };
 
     renderRefreshHeader() {
         if (this.props.customRefreshView) {
             return (
-                <View style={{
-                    position: 'absolute',
-                    top: -this.props.customRefreshViewHeight + 5,
-                    left: 0,
-                    right: 0,
-                    height: this.props.customRefreshViewHeight,
-                }}>
-                    {this.props.customRefreshView(this.state.refreshStatus, this.offsetY)}
-                </View>
+                this.props.customRefreshView(this.state.refresStatus, this.offsetY)
             );
         }
 
@@ -204,7 +202,7 @@ export default class RefreshableScrollView extends ScrollView {
                 style={[defaultHeaderStyles.arrow,
                     {
                         transform: [{
-                            rotateZ: this.state.arrowAngle.interpolate({
+                            rotateX: this.state.arrowAngle.interpolate({
                                 inputRange: [0, 1],
                                 outputRange: ['0deg', '-180deg']
                             })
@@ -221,6 +219,7 @@ export default class RefreshableScrollView extends ScrollView {
                 {...this.props}
                 scrollEventThrottle={16}
                 onScroll={this.onScroll}
+                onMomentumScrollEnd={(event) => this.onScrollEndDrag(event, true)}
                 onScrollEndDrag={this.onScrollEndDrag}
                 onScrollBeginDrag={this.onScrollBeginDrag}>
                 {this.renderRefreshHeader()}
@@ -231,28 +230,22 @@ export default class RefreshableScrollView extends ScrollView {
 }
 
 const defaultHeaderStyles = StyleSheet.create({
-    background: Platform.OS === 'ios' ? {
-            alignItems: 'center',
-            position: 'absolute',
-            top: -85,
-            left: 0,
-            right: 0,
-            height: 90,
-            justifyContent: 'center',
-        } : {
-            width: width,
-            alignItems: 'center',
-            height: 90,
-            justifyContent: 'center',
-        },
+    background: {
+        width: width,
+        alignItems: 'center',
+        height: headerHeight,
+        justifyContent: 'center',
+    },
     status: {
+        height: 27,
         flexDirection: 'row',
         alignItems: 'center'
     },
     arrow: {
-        width: 14,
+        width: 23,
         height: 23,
-        marginRight: 10
+        marginRight: 10,
+        opacity: 0.4
     },
     statusTitle: {
         fontSize: 13,
