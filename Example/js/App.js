@@ -35,7 +35,7 @@ export default class Example extends Component {
             await this.sleep(2000);
             startFetch(rowData, pageLimit);
         } catch (err) {
-            abortFetch(); //manually stop the refresh or pagination if encounter network error
+            abortFetch(); //manually stop the refresh or pagination if it encounters network error
             console.log(err);
         }
     };

@@ -13,6 +13,8 @@ import {
     Platform
 } from "react-native";
 import {dateFormat} from "./util";
+
+
 const {width, height}=Dimensions.get('window');
 const dateKey = 'ultimateRefreshDate';
 const RefreshStatus = {
@@ -48,11 +50,7 @@ export default class RefreshableScrollView extends ScrollView {
 
     componentDidMount() {
         const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : headerHeight;
-        if (Platform.OS === 'ios') {
-            this.refs.scrollView.scrollTo({x: 0, y: height, animated: false});
-        } else {
-            setTimeout(() => this.refs.scrollView.scrollTo({x: 0, y: height, animated: true}), 1);
-        }
+        setTimeout(() => this.refs.scrollView.scrollTo({x: 0, y: height, animated: true}), 1);
         AsyncStorage.getItem(dateKey, (error, result) => {
             if (result) {
                 result = parseInt(result);

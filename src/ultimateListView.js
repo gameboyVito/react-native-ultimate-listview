@@ -14,6 +14,8 @@ import {
 } from "react-native";
 import {mergeRecursive} from "./util";
 import RefreshableScrollView from "./refreshableScrollView";
+
+
 const {width, height} = Dimensions.get('window');
 const PaginationStatus = {
     firstLoad: 0,
@@ -490,8 +492,6 @@ export default class UltimateListView extends Component {
             return (
                 <RefreshableScrollView
                     {...props}
-                    bounces={false}
-                    scrollsToTop={false}
                     onRefresh={this.onRefresh}
                     paginationStatus={this.state.paginationStatus}
                     ref={(ref) => this.scrollView = ref}/>
@@ -531,10 +531,14 @@ export default class UltimateListView extends Component {
         if (this.props.gridView) {
             return styles.gridView;
         } else {
-            if (this.props.customRefreshViewHeight !== -1) {
-                return {minHeight: height + this.props.customRefreshViewHeight};
+            if (Platform.OS === 'ios') {
+                return undefined;
+            } else {
+                if (this.props.customRefreshViewHeight !== -1) {
+                    return {minHeight: height + this.props.customRefreshViewHeight};
+                }
+                return {minHeight: height + headerHeight};
             }
-            return {minHeight: height + headerHeight};
         }
     }
 
