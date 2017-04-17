@@ -96,6 +96,11 @@ export default class RefreshableScrollView extends ScrollView {
                     }
                 }
             }
+        } else {
+            //console.log('onScroll()' + y)
+            if (y <= 5) {
+                this.refs.scrollView.scrollTo({x: 0, y: height, animated: true});
+            }
         }
         if (this.props.onScroll) {
             this.props.onScroll(event)
@@ -113,11 +118,11 @@ export default class RefreshableScrollView extends ScrollView {
     };
 
     onScrollEndDrag = (event) => {
-        //console.log('onScrollEndDrag()');
         this.dragFlag = false;
         const y = event.nativeEvent.contentOffset.y;
         const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : headerHeight;
         this.offsetY = y - height;
+        //console.log('onScrollEndDrag()' + y);
         if (!this.isRefreshing) {
             if (this.state.refreshStatus == RefreshStatus.releaseToRefresh) {
                 this.isRefreshing = true;
@@ -221,7 +226,7 @@ export default class RefreshableScrollView extends ScrollView {
                 {...this.props}
                 scrollEventThrottle={16}
                 onScroll={this.onScroll}
-                onMomentumScrollEnd={this.onScrollEndDrag}
+                //onMomentumScrollEnd={this.onScrollEndDrag}
                 onScrollEndDrag={this.onScrollEndDrag}
                 onScrollBeginDrag={this.onScrollBeginDrag}>
                 {this.renderRefreshHeader()}
