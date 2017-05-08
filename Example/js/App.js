@@ -27,7 +27,7 @@ export default class Example extends Component {
             let rowData = Array.from({length: pageLimit}, (value, index) => index + skip);
 
             //Simulate the end of the list if there is no more data returned from the server
-            if (page === 3) {
+            if (page === 10) {
                 rowData = [];
             }
 
@@ -99,9 +99,7 @@ export default class Example extends Component {
         return (
             <View style={styles.container}>
                 <UltimateListView
-                    ref={(ref) => this._listView = ref}
                     onFetch={this.onFetch}
-                    enableEmptySections
                     headerView={this.renderHeaderView}
 
                     //----Normal Mode----
