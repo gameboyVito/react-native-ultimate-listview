@@ -33,6 +33,7 @@ export default class UltimateListView extends Component {
         rowHasChanged: null,
         distinctRows: null,
         onFetch: null,
+        enableEmptySections: true,
 
         //Custom View
         headerView: null,
@@ -97,6 +98,7 @@ export default class UltimateListView extends Component {
         onFetch: React.PropTypes.func,
         rowHasChanged: React.PropTypes.func,
         distinctRows: React.PropTypes.func,
+        enableEmptySections: React.PropTypes.bool,
 
         //Custom ListView
         headerView: React.PropTypes.func,
@@ -548,6 +550,7 @@ export default class UltimateListView extends Component {
                 ref={(ref) => this.listView = ref}
                 style={this.props.style}
                 dataSource={this.state.dataSource}
+                enableEmptySections={this.props.enableEmptySections}
                 automaticallyAdjustContentInsets={false}
                 scrollEnabled={this.props.scrollEnabled}
                 canCancelContentTouches={true}
