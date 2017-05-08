@@ -10,10 +10,8 @@ const logo = require('../img/default-portrait.png');
 export default class Example extends Component {
 
     sleep = (time) => {
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve();
-            }, time);
+        return new Promise(resolve => {
+            setTimeout(() => resolve(), time);
         })
     };
 
@@ -107,8 +105,8 @@ export default class Example extends Component {
                     rowView={this.renderRowView}
 
                     //refreshable={false}
-                    //refreshableMode="advanced" //basic | advanced
-                    //refreshableTitlePull="Pull To Refresh"
+                    refreshableMode="advanced" //basic | advanced
+                    refreshableTitlePull="Pull To Refresh"
 
                     //----GridView Mode----
                     //gridView={true}
