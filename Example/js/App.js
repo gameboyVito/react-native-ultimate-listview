@@ -107,14 +107,14 @@ export default class Example extends Component {
                     rowView={this.renderRowView}
 
                     //refreshable={false}
-                    refreshableMode="advanced" //basic | advanced
-                    refreshableTitlePull="Pull To Refresh"
+                    //refreshableMode="advanced" //basic | advanced
+                    //refreshableTitlePull="Pull To Refresh"
 
                     //----GridView Mode----
                     //gridView={true}
                     //gridBorder={true}
                     //gridColumn={3}
-                    //pageSize={3}
+                    //pageSize={9}
                     //rowView={this.renderGridView}
 
                     //----Extra Config----

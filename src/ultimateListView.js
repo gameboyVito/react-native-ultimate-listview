@@ -432,11 +432,7 @@ export default class UltimateListView extends Component {
     renderRowView = (rowData, sectionID, rowID) => {
         if (this.props.rowView && this.props.gridView === false) {
             return this.props.rowView(rowData, sectionID, rowID);
-        } else if (this.props.rowView && this.props.gridView === true) {
-            if (this.props.separator === true) {
-                throw 'If you are using gridView mode, please make sure you set the separator props to false';
-            }
-
+        } else if (this.props.gridView === true) {
             const borderStyle = {
                 borderWidth: 0.3,
                 borderColor: 'lightgray'
@@ -462,6 +458,10 @@ export default class UltimateListView extends Component {
     };
 
     renderSeparatorView = (sectionID, rowID) => {
+        if (this.props.gridView) {
+            return null;
+        }
+
         if (this.props.separator === true) {
             return (
                 <View key={rowID} style={styles.separator}/>
@@ -469,8 +469,6 @@ export default class UltimateListView extends Component {
         } else if (typeof this.props.separator === 'function') {
             return this.props.separator(sectionID, rowID);
         }
-
-        return null;
     };
 
     renderFooterView = () => {
@@ -493,17 +491,16 @@ export default class UltimateListView extends Component {
         if (this.props.refreshableMode === 'advanced' && this.props.refreshable) {
             return (
                 <RefreshableScrollView
-                    {...props}
+                    ref={(ref) => this.scrollView = ref}
                     onRefresh={this.onRefresh}
                     paginationStatus={this.state.paginationStatus}
-                    ref={(ref) => this.scrollView = ref}/>
+                    {...props}/>
             );
         }
 
         return (
-            <ScrollView
-                {...props}
-                ref={(ref) => this.scrollView = ref}/>
+            <ScrollView ref={(ref) => this.scrollView = ref}
+                        {...props}/>
         );
     };
 
