@@ -1,6 +1,6 @@
 # React Native Ultimate Listview
 
-An RN FlatList / ListView providing **customised pull-to-refresh** | **auto-pagination & infinite-scrolling** | **gridview layout** | **swipeable-row**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instructions shown below to put it in your app.
+An RN **FlatList / ListView** providing **customised pull-to-refresh** | **auto-pagination & infinite-scrolling** | **gridview layout** | **swipeable-row**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instructions shown below to put it in your app.
 
 *This module supports both of **iOS** and **Android** platforms.*
 
@@ -14,7 +14,9 @@ An RN FlatList / ListView providing **customised pull-to-refresh** | **auto-pagi
 - Supported both of **FlatList** and **ListView**
 - FlatList brings **hight performance** and excellent **memory control**
 - New props `legacyImplementation`,  `refreshableTitle` , `cellContainerStyle`, `rowContainerStyle`
-- `renderRowView(item, index)` not takes a different callback with two params `item`, `index`
+- `renderRowView(item, index)` now takes a different callback with two params `item`, `index`
+- In the FlatList, to use grid-view layout, only need to set `gridColumn` & `rowContainerStyle`
+- In the ListView, only the `gridColumn` is required, and you can also set `cellContainerStyle`
 
 
 
