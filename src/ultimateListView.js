@@ -117,7 +117,7 @@ export default class UltimateListView extends Component {
         paginationAllLoadedView: React.PropTypes.func,
         paginationWaitingView: React.PropTypes.func,
         emptyView: React.PropTypes.func,
-        separator: React.PropTypes.any,
+        separator: React.PropTypes.func,
 
         //Refreshable
         refreshable: React.PropTypes.bool,
@@ -457,11 +457,11 @@ export default class UltimateListView extends Component {
     };
 
     renderHeaderView = () => {
-        if (this.state.paginationStatus === PaginationStatus.firstLoad || !this.props.headerView) {
-            return null;
+        if (this.props.headerView) {
+            return this.props.headerView();
         }
 
-        return this.props.headerView();
+        return null;
     };
 
     renderItemView = ({item, index}) => {
@@ -473,9 +473,7 @@ export default class UltimateListView extends Component {
     };
 
     renderRowView = (rowData, sectionID, rowID) => {
-        if (this.props.gridColumn === 1) {
-            return this.props.rowView(rowData, sectionID, rowID);
-        } else if (this.props.gridColumn > 1) {
+        if (this.props.gridColumn > 1) {
             const cellWidth = width / this.props.gridColumn;
             const cellHeight = width / this.props.gridColumn;
 
@@ -490,21 +488,19 @@ export default class UltimateListView extends Component {
             );
         }
 
-        return null;
+        return this.props.rowView(rowData, sectionID, rowID);
     };
 
     renderSeparatorView = (sectionID, rowID) => {
-        if (this.props.gridColumn > 1) {
-            return null;
-        }
+        if (this.props.separator) {
+            if (this.props.gridColumn > 1) {
+                return null;
+            }
 
-        if (this.props.separator === true) {
-            return (
-                <View key={rowID} style={styles.separator}/>
-            );
-        } else if (typeof this.props.separator === 'function') {
             return this.props.separator(sectionID, rowID);
         }
+
+        return null;
     };
 
     renderFooterView = () => {
@@ -568,19 +564,19 @@ export default class UltimateListView extends Component {
                 return styles.gridView;
             }
             return null;
+        }
+
+        if (Platform.OS === 'ios') {
+            return null;
         } else {
-            if (Platform.OS === 'ios') {
-                return null;
-            } else {
-                if (this.props.customRefreshViewHeight !== -1) {
-                    return {minHeight: height + this.props.customRefreshViewHeight};
-                }
-                return {minHeight: height + headerHeight};
+            if (this.props.customRefreshViewHeight !== -1) {
+                return {minHeight: height + this.props.customRefreshViewHeight};
             }
+            return {minHeight: height + headerHeight};
         }
     }
 
-    columnWrapperStyle() {
+    rowContainerStyle() {
         if (this.props.gridColumn > 1) {
             if (this.props.rowContainerStyle) {
                 return this.props.rowContainerStyle;
@@ -617,25 +613,26 @@ export default class UltimateListView extends Component {
                           contentContainerStyle={this.contentContainerStyle()}
                 />
             );
-        } else {
-            return (
-                <FlatList renderScrollComponent={this.renderScrollComponent}
-                          {...this.props}
-                          ref={(ref) => this.flatList = ref}
-                          removeClippedSubviews={false}
-                          data={this.state.dataSource}
-                          renderItem={this.renderItemView}
-                          ItemSeparatorComponent={this.renderSeparatorView}
-                          ListHeaderComponent={this.renderHeaderView}
-                          ListFooterComponent={this.renderFooterView}
-                          onEndReached={this.onEndReached}
-                          onEndReachedThreshold={this.props.onEndReachedThreshold}
-                          refreshControl={this.renderRefreshControl()}
-                          contentContainerStyle={this.contentContainerStyle()}
-                          columnWrapperStyle={this.columnWrapperStyle()}
-                />
-            );
         }
+
+        return (
+            <FlatList renderScrollComponent={this.renderScrollComponent}
+                      {...this.props}
+                      ref={(ref) => this.flatList = ref}
+                      removeClippedSubviews={false}
+                      data={this.state.dataSource}
+                      renderItem={this.renderItemView}
+                      ItemSeparatorComponent={this.renderSeparatorView}
+                      ListHeaderComponent={this.renderHeaderView}
+                      ListFooterComponent={this.renderFooterView}
+                      onEndReached={this.onEndReached}
+                      onEndReachedThreshold={this.props.onEndReachedThreshold}
+                      refreshControl={this.renderRefreshControl()}
+                      contentContainerStyle={this.contentContainerStyle()}
+                      numColumns={this.props.gridColumn}
+                      columnWrapperStyle={this.rowContainerStyle()}
+            />
+        );
     }
 }
 
