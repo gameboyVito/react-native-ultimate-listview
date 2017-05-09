@@ -1,6 +1,6 @@
 # React Native Ultimate Listview
 
-An RN ListView providing **advanced pull-to-refresh** | **auto-pagination & infinite-scrolling** | **gridview layout** | **swipeable-row**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instructions shown below to use it your app.
+An RN FlatList / ListView providing **customised pull-to-refresh** | **auto-pagination & infinite-scrolling** | **gridview layout** | **swipeable-row**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instructions shown below to put it in your app.
 
 *This module supports both of **iOS** and **Android** platforms.*
 
@@ -8,20 +8,32 @@ An RN ListView providing **advanced pull-to-refresh** | **auto-pagination & infi
 
 
 
-### What's new in the ^2.0.0 (Breaking Changes)
+### What's new in the ^3.0.0 (Breaking Changes)
 
-- Added a [Wiki](https://github.com/gameboyVito/react-native-ultimate-listview/wiki) to provide you a better experience
+- Migrated to support **react-native 0.43** or above
+- Supported both of **FlatList** and **ListView**
+- FlatList brings **hight performance** and excellent **memory control**
+- New props `legacyImplementation`,  `refreshableTitle` , `cellContainerStyle`, `rowContainerStyle`
+- `renderRowView(item, index)` not takes a different callback with two params `item`, `index`
 
-- Updated the [RefreshView API](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/RefreshView-API)
 
-- Added an advanced version of **RefreshView** and kept the **RefreshControl** as a basic version
 
-- You can switch there two modes by passing props `refreshableMode:'basic' or 'advanced'`
+### Tips:
 
-- `this.onFetch(page=1, startFetch, abortFetch)`,  now it takes three diffrent callback
+- If you are using react-native <= 0.42, or you do not want to use FlatList in your app, just simply set this props: `legacyImplementation={true}` . Everything will be the same as before, you do not need to modify any codes at all.
+
+- The FlatList has some kown issues, like blank screen if scrolling is too fast. See the office doc:
+
+  > In order to constrain memory and enable smooth scrolling, content is rendered asynchronously offscreen. This means it's possible to scroll faster than the fill rate ands momentarily see blank content. This is a tradeoff that can be adjusted to suit the needs of each application, and we are working on improving it behind the scenes.
+
+
+- However, if you have a long list to display and suffer from the memory leaking,  I highly recommend you to use **FlatList** inseated of the poor perforamce ListView
+
+- Since this release contains too many changes, if you are facing any bugs, please let me know
+
+- Current stable version: **v2.0.9**
 
   ​
-
 
 # Demo
 
