@@ -40,7 +40,8 @@ export default class Example extends Component {
     onFetch = async(page = 1, startFetch, abortFetch) => {
         try {
             //This is required to determinate whether the first loading list is all loaded.
-            const pageLimit = 24;
+            let pageLimit = 24;
+            if (this.state.layout === 'grid') pageLimit = 60;
             let skip = (page - 1) * pageLimit;
 
             //Generate dummy data
@@ -73,26 +74,12 @@ export default class Example extends Component {
         }
     };
 
-    renderHeaderView = () => {
-        return (
-            <View>
-                <View style={styles.header}>
-                    <Text style={{textAlign: 'center'}}>I'm the Header View, you can put some Instructions or Ads Banner
-                        here!</Text>
-                </View>
-                <View style={styles.headerSegment}>
-                    <Left style={{flex: 0.15}}/>
-                    <SegmentedControlIOS
-                        style={{flex: 0.7}}
-                        values={['list', 'grid']}
-                        tintColor='#57a8f5'
-                        selectedIndex={this.state.layout === 'list' ? 0 : 1}
-                        onChange={this.onChangeLayout}
-                    />
-                    <Right style={{flex: 0.15}} />
-                </View>
-            </View>
-        );
+    onChangeScrollToIndex = (num) => {
+        let index = num;
+        if (this.state.layout === 'grid') {
+            index = num / 3;
+        }
+        this.listView.scrollToIndex({viewPosition: 0, index: Math.floor(index)});
     };
 
     //Only use this to render a FlatList, make sure your component extends to PureComponent instead of Component
@@ -129,9 +116,31 @@ export default class Example extends Component {
         Alert.alert(type, `You're pressing on ${rowData}`);
     };
 
+    renderHeaderView = () => {
+        return (
+            <View>
+                <View style={styles.header}>
+                    <Text style={{textAlign: 'center'}}>I'm the Header View, you can put some Instructions or Ads Banner
+                        here!</Text>
+                </View>
+                <View style={styles.headerSegment}>
+                    <Left style={{flex: 0.15}}/>
+                    <SegmentedControlIOS
+                        style={{flex: 0.7}}
+                        values={['list', 'grid']}
+                        tintColor='#57a8f5'
+                        selectedIndex={this.state.layout === 'list' ? 0 : 1}
+                        onChange={this.onChangeLayout}
+                    />
+                    <Right style={{flex: 0.15}} />
+                </View>
+            </View>
+        );
+    };
+
     renderPaginationFetchingView = () => {
         return (
-            <LoadingSpinner height={height * 0.2} text="loading"/>
+            <LoadingSpinner height={height * 0.2} text="loading..."/>
         );
     };
 
@@ -139,33 +148,34 @@ export default class Example extends Component {
         return (
             <View style={styles.container}>
                 <Header searchBar rounded>
-                    <Item>
+                    <Item style={{backgroundColor: 'lightgray', borderRadius: 5}}>
                         <Icon name="ios-search" />
-                        <Input placeholder="Search" />
+                        <Input placeholder="Search" onChangeText={this.onChangeScrollToIndex}/>
                     </Item>
                     <Button transparent title="search" onPress={() => null}>
                         <Text>Search</Text>
                     </Button>
                 </Header>
                 <UltimateListView
+                    ref={(ref) => this.listView = ref}
                     key={this.state.layout} //this is important to distinguish different FlatList
                     onFetch={this.onFetch}
                     headerView={this.renderHeaderView}
-                    keyExtractor={(item, index) => `${this.state.layout} - ${item}`}
+                    keyExtractor={(item, index) => `${this.state.layout} - ${item}`}  //this is required when you are using FlatList
                     refreshableMode="advanced" //basic or advanced
 
                     //-------FlatList--------
-                    //rowView={this.renderItem}
-                    //gridColumn={this.state.layout === 'list' ? 1 : 3} //to use grid layout, simply set gridColumn > 1
-                    //rowContainerStyle={{height: 120}}  //use this line to customise style of each row in FlatList, only work when gridColumn > 1
+                    rowView={this.renderItem}  //this takes two params (item, index)
+                    gridColumn={this.state.layout === 'list' ? 1 : 3} //to use grid layout, simply set gridColumn > 1
+                    rowContainerStyle={{height: 120}}  //use this line to customise style of each row in FlatList, only work when gridColumn > 1
                     //-----------------------
 
 
                     //----Legacy ListView----
-                    legacyImplementation //uncomment it to use the old fashion ListView (poor performance)
-                    rowView={this.renderRowView}
-                    gridColumn={this.state.layout === 'list' ? 1 : 3} //to use grid layout, simply set gridColumn > 1
-                    cellContainerStyle={{width: width / 3, height: width / 3}}  //use this line to customise style of each cell
+                    //legacyImplementation //uncomment it to use the old fashion ListView (poor performance)
+                    //rowView={this.renderRowView}  //this takes three params (rowData, sectionID, rowID)
+                    //gridColumn={this.state.layout === 'list' ? 1 : 3} //to use grid layout, simply set gridColumn > 1
+                    //cellContainerStyle={{width: width / 3, height: width / 3}}  //use this line to customise style of each cell
                     //-----------------------
 
 

@@ -17,7 +17,7 @@ export default {
     },
     headerSegment: {
         width: width,
-        height: 50,
+        height: 60,
         flexDirection: 'row',
         alignItems: 'center'
     },
