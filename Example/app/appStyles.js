@@ -7,13 +7,19 @@ export default {
     },
     header: {
         width: width,
-        height: 90,
+        height: 80,
         padding: 20,
         justifyContent: 'flex-end',
         alignItems: 'center',
         borderBottomWidth: 0.5,
         borderColor: 'lightgray',
         backgroundColor: 'whitesmoke'
+    },
+    headerSegment: {
+        width: width,
+        height: 50,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     row: {
         flex: 0,
