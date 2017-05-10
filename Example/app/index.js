@@ -7,17 +7,18 @@ import {
     Image,
     TouchableHighlight,
     Dimensions,
-    SegmentedControlIOS
+    SegmentedControlIOS,
+    Platform
 } from "react-native";
-import {Item, Input, Header, Button, ListItem, Left, Right, Body, Thumbnail, Text, Icon} from "native-base";
+import {Item, Input, Header, Left, Right, Text, Icon, Button} from "native-base";
 import styles from "./appStyles";
 import LoadingSpinner from "./loadingSpinner";
 import FlatListItem from "./flatList/flatListItem";
 import FlatListGrid from "./flatList/flatListGrid";
 import ListViewItem from "./listView/ListViewItem";
 import ListViewGrid from "./listView/ListViewGrid";
-//import UltimateListView from "react-native-ultimate-listview";
-import UltimateListView from "../src/ultimateListView";
+import UltimateListView from "react-native-ultimate-listview";
+//import UltimateListView from "../src/ultimateListView";
 //import UltimateListView from "../src/copy";
 
 const logo = require('../img/default-portrait.png');
@@ -27,7 +28,8 @@ export default class Example extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            layout: 'list'
+            layout: 'list',
+            text: ''
         }
     }
 
@@ -62,6 +64,7 @@ export default class Example extends Component {
     };
 
     onChangeLayout = (event) => {
+        this.setState({text: ''});
         switch (event.nativeEvent.selectedSegmentIndex) {
             case 0:
                 this.setState({layout: 'list'});
@@ -75,6 +78,7 @@ export default class Example extends Component {
     };
 
     onChangeScrollToIndex = (num) => {
+        this.setState({text: num});
         let index = num;
         if (this.state.layout === 'grid') {
             index = num / 3;
@@ -116,6 +120,31 @@ export default class Example extends Component {
         Alert.alert(type, `You're pressing on ${rowData}`);
     };
 
+    renderControlTab = () => {
+        if (Platform.OS === 'ios') {
+            return (
+                <SegmentedControlIOS
+                    style={{flex: 0.7}}
+                    values={['list', 'grid']}
+                    tintColor='#57a8f5'
+                    selectedIndex={this.state.layout === 'list' ? 0 : 1}
+                    onChange={this.onChangeLayout}
+                />
+            );
+        } else {
+            return (
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+                    <Button rounded title="list" onPress={() => this.onChangeLayout({nativeEvent: {selectedSegmentIndex: 0}})} >
+                        <Text>List</Text>
+                    </Button>
+                    <Button rounded title="grid" onPress={() => this.onChangeLayout({nativeEvent: {selectedSegmentIndex: 1}})}>
+                        <Text>Grid</Text>
+                    </Button>
+                </View>
+            );
+        }
+    };
+
     renderHeaderView = () => {
         return (
             <View>
@@ -125,14 +154,8 @@ export default class Example extends Component {
                 </View>
                 <View style={styles.headerSegment}>
                     <Left style={{flex: 0.15}}/>
-                    <SegmentedControlIOS
-                        style={{flex: 0.7}}
-                        values={['list', 'grid']}
-                        tintColor='#57a8f5'
-                        selectedIndex={this.state.layout === 'list' ? 0 : 1}
-                        onChange={this.onChangeLayout}
-                    />
-                    <Right style={{flex: 0.15}} />
+                    {this.renderControlTab()}
+                    <Right style={{flex: 0.15}}/>
                 </View>
             </View>
         );
@@ -149,12 +172,9 @@ export default class Example extends Component {
             <View style={styles.container}>
                 <Header searchBar rounded>
                     <Item style={{backgroundColor: 'lightgray', borderRadius: 5}}>
-                        <Icon name="ios-search" />
-                        <Input placeholder="Search" onChangeText={this.onChangeScrollToIndex}/>
+                        <Icon name="ios-search"/>
+                        <Input placeholder="Search" onChangeText={this.onChangeScrollToIndex} value={this.state.text}/>
                     </Item>
-                    <Button transparent title="search" onPress={() => null}>
-                        <Text>Search</Text>
-                    </Button>
                 </Header>
                 <UltimateListView
                     ref={(ref) => this.listView = ref}
