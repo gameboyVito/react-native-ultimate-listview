@@ -486,6 +486,17 @@ export default class UltimateListView extends Component {
         return null;
     };
 
+    renderSectionHeader = (sectionData, sectionID) => {
+        if (this.props.sectionHeaderView && this.props.legacyImplementation) {
+            if (this.props.refreshableMode === 'basic') {
+                return this.props.sectionHeaderView(sectionData, sectionID);
+            }
+            console.error('sectionHeader is not supported on AdvancedRefreshView, try to use basic RefreshControl instead');
+        }
+
+        return null;
+    };
+
     renderItemView = ({item, index}) => {
         if (this.props.rowView) {
             return this.props.rowView(item, index);
@@ -495,22 +506,26 @@ export default class UltimateListView extends Component {
     };
 
     renderRowView = (rowData, sectionID, rowID) => {
-        if (this.props.gridColumn > 1) {
-            const cellWidth = width / this.props.gridColumn;
-            const cellHeight = width / this.props.gridColumn;
+        if (this.props.rowView) {
+            if (this.props.gridColumn > 1) {
+                const cellWidth = width / this.props.gridColumn;
+                const cellHeight = width / this.props.gridColumn;
 
-            return (
-                <View style={this.props.cellContainerStyle ? this.props.cellContainerStyle : [styles.gridItem, {
-                        width: cellWidth,
-                        height: cellHeight
-                    }]
-                }>
-                    {this.props.rowView(rowData, sectionID, rowID)}
-                </View>
-            );
+                return (
+                    <View style={this.props.cellContainerStyle ? this.props.cellContainerStyle : [styles.gridItem, {
+                            width: cellWidth,
+                            height: cellHeight
+                        }]
+                    }>
+                        {this.props.rowView(rowData, sectionID, rowID)}
+                    </View>
+                );
+            }
+
+            return this.props.rowView(rowData, sectionID, rowID);
         }
 
-        return this.props.rowView(rowData, sectionID, rowID);
+        return null;
     };
 
     renderSeparatorView = (sectionID, rowID) => {
@@ -632,6 +647,7 @@ export default class UltimateListView extends Component {
                           canCancelContentTouches={true}
                           renderRow={this.renderRowView}
                           renderHeader={this.renderHeaderView}
+                          renderSectionHeader={this.renderSectionHeader}
                           renderFooter={this.renderFooterView}
                           renderSeparator={this.renderSeparatorView}
                           refreshControl={this.renderRefreshControl()}

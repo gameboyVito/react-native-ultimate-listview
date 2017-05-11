@@ -1,6 +1,8 @@
 # React Native Ultimate Listview
 
-An RN **FlatList / ListView** providing **customised pull-to-refresh** | **auto-pagination & infinite-scrolling** | **gridview layout** | **swipeable-row**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instructions shown below to put it in your app.
+A high performance **FlatList** providing **customised pull-to-refresh** | **auto-pagination & infinite-scrolling** | **gridview layout** | **swipeable-row**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instructions shown below to put it in your app.
+
+This is an **enhanced FlatList** with all excellent extra features, which are not provided by official version.
 
 *This module supports both of **iOS** and **Android** platforms.*
 
@@ -8,66 +10,49 @@ An RN **FlatList / ListView** providing **customised pull-to-refresh** | **auto-
 
 
 
-### What's new in the ^3.0.0 (Breaking Changes)
-
-- Migrated to support **react-native 0.43** or above
-- Supported both of **FlatList** and **ListView**
-- FlatList brings **hight performance** and excellent **memory control**
-- New props `legacyImplementation`,  `refreshableTitle` , `cellContainerStyle`, `rowContainerStyle`
-- `renderRowView(item, index)` now takes a different callback with two params `item`, `index`
-- In the FlatList, to use grid-view layout, only need to set `gridColumn` & `rowContainerStyle`
-- In the ListView, only the `gridColumn` is required, and you can also set `cellContainerStyle`
-
-
-
-### Tips:
-
-- If you are using react-native <= 0.42, or you do not want to use FlatList in your app, just simply set this props: `legacyImplementation={true}` . Everything will be the same as before, you do not need to modify any codes at all.
-
-- The FlatList has some kown issues, like blank screen if scrolling is too fast. See the office doc:
-
-  > In order to constrain memory and enable smooth scrolling, content is rendered asynchronously offscreen. This means it's possible to scroll faster than the fill rate ands momentarily see blank content. This is a tradeoff that can be adjusted to suit the needs of each application, and we are working on improving it behind the scenes.
-
-
-- However, if you have a long list to display and suffer from the memory leaking,  I highly recommend you to use **FlatList** inseated of the poor perforamce ListView
-
-- Since this release contains too many changes, if you are facing any bugs, please let me know
-
-- Current stable version: **v2.0.9**
-
-  ​
-
 # Demo
 
-| New     | iOS                                      | Android                                  |
-| ------- | ---------------------------------------- | ---------------------------------------- |
-| Refresh | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/ios-advanced.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/android-advanced.gif) |
-
-| Basic   | ListView                                 | GridView                                 |
-| ------- | ---------------------------------------- | ---------------------------------------- |
-| iOS     | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/ios-listview.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/ios-gridview.gif) |
-| Android | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/android-listview.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/android-gridview.gif) |
+|              | iOS                                      | Android                                  |
+| ------------ | ---------------------------------------- | ---------------------------------------- |
+| **FlatList** | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/ios.gif) | ![](https://github.com/gameboyVito/react-native-ultimate-listview/blob/master/Demo/android.gif) |
 
 
 
-# Wiki
+# Why FlatList
+
+I have found some artical to explain why you need to use FlatList, instead of the legacy ListView. There are some obvious reasons:
+
+1. FlatList just like the UITableView or RecylerView, which can dramatically reduce the memory usage. It also provides more soomth animation when you have a extremely long list.
+2. FlatList supports scrollToIndex function, which is pretty convenient when you want to scroll to an item with index, instead of the y-offset.
+3. FlatList recommend developer to use PureComponent to reduce unnessary re-render, this action can really boost the performance and make your app run faster.
+
+* [Chinese article](https://segmentfault.com/a/1190000008589705) 	
+* [Official article](https://facebook.github.io/react-native/blog/2017/03/13/better-list-views.html) 
+
+
+
+# Documentation
 
 * [Overview](https://github.com/gameboyVito/react-native-ultimate-listview/wiki)
-* [Installation](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/Installation)
-* [Upgrade](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/Upgrade)
+* [FlatList Migration](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/FlatList-Migration)
 * [Usage](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/Usage)
-* [Swipable Row](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/Swipable-Row)
 * [ListView API](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/ListView-API)
-* [GridView API](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/GridView-API)
 * [RefreshView API](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/RefreshView-API)
 * [Pagination API](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/Pagination-API)
 * [Methods API](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/Methods-API)
+* [Swipable Tip](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/Swipable-Row)
+
+
+
+# ChangeLog
+
+- [ChangeLog](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/ChangeLog)
 
 
 
 # Contribution
 
-gameboyVito
+@gameboyVito - gameboyvito@gmail.com
 
 ​
 

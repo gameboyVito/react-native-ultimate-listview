@@ -138,14 +138,24 @@ export default class Example extends Component {
                             small
                             light={this.state.layout !== 'list'}
                             onPress={() => this.onChangeLayout({nativeEvent: {selectedSegmentIndex: 0}})}
-                            style={{width: 150, justifyContent: 'center', borderTopLeftRadius: 5, borderBottomLeftRadius: 5}}>
+                            style={{
+                                width: 150,
+                                justifyContent: 'center',
+                                borderTopLeftRadius: 5,
+                                borderBottomLeftRadius: 5
+                            }}>
                         <Text style={{color: this.state.layout === 'list' ? 'white' : 'black'}}>List</Text>
                     </Button>
                     <Button title="grid"
                             small
                             light={this.state.layout !== 'grid'}
                             onPress={() => this.onChangeLayout({nativeEvent: {selectedSegmentIndex: 1}})}
-                            style={{width: 150, justifyContent: 'center', borderTopRightRadius: 5, borderBottomRightRadius: 5}}>
+                            style={{
+                                width: 150,
+                                justifyContent: 'center',
+                                borderTopRightRadius: 5,
+                                borderBottomRightRadius: 5
+                            }}>
                         <Text style={{color: this.state.layout === 'grid' ? 'white' : 'black'}}>Grid</Text>
                     </Button>
                 </View>
@@ -175,6 +185,22 @@ export default class Example extends Component {
         );
     };
 
+    renderSectionHeaderView = (sectionData, sectionID) => {
+        return (
+            <View style={{
+                flexDirection: 'row',
+                backgroundColor: 'gray',
+                alignItems: 'center',
+                height: 30,
+                width: width,
+                marginBottom: 10,
+                paddingLeft: 10
+            }}>
+                <Text style={{color: 'white'}}>Hello World</Text>
+            </View>
+        );
+    };
+
     render() {
         return (
             <View style={styles.container}>
@@ -188,7 +214,6 @@ export default class Example extends Component {
                     ref={(ref) => this.listView = ref}
                     key={this.state.layout} //this is important to distinguish different FlatList
                     onFetch={this.onFetch}
-                    headerView={this.renderHeaderView}
                     keyExtractor={(item, index) => `${this.state.layout} - ${item}`}  //this is required when you are using FlatList
                     refreshableMode="advanced" //basic or advanced
 
@@ -208,8 +233,9 @@ export default class Example extends Component {
 
 
                     //----Extra Config----
+                    headerView={this.renderHeaderView}
                     paginationFetchingView={this.renderPaginationFetchingView}
-                    //sectionHeaderView={this.renderSectionHeaderView}
+                    //sectionHeaderView={this.renderSectionHeaderView}   //not supported on FlatList
                     //paginationFetchingView={this.renderPaginationFetchingView}
                     //paginationAllLoadedView={this.renderPaginationAllLoadedView}
                     //paginationWaitingView={this.renderPaginationWaitingView}
