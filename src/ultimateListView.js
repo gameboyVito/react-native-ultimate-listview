@@ -75,6 +75,7 @@ export default class UltimateListView extends Component {
         arrowImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABD0lEQVRIS92V7w2BMRCHHxMwAhNgAmxgBCuYABtYwQY2wASYgBGYgPySEpq2d6+8EXFf+qHXe+5vr8GXpPElDj8JGgIzQKdkDSyAgycrVSKSwW5kdPcCLvKqgG4JS2egU3dEKZAYLmddSkAbOGU8d9lwKYU6bDKgvqch6gCNgK1Vp58DzcMMpRyfAsu6IiqBNLS6rzxH6rA90LIeZ+4vYbZ0PiVVo14AfcjhGsbBBAlQSpXlQLJmpa5Tyw4sq9H9Cpik3pRAqpFg8UeaYx/DYL+l7KFszZHqJVjTiCxZF6sZYpsWTBDtqOJesiJ6QHMwF8T9xQdaDHNDqoKkL5hWuAo+BrT4XOJNnctYSen/QHcJ7i8bTYJ5dAAAAABJRU5ErkJggg==',
 
         //Pagination
+        pagination: true,
         autoPagination: true,
         allLoadedText: 'End of List',
 
@@ -142,6 +143,7 @@ export default class UltimateListView extends Component {
         arrowImage: React.PropTypes.string,
 
         //Pagination
+        pagination: React.PropTypes.bool,
         autoPagination: React.PropTypes.bool,
         allLoadedText: React.PropTypes.string,
 
@@ -404,7 +406,7 @@ export default class UltimateListView extends Component {
 
     onEndReached = () => {
         //console.log('onEndReached()');
-        if (this.state.paginationStatus === PaginationStatus.waiting && this.props.autoPagination) {
+        if (this.props.pagination && this.props.autoPagination && this.state.paginationStatus === PaginationStatus.waiting) {
             this.onPaginate();
         }
     };
@@ -439,43 +441,41 @@ export default class UltimateListView extends Component {
     };
 
     paginationAllLoadedView = () => {
-        if (this.props.paginationAllLoadedView) {
-            return this.props.paginationAllLoadedView();
-        }
+        if (this.props.pagination) {
+            if (this.props.paginationAllLoadedView) {
+                return this.props.paginationAllLoadedView();
+            }
 
-        return (
-            <View style={styles.paginationView}>
-                <Text style={{alignSelf: 'center'}}>
-                    {this.props.allLoadedText}
-                </Text>
-            </View>
-        );
-    };
-
-    paginationWaitingView = (paginateCallback) => {
-        if (this.props.paginationWaitingView) {
-            return this.props.paginationWaitingView(paginateCallback);
-        }
-
-        if (this.props.autoPagination) {
             return (
                 <View style={styles.paginationView}>
-                    <ActivityIndicator color={this.props.spinnerColor} size={this.props.waitingSpinnerSize}/>
-                    <Text style={[styles.paginationViewText, {marginLeft: 5}]}>{this.props.waitingSpinnerText}</Text>
+                    <Text style={{alignSelf: 'center'}}>
+                        {this.props.allLoadedText}
+                    </Text>
                 </View>
             );
         }
 
-        return (
-            <TouchableOpacity
-                onPress={paginateCallback}
-                style={styles.paginationBtn}
-            >
-                <Text style={styles.paginationBtnText}>
-                    {this.props.paginationBtnText}
-                </Text>
-            </TouchableOpacity>
-        );
+        return null;
+    };
+
+    paginationWaitingView = (paginateCallback) => {
+        if (this.props.pagination) {
+            if (this.props.autoPagination) {
+                if (this.props.paginationWaitingView) {
+                    return this.props.paginationWaitingView(paginateCallback);
+                }
+
+                return (
+                    <View style={styles.paginationView}>
+                        <ActivityIndicator color={this.props.spinnerColor} size={this.props.waitingSpinnerSize}/>
+                        <Text
+                            style={[styles.paginationViewText, {marginLeft: 5}]}>{this.props.waitingSpinnerText}</Text>
+                    </View>
+                );
+            }
+        }
+
+        return null;
     };
 
     renderHeaderView = () => {
