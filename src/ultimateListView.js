@@ -76,7 +76,6 @@ export default class UltimateListView extends Component {
 
         //Pagination
         autoPagination: true,
-        onEndReachedThreshold: 0,
         allLoadedText: 'End of List',
 
         //Spinner
@@ -144,7 +143,6 @@ export default class UltimateListView extends Component {
 
         //Pagination
         autoPagination: React.PropTypes.bool,
-        onEndReachedThreshold: React.PropTypes.number,
         allLoadedText: React.PropTypes.string,
 
         //Spinner
@@ -232,11 +230,35 @@ export default class UltimateListView extends Component {
     };
 
     scrollTo = (option) => {
-        this.scrollView.scrollTo(option);
+        if (this.props.legacyImplementation) {
+            this.scrollView.scrollTo(option);
+        } else {
+            this.flatList.scrollToOffset(option);
+        }
+    };
+
+    scrollToIndex = (option) => {
+        if (this.props.legacyImplementation) {
+            console.warn('Not support on ListView, use FlatList instead')
+        } else {
+            this.flatList.scrollToIndex(option);
+        }
+    };
+
+    scrollToItem = (option) => {
+        if (this.props.legacyImplementation) {
+            console.warn('Not support on ListView, use FlatList instead')
+        } else {
+            this.flatList.scrollToItem(option);
+        }
     };
 
     scrollToEnd = (option) => {
-        this.scrollView.scrollToEnd(option);
+        if (this.props.legacyImplementation) {
+            this.scrollView.scrollToEnd(option);
+        } else {
+            this.flatList.scrollToEnd(option);
+        }
     };
 
     onRefresh = () => {
@@ -559,20 +581,25 @@ export default class UltimateListView extends Component {
     };
 
     contentContainerStyle() {
-        if (this.props.gridColumn > 1) {
-            if (this.props.legacyImplementation) {
+        if (Platform.OS === 'ios') {
+            if (this.props.gridColumn > 1 && this.props.legacyImplementation) {
                 return styles.gridView;
             }
             return null;
-        }
-
-        if (Platform.OS === 'ios') {
-            return null;
         } else {
-            if (this.props.customRefreshViewHeight !== -1) {
-                return {minHeight: height + this.props.customRefreshViewHeight};
+            let gridViewStyle = {};
+            if (this.props.gridColumn > 1 && this.props.legacyImplementation) {
+                if (this.props.refreshableMode === 'basic') {
+                    return styles.gridView;
+                } else {
+                    console.error('AdvancedRefreshView of legacy ListView with grid layout only support iOS platform. Try to use FlatList instead, or use the default RefreshControl in Android.')
+                }
             }
-            return {minHeight: height + headerHeight};
+
+            if (this.props.customRefreshViewHeight !== -1) {
+                return [{minHeight: height + this.props.customRefreshViewHeight}, gridViewStyle];
+            }
+            return [gridViewStyle, {minHeight: height + headerHeight}];
         }
     }
 
@@ -609,7 +636,7 @@ export default class UltimateListView extends Component {
                           renderSeparator={this.renderSeparatorView}
                           refreshControl={this.renderRefreshControl()}
                           onEndReached={this.onEndReached}
-                          onEndReachedThreshold={this.props.onEndReachedThreshold}
+                          onEndReachedThreshold={50}
                           contentContainerStyle={this.contentContainerStyle()}
                 />
             );
@@ -626,7 +653,7 @@ export default class UltimateListView extends Component {
                       ListHeaderComponent={this.renderHeaderView}
                       ListFooterComponent={this.renderFooterView}
                       onEndReached={this.onEndReached}
-                      onEndReachedThreshold={this.props.onEndReachedThreshold}
+                      onEndReachedThreshold={0.1}
                       refreshControl={this.renderRefreshControl()}
                       contentContainerStyle={this.contentContainerStyle()}
                       numColumns={this.props.gridColumn}
@@ -692,7 +719,7 @@ const styles = StyleSheet.create({
     },
     gridView: {
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
         flexWrap: 'wrap'
     }
 });

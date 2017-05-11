@@ -133,12 +133,20 @@ export default class Example extends Component {
             );
         } else {
             return (
-                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-                    <Button rounded title="list" onPress={() => this.onChangeLayout({nativeEvent: {selectedSegmentIndex: 0}})} >
-                        <Text>List</Text>
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                    <Button title="list"
+                            small
+                            light={this.state.layout !== 'list'}
+                            onPress={() => this.onChangeLayout({nativeEvent: {selectedSegmentIndex: 0}})}
+                            style={{width: 150, justifyContent: 'center', borderTopLeftRadius: 5, borderBottomLeftRadius: 5}}>
+                        <Text style={{color: this.state.layout === 'list' ? 'white' : 'black'}}>List</Text>
                     </Button>
-                    <Button rounded title="grid" onPress={() => this.onChangeLayout({nativeEvent: {selectedSegmentIndex: 1}})}>
-                        <Text>Grid</Text>
+                    <Button title="grid"
+                            small
+                            light={this.state.layout !== 'grid'}
+                            onPress={() => this.onChangeLayout({nativeEvent: {selectedSegmentIndex: 1}})}
+                            style={{width: 150, justifyContent: 'center', borderTopRightRadius: 5, borderBottomRightRadius: 5}}>
+                        <Text style={{color: this.state.layout === 'grid' ? 'white' : 'black'}}>Grid</Text>
                     </Button>
                 </View>
             );
