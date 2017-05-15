@@ -2,7 +2,7 @@
 
 A high performance **FlatList** providing **customised pull-to-refresh** | **auto-pagination & infinite-scrolling** | **gridview layout** | **swipeable-row**. The truly ultimate version that I have done the most tricky part for you, just simply follow the instructions shown below to put it in your app.
 
-This is an **enhanced FlatList** with all excellent extra features, which are not provided by official version.
+This is an **enhanced FlatList** with all excellent extra features, comparing to the official version.
 
 *This module supports both of **iOS** and **Android** platforms.*
 
@@ -22,11 +22,11 @@ This is an **enhanced FlatList** with all excellent extra features, which are no
 
 I have found some artical to explain why you need to use FlatList, instead of the legacy ListView. There are some obvious reasons:
 
-1. FlatList just like the UITableView or RecylerView, which can dramatically reduce the memory usage. It also provides more soomth animation when you have a extremely long list.
-2. FlatList supports scrollToIndex function, which is pretty convenient when you want to scroll to an item with index, instead of the y-offset.
-3. FlatList recommend developer to use PureComponent to reduce unnessary re-render, this action can really boost the performance and make your app run faster.
+1. FlatList just like the **UITableView** or **RecylerView**, which can dramatically reduce memory usage. It also provides more soomth animation when you have an extremely long list.
+2. FlatList supports scrollToIndex function, which is pretty convenient when you want to scroll to an item with index, instead of depending the y-offset.
+3. FlatList recommend developer to use PureComponent to reduce unnessary re-rendering, this can really boost the performance and make your app run faster.
 
-* [Chinese article](https://segmentfault.com/a/1190000008589705) 	
+* [Chinese article](https://segmentfault.com/a/1190000008589705) 
 * [Official article](https://facebook.github.io/react-native/blog/2017/03/13/better-list-views.html) 
 
 
