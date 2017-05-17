@@ -688,7 +688,7 @@ const styles = StyleSheet.create({
     },
     paginationView: {
         flex: 0,
-        width: width,
+        //width: width,
         height: 55,
         flexDirection: 'row',
         justifyContent: 'center',
