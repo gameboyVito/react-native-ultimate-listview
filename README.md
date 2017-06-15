@@ -31,6 +31,7 @@ I have found some artical to explain why you need to use FlatList, instead of th
 
 
 
+
 # Documentation
 
 * [Overview](https://github.com/gameboyVito/react-native-ultimate-listview/wiki)
@@ -44,9 +45,11 @@ I have found some artical to explain why you need to use FlatList, instead of th
 
 
 
-# ChangeLog
+
+# Breaking Changes
 
 - [ChangeLog](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/ChangeLog)
+
 
 
 

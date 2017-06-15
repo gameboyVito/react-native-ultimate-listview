@@ -1,19 +1,15 @@
 import React, {Component} from "react";
 import {
-    FlatList,
-    ListView,
-    Platform,
-    TouchableOpacity,
-    View,
-    Text,
-    Alert,
-    ScrollView,
-    RefreshControl,
     ActivityIndicator,
+    Dimensions,
+    FlatList,
+    Platform,
+    RefreshControl,
+    ScrollView,
     StyleSheet,
-    Dimensions
+    Text,
+    View
 } from "react-native";
-import {mergeRecursive} from "./util";
 import RefreshableScrollView from "./refreshableScrollView";
 
 
@@ -27,24 +23,17 @@ const headerHeight = 80;
 export default class UltimateListView extends Component {
 
     static defaultProps = {
-        initialNum: 10,
-        initialListSize: 10,
+        initialNumToRender: 10,
+        horizontal: false,
 
         firstLoader: true,
         scrollEnabled: true,
-        withSections: false,
-        rowHasChanged: null,
-        distinctRows: null,
         onFetch: null,
         enableEmptySections: true,
 
-        //new props - true to use ListView, false to use FlatList
-        legacyImplementation: false,
-
         //Custom View
-        headerView: null,
-        rowView: null,
-        sectionHeaderView: null,
+        header: null,
+        item: null,
         paginationFetchingView: null,
         paginationAllLoadedView: null,
         paginationWaitingView: null,
@@ -89,29 +78,22 @@ export default class UltimateListView extends Component {
         paginationBtnText: 'Load more...',
 
         //GridView
-        gridColumn: 1,
-        cellContainerStyle: null,
-        rowContainerStyle: null
+        numColumns: 1,
+        columnWrapperStyle: null
     };
 
     static propTypes = {
-        initialNum: React.PropTypes.number,
-        initialListSize: React.PropTypes.number,
+        initialNumToRender: React.PropTypes.number,
+        horizontal: React.PropTypes.bool,
 
         firstLoader: React.PropTypes.bool,
         scrollEnabled: React.PropTypes.bool,
-        withSections: React.PropTypes.bool,
         onFetch: React.PropTypes.func,
-        rowHasChanged: React.PropTypes.func,
-        distinctRows: React.PropTypes.func,
         enableEmptySections: React.PropTypes.bool,
 
-        //new props - true to use ListView, false to use FlatList
-        legacyImplementation: React.PropTypes.bool,
-
         //Custom ListView
-        headerView: React.PropTypes.func,
-        rowView: React.PropTypes.func,
+        header: React.PropTypes.func,
+        item: React.PropTypes.func,
         sectionHeaderView: React.PropTypes.func,
         paginationFetchingView: React.PropTypes.func,
         paginationAllLoadedView: React.PropTypes.func,
@@ -157,9 +139,8 @@ export default class UltimateListView extends Component {
         paginationBtnText: React.PropTypes.string,
 
         //GridView
-        gridColumn: React.PropTypes.number,
-        cellContainerStyle: React.PropTypes.object,
-        rowContainerStyle: React.PropTypes.object
+        numColumns: React.PropTypes.number,
+        columnWrapperStyle: React.PropTypes.object
     };
 
     constructor(props) {
@@ -167,40 +148,18 @@ export default class UltimateListView extends Component {
         this.setPage(1);
         this.setRows([]);
 
-        if (this.props.legacyImplementation) {
-            let ds = null;
-            if (this.props.withSections === true) {
-                ds = new ListView.DataSource({
-                    rowHasChanged: this.props.rowHasChanged ? this.props.rowHasChanged : (row1, row2) => row1 !== row2,
-                    sectionHeaderHasChanged: (section1, section2) => section1 !== section2,
-                });
-                this.state = {
-                    dataSource: ds.cloneWithRowsAndSections(this.getRows()),
-                    isRefreshing: false,
-                    paginationStatus: PaginationStatus.firstLoad,
-                };
-            } else {
-                ds = new ListView.DataSource({
-                    rowHasChanged: this.props.rowHasChanged ? this.props.rowHasChanged : (row1, row2) => row1 !== row2,
-                });
-                this.state = {
-                    dataSource: ds.cloneWithRows(this.getRows()),
-                    isRefreshing: false,
-                    paginationStatus: PaginationStatus.firstLoad,
-                };
-            }
-        } else {
-            this.state = {
-                dataSource: [],
-                isRefreshing: false,
-                paginationStatus: PaginationStatus.firstLoad,
-            };
-        }
+        this.state = {
+            dataSource: [],
+            isRefreshing: false,
+            paginationStatus: PaginationStatus.firstLoad,
+        };
     }
 
     componentDidMount() {
         this.mounted = true;
-        this.props.onFetch(this.getPage(), this.postRefresh, this.endFetch);
+        if (this.props.firstLoader) {
+            this.props.onFetch(this.getPage(), this.postRefresh, this.endFetch);
+        }
     }
 
     componentWillUnmount() {
@@ -231,36 +190,20 @@ export default class UltimateListView extends Component {
         this.onRefresh();
     };
 
-    scrollTo = (option) => {
-        if (this.props.legacyImplementation) {
-            this.scrollView.scrollTo(option);
-        } else {
-            this.flatList.scrollToOffset(option);
-        }
+    scrollToOffset = (option) => {
+        this._flatList.scrollToOffset(option);
     };
 
     scrollToIndex = (option) => {
-        if (this.props.legacyImplementation) {
-            console.warn('Not support on ListView, use FlatList instead')
-        } else {
-            this.flatList.scrollToIndex(option);
-        }
+        this._flatList.scrollToIndex(option);
     };
 
     scrollToItem = (option) => {
-        if (this.props.legacyImplementation) {
-            console.warn('Not support on ListView, use FlatList instead')
-        } else {
-            this.flatList.scrollToItem(option);
-        }
+        this._flatList.scrollToItem(option);
     };
 
     scrollToEnd = (option) => {
-        if (this.props.legacyImplementation) {
-            this.scrollView.scrollToEnd(option);
-        } else {
-            this.flatList.scrollToEnd(option);
-        }
+        this._flatList.scrollToEnd(option);
     };
 
     onRefresh = () => {
@@ -293,11 +236,7 @@ export default class UltimateListView extends Component {
                 });
             } else {
                 if (this.props.refreshable) {
-                    if (this.props.legacyImplementation) {
-                        this.scrollView.endRefresh();
-                    } else {
-                        this.flatList._listRef._scrollRef.endRefresh();
-                    }
+                    this._flatList._listRef._scrollRef.endRefresh();
                 }
             }
         }
@@ -321,19 +260,7 @@ export default class UltimateListView extends Component {
         if (rows.length === 0) {
             paginationStatus = PaginationStatus.allLoaded;
         } else {
-            if (this.props.legacyImplementation) {
-                if (this.props.withSections === true) {
-                    mergedRows = mergeRecursive(this.getRows(), rows);
-                } else {
-                    mergedRows = this.getRows().concat(rows);
-                }
-
-                if (this.props.distinctRows) {
-                    mergedRows = this.props.distinctRows(mergedRows);
-                }
-            } else {
-                mergedRows = this.getRows().concat(rows);
-            }
+            mergedRows = this.getRows().concat(rows);
             paginationStatus = PaginationStatus.waiting;
         }
 
@@ -343,27 +270,11 @@ export default class UltimateListView extends Component {
     updateRows = (rows = [], paginationStatus) => {
         if (rows !== null) {
             this.setRows(rows);
-            if (this.props.legacyImplementation) {
-                if (this.props.withSections === true) {
-                    this.setState({
-                        dataSource: this.state.dataSource.cloneWithRowsAndSections(rows),
-                        isRefreshing: false,
-                        paginationStatus: paginationStatus
-                    });
-                } else {
-                    this.setState({
-                        dataSource: this.state.dataSource.cloneWithRows(rows),
-                        isRefreshing: false,
-                        paginationStatus: paginationStatus
-                    });
-                }
-            } else {
-                this.setState({
-                    dataSource: rows,
-                    isRefreshing: false,
-                    paginationStatus: paginationStatus
-                });
-            }
+            this.setState({
+                dataSource: rows,
+                isRefreshing: false,
+                paginationStatus: paginationStatus
+            });
         } else {
             this.setState({
                 isRefreshing: false,
@@ -379,24 +290,10 @@ export default class UltimateListView extends Component {
     updateDataSource(rows = []) {
         if (rows !== null) {
             this.setRows(rows);
-            if (this.props.legacyImplementation) {
-                if (this.props.withSections === true) {
-                    this.setState({
-                        isRefreshing: false,
-                        dataSource: this.state.dataSource.cloneWithRowsAndSections(rows)
-                    });
-                } else {
-                    this.setState({
-                        isRefreshing: false,
-                        dataSource: this.state.dataSource.cloneWithRows(rows)
-                    });
-                }
-            } else {
-                this.setState({
-                    isRefreshing: false,
-                    dataSource: rows
-                });
-            }
+            this.setState({
+                isRefreshing: false,
+                dataSource: rows
+            });
         } else {
             this.setState({
                 isRefreshing: false
@@ -409,23 +306,6 @@ export default class UltimateListView extends Component {
         if (this.props.pagination && this.props.autoPagination && this.state.paginationStatus === PaginationStatus.waiting) {
             this.onPaginate();
         }
-    };
-
-    emptyView = () => {
-        if (this.props.emptyView) {
-            return this.props.emptyView();
-        }
-
-        return (
-            <View style={styles.emptyView}>
-                <Text style={{alignSelf: 'center'}}>
-                    Sorry, there is no content to display
-                </Text>
-                <Text style={{alignSelf: 'center'}}>
-                    (Pull down to refresh)
-                </Text>
-            </View>
-        );
     };
 
     paginationFetchingView = () => {
@@ -478,70 +358,44 @@ export default class UltimateListView extends Component {
         return null;
     };
 
-    renderHeaderView = () => {
-        if (this.props.headerView) {
-            return this.props.headerView();
+    renderHeader = () => {
+        if (this.props.header) {
+            return this.props.header();
         }
 
         return null;
     };
 
-    renderSectionHeader = (sectionData, sectionID) => {
-        if (this.props.sectionHeaderView && this.props.legacyImplementation) {
-            if (this.props.refreshableMode === 'basic') {
-                return this.props.sectionHeaderView(sectionData, sectionID);
-            }
-            console.error('sectionHeader is not supported on AdvancedRefreshView, try to use basic RefreshControl instead');
+    renderItem = ({item, index, separators}) => {
+        if (this.props.item) {
+            return this.props.item(item, index, separators);
         }
 
         return null;
     };
 
-    renderItemView = ({item, index}) => {
-        if (this.props.rowView) {
-            return this.props.rowView(item, index);
-        }
-
-        return null;
-    };
-
-    renderRowView = (rowData, sectionID, rowID) => {
-        if (this.props.rowView) {
-            if (this.props.gridColumn > 1) {
-                const cellWidth = width / this.props.gridColumn;
-                const cellHeight = width / this.props.gridColumn;
-
-                return (
-                    <View style={this.props.cellContainerStyle ? this.props.cellContainerStyle : [styles.gridItem, {
-                            width: cellWidth,
-                            height: cellHeight
-                        }]
-                    }>
-                        {this.props.rowView(rowData, sectionID, rowID)}
-                    </View>
-                );
-            }
-
-            return this.props.rowView(rowData, sectionID, rowID);
-        }
-
-        return null;
-    };
-
-    renderSeparatorView = (sectionID, rowID) => {
+    renderSeparator = () => {
         if (this.props.separator) {
-            if (this.props.gridColumn > 1) {
+            if (this.props.numColumns > 1) {
                 return null;
             }
 
-            return this.props.separator(sectionID, rowID);
+            return this.props.separator();
         }
 
         return null;
     };
 
-    renderFooterView = () => {
-        if (this.state.paginationStatus === PaginationStatus.firstLoad && this.props.firstLoader === true) {
+    renderEmptyView = () => {
+        if (this.props.emptyView) {
+            return this.props.emptyView();
+        }
+
+        return null;
+    };
+
+    renderFooter= () => {
+        if (this.state.paginationStatus === PaginationStatus.firstLoad) {
             return this.paginationFetchingView();
         } else if (this.state.paginationStatus === PaginationStatus.waiting && this.props.autoPagination === false && (this.props.withSections === true || this.getRows().length > 0)) {
             return this.paginationWaitingView(this.onPaginate);
@@ -549,8 +403,6 @@ export default class UltimateListView extends Component {
             return this.paginationWaitingView();
         } else if (this.getRows().length !== 0 && this.state.paginationStatus === PaginationStatus.allLoaded) {
             return this.paginationAllLoadedView();
-        } else if (this.getRows().length === 0) {
-            return this.emptyView();
         }
 
         return null;
@@ -597,31 +449,20 @@ export default class UltimateListView extends Component {
 
     contentContainerStyle() {
         if (Platform.OS === 'ios') {
-            if (this.props.gridColumn > 1 && this.props.legacyImplementation) {
-                return styles.gridView;
-            }
             return null;
-        } else {
-            let gridViewStyle = {};
-            if (this.props.gridColumn > 1 && this.props.legacyImplementation) {
-                if (this.props.refreshableMode === 'basic') {
-                    return styles.gridView;
-                } else {
-                    console.error('AdvancedRefreshView of legacy ListView with grid layout only support iOS platform. Try to use FlatList instead, or use the default RefreshControl in Android.')
-                }
-            }
-
-            if (this.props.customRefreshViewHeight !== -1) {
-                return [{minHeight: height + this.props.customRefreshViewHeight}, gridViewStyle];
-            }
-            return [gridViewStyle, {minHeight: height + headerHeight}];
         }
+
+        if (this.props.customRefreshViewHeight !== -1) {
+            return {minHeight: height + this.props.customRefreshViewHeight};
+        }
+
+        return {minHeight: height + headerHeight};
     }
 
-    rowContainerStyle() {
-        if (this.props.gridColumn > 1) {
-            if (this.props.rowContainerStyle) {
-                return this.props.rowContainerStyle;
+    columnWrapperStyle() {
+        if (this.props.numColumns > 1) {
+            if (this.props.columnWrapperStyle) {
+                return this.props.columnWrapperStyle;
             }
 
             return {
@@ -634,46 +475,23 @@ export default class UltimateListView extends Component {
     }
 
     render() {
-        if (this.props.legacyImplementation) {
-            return (
-                <ListView renderScrollComponent={this.renderScrollComponent}
-                          pageSize={this.props.gridColumn}
-                          {...this.props}
-                          ref={(ref) => this.listView = ref}
-                          dataSource={this.state.dataSource}
-                          enableEmptySections={this.props.enableEmptySections}
-                          automaticallyAdjustContentInsets={false}
-                          scrollEnabled={this.props.scrollEnabled}
-                          canCancelContentTouches={true}
-                          renderRow={this.renderRowView}
-                          renderHeader={this.renderHeaderView}
-                          renderSectionHeader={this.renderSectionHeader}
-                          renderFooter={this.renderFooterView}
-                          renderSeparator={this.renderSeparatorView}
-                          refreshControl={this.renderRefreshControl()}
-                          onEndReached={this.onEndReached}
-                          onEndReachedThreshold={50}
-                          contentContainerStyle={this.contentContainerStyle()}
-                />
-            );
-        }
-
         return (
             <FlatList renderScrollComponent={this.renderScrollComponent}
                       {...this.props}
-                      ref={(ref) => this.flatList = ref}
+                      ref={(ref) => this._flatList = ref}
                       removeClippedSubviews={false}
                       data={this.state.dataSource}
-                      renderItem={this.renderItemView}
-                      ItemSeparatorComponent={this.renderSeparatorView}
-                      ListHeaderComponent={this.renderHeaderView}
-                      ListFooterComponent={this.renderFooterView}
+                      renderItem={this.renderItem}
+                      ItemSeparatorComponent={this.renderSeparator}
+                      ListHeaderComponent={this.renderHeader}
+                      ListFooterComponent={this.renderFooter}
+                      ListEmptyComponent={this.renderEmptyView}
                       onEndReached={this.onEndReached}
                       onEndReachedThreshold={0.1}
                       refreshControl={this.renderRefreshControl()}
                       contentContainerStyle={this.contentContainerStyle()}
-                      numColumns={this.props.gridColumn}
-                      columnWrapperStyle={this.rowContainerStyle()}
+                      numColumns={this.props.numColumns}
+                      columnWrapperStyle={this.columnWrapperStyle()}
             />
         );
     }
@@ -721,7 +539,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgray'
     },
     emptyView: {
-        marginTop: 20,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
