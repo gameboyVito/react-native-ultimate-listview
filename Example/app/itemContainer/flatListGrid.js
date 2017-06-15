@@ -1,7 +1,7 @@
 import React, {PureComponent} from "react";
 import {StyleSheet, View, Alert, TouchableOpacity, Image, TouchableHighlight, Dimensions} from "react-native";
 import {Button, ListItem, Left, Right, Body, Thumbnail, Text, Icon} from "native-base";
-import styles from "../appStyles";
+import styles from "../styles";
 
 const logo = require('../../img/default-portrait.png');
 const {width, height} = Dimensions.get('window');

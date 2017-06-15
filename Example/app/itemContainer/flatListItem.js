@@ -1,10 +1,10 @@
-import React, {Component} from "react";
+import React, {PureComponent} from "react";
 import {StyleSheet, View, Alert, TouchableOpacity, Image, TouchableHighlight} from "react-native";
 import {Button, ListItem, Left, Right, Body, Thumbnail, Text, Icon} from "native-base";
-import styles from "../appStyles";
+import styles from "../styles";
 
 const logo = require('../../img/default-portrait.png');
-export default class Example extends Component {
+export default class Example extends PureComponent {
     constructor(props) {
         super(props);
     }

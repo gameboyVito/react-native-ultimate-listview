@@ -1,27 +1,15 @@
 import React, {Component} from "react";
-import {
-    StyleSheet,
-    View,
-    Alert,
-    TouchableOpacity,
-    Image,
-    TouchableHighlight,
-    Dimensions,
-    SegmentedControlIOS,
-    Platform
-} from "react-native";
-import {Item, Input, Header, Left, Right, Text, Icon, Button} from "native-base";
-import styles from "./appStyles";
+import {Alert, Dimensions, View} from "react-native";
+import {Button, Header, Icon, Input, Item, Left, Right, Text} from "native-base";
+import styles from "./styles";
 import LoadingSpinner from "./loadingSpinner";
-import FlatListItem from "./flatList/flatListItem";
-import FlatListGrid from "./flatList/flatListGrid";
-import ListViewItem from "./listView/ListViewItem";
-import ListViewGrid from "./listView/ListViewGrid";
+import ControlTab from "./controlTab";
+import FlatListItem from "./itemContainer/flatListItem";
+import FlatListGrid from "./itemContainer/flatListGrid";
 import UltimateListView from "react-native-ultimate-listview";
 //import UltimateListView from "../src/ultimateListView";
-//import UltimateListView from "../src/copy";
 
-const logo = require('../img/default-portrait.png');
+
 const {width, height} = Dimensions.get('window');
 export default class Example extends Component {
 
@@ -39,7 +27,7 @@ export default class Example extends Component {
         })
     };
 
-    onFetch = async(page = 1, startFetch, abortFetch) => {
+    onFetch = async (page = 1, startFetch, abortFetch) => {
         try {
             //This is required to determinate whether the first loading list is all loaded.
             let pageLimit = 24;
@@ -83,87 +71,40 @@ export default class Example extends Component {
         if (this.state.layout === 'grid') {
             index = num / 3;
         }
-        this.listView.scrollToIndex({viewPosition: 0, index: Math.floor(index)});
+        try {
+            this.listView.scrollToIndex({viewPosition: 0, index: Math.floor(index)});
+        } catch (err) {
+            console.warn(err);
+        }
     };
 
-    //Only use this to render a FlatList, make sure your component extends to PureComponent instead of Component
-    renderItem = (item, index) => {
+    renderItem = (item, index, separator) => {
+        console.log(separator);
+
         if (this.state.layout === 'list') {
             return (
-                <FlatListItem item={item} index={index} onPress={this.onPressFlatItem}/>
+                <FlatListItem item={item} index={index} onPress={this.onPressItem}/>
             );
         } else if (this.state.layout === 'grid') {
             return (
-                <FlatListGrid item={item} index={index} onPress={this.onPressFlatItem}/>
+                <FlatListGrid item={item} index={index} onPress={this.onPressItem}/>
             );
         }
     };
 
-    onPressFlatItem = (type, index, item) => {
+    onPressItem = (type, index, item) => {
         Alert.alert(type, `You're pressing on ${item}`);
     };
 
-    //Only use this to render a ListView in List mode, make sure to set legacyImplementation={true}
-    renderRowView = (rowData, sectionID, rowID) => {
-        if (this.state.layout === 'list') {
-            return (
-                <ListViewItem item={rowData} index={rowID} onPress={this.onPressListItem}/>
-            );
-        } else if (this.state.layout === 'grid') {
-            return (
-                <ListViewGrid item={rowData} index={rowID} onPress={this.onPressListItem}/>
-            );
-        }
-    };
-
-    onPressListItem = (type, rowID, rowData) => {
-        Alert.alert(type, `You're pressing on ${rowData}`);
-    };
-
     renderControlTab = () => {
-        if (Platform.OS === 'ios') {
-            return (
-                <SegmentedControlIOS
-                    style={{flex: 0.7}}
-                    values={['list', 'grid']}
-                    tintColor='#57a8f5'
-                    selectedIndex={this.state.layout === 'list' ? 0 : 1}
-                    onChange={this.onChangeLayout}
-                />
-            );
-        } else {
-            return (
-                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                    <Button title="list"
-                            small
-                            light={this.state.layout !== 'list'}
-                            onPress={() => this.onChangeLayout({nativeEvent: {selectedSegmentIndex: 0}})}
-                            style={{
-                                width: 150,
-                                justifyContent: 'center',
-                                borderTopLeftRadius: 5,
-                                borderBottomLeftRadius: 5
-                            }}>
-                        <Text style={{color: this.state.layout === 'list' ? 'white' : 'black'}}>List</Text>
-                    </Button>
-                    <Button title="grid"
-                            small
-                            light={this.state.layout !== 'grid'}
-                            onPress={() => this.onChangeLayout({nativeEvent: {selectedSegmentIndex: 1}})}
-                            style={{
-                                width: 150,
-                                justifyContent: 'center',
-                                borderTopRightRadius: 5,
-                                borderBottomRightRadius: 5
-                            }}>
-                        <Text style={{color: this.state.layout === 'grid' ? 'white' : 'black'}}>Grid</Text>
-                    </Button>
-                </View>
-            );
-        }
+        return (
+            <ControlTab layout={this.state.layout}
+                        onChangeLayout={this.onChangeLayout}
+            />
+        );
     };
 
-    renderHeaderView = () => {
+    renderHeader = () => {
         return (
             <View>
                 <View style={styles.header}>
@@ -185,22 +126,6 @@ export default class Example extends Component {
         );
     };
 
-    renderSectionHeaderView = (sectionData, sectionID) => {
-        return (
-            <View style={{
-                flexDirection: 'row',
-                backgroundColor: 'gray',
-                alignItems: 'center',
-                height: 30,
-                width: width,
-                marginBottom: 10,
-                paddingLeft: 10
-            }}>
-                <Text style={{color: 'white'}}>Hello World</Text>
-            </View>
-        );
-    };
-
     render() {
         return (
             <View style={styles.container}>
@@ -218,22 +143,12 @@ export default class Example extends Component {
                     refreshableMode="advanced" //basic or advanced
 
                     //-------FlatList--------
-                    rowView={this.renderItem}  //this takes two params (item, index)
-                    gridColumn={this.state.layout === 'list' ? 1 : 3} //to use grid layout, simply set gridColumn > 1
-                    rowContainerStyle={{height: 120}}  //use this line to customise style of each row in FlatList, only work when gridColumn > 1
-                    //-----------------------
-
-
-                    //----Legacy ListView----
-                    //legacyImplementation //uncomment it to use the old fashion ListView (poor performance)
-                    //rowView={this.renderRowView}  //this takes three params (rowData, sectionID, rowID)
-                    //gridColumn={this.state.layout === 'list' ? 1 : 3} //to use grid layout, simply set gridColumn > 1
-                    //cellContainerStyle={{width: width / 3, height: width / 3}}  //use this line to customise style of each cell
-                    //-----------------------
-
+                    item={this.renderItem}  //this takes two params (item, index)
+                    numColumns={this.state.layout === 'list' ? 1 : 3} //to use grid layout, simply set gridColumn > 1
+                    columnWrapperStyle={{height: 120}}  //use this line to customise style of each row in FlatList, only work when gridColumn > 1
 
                     //----Extra Config----
-                    headerView={this.renderHeaderView}
+                    header={this.renderHeader}
                     paginationFetchingView={this.renderPaginationFetchingView}
                     //sectionHeaderView={this.renderSectionHeaderView}   //not supported on FlatList
                     //paginationFetchingView={this.renderPaginationFetchingView}
