@@ -30,9 +30,10 @@ const PaginationStatus = {
 const headerHeight = 80;
 
 export default class RefreshableScrollView extends ScrollView {
-    offsetY = 0;
-    isRefreshing = false;
-    dragFlag = false;
+
+    _offsetY = 0;
+    _isRefreshing = false;
+    _dragFlag = false;
 
     constructor(props) {
         super(props);
@@ -62,9 +63,9 @@ export default class RefreshableScrollView extends ScrollView {
     onScroll = (event) => {
         //console.log('onScroll()');
         const y = event.nativeEvent.contentOffset.y;
-        this.offsetY = y;
-        if (this.dragFlag) {
-            if (!this.isRefreshing) {
+        this._offsetY = y;
+        if (this._dragFlag) {
+            if (!this._isRefreshing) {
                 const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : headerHeight;
                 if (y <= -height) {
                     this.setState({
@@ -96,8 +97,8 @@ export default class RefreshableScrollView extends ScrollView {
 
     onScrollBeginDrag = (event) => {
         //console.log('onScrollBeginDrag()');
-        this.dragFlag = true;
-        this.offsetY = event.nativeEvent.contentOffset.y;
+        this._dragFlag = true;
+        this._offsetY = event.nativeEvent.contentOffset.y;
         if (this.props.onScrollBeginDrag) {
             this.props.onScrollBeginDrag(event)
         }
@@ -105,13 +106,13 @@ export default class RefreshableScrollView extends ScrollView {
 
     onScrollEndDrag = (event) => {
         //console.log('onScrollEndDrag()');
-        this.dragFlag = false;
+        this._dragFlag = false;
         const y = event.nativeEvent.contentOffset.y;
-        this.offsetY = y;
+        this._offsetY = y;
         const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : headerHeight;
-        if (!this.isRefreshing) {
+        if (!this._isRefreshing) {
             if (this.state.refreshStatus === RefreshStatus.releaseToRefresh) {
-                this.isRefreshing = true;
+                this._isRefreshing = true;
                 this.setState({
                     refreshStatus: RefreshStatus.refreshing,
                     refreshTitle: this.props.refreshableTitleRefreshing
@@ -140,7 +141,7 @@ export default class RefreshableScrollView extends ScrollView {
     onRefreshEnd = () => {
         //console.log('onRefreshEnd()');
         if (this.state.refreshStatus === RefreshStatus.refreshing) {
-            this.isRefreshing = false;
+            this._isRefreshing = false;
             const now = new Date().getTime();
             this.setState({
                 refreshStatus: RefreshStatus.pullToRefresh,
@@ -167,7 +168,7 @@ export default class RefreshableScrollView extends ScrollView {
                     right: 0,
                     height: this.props.customRefreshViewHeight,
                 }}>
-                    {this.props.customRefreshView(this.state.refresStatus, this._offsetY)}
+                    {this.props.customRefreshView(this.state.refreshStatus, this._offsetY)}
                 </View>
             );
         }
