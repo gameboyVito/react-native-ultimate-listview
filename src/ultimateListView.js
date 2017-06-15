@@ -288,17 +288,10 @@ export default class UltimateListView extends Component {
     };
 
     updateDataSource(rows = []) {
-        if (rows !== null) {
-            this.setRows(rows);
-            this.setState({
-                isRefreshing: false,
-                dataSource: rows
-            });
-        } else {
-            this.setState({
-                isRefreshing: false
-            });
-        }
+        this.setRows(rows);
+        this.setState({
+            dataSource: rows
+        });
     }
 
     onEndReached = () => {
@@ -394,7 +387,7 @@ export default class UltimateListView extends Component {
         return null;
     };
 
-    renderFooter= () => {
+    renderFooter = () => {
         if (this.state.paginationStatus === PaginationStatus.firstLoad) {
             return this.paginationFetchingView();
         } else if (this.state.paginationStatus === PaginationStatus.waiting && this.props.autoPagination === false && (this.props.withSections === true || this.getRows().length > 0)) {

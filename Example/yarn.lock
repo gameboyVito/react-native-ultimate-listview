@@ -953,7 +953,7 @@ center-align@^0.1.1:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
 
-chalk@1.1.1, chalk@^1.1.1:
+chalk@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-1.1.1.tgz#509afb67066e7499f7eb3535c77445772ae2d019"
   dependencies:
@@ -963,7 +963,7 @@ chalk@1.1.1, chalk@^1.1.1:
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
 
-chalk@^1.0.0, chalk@^1.1.0, chalk@^1.1.3:
+chalk@^1.0.0, chalk@^1.1.0, chalk@^1.1.1, chalk@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-1.1.3.tgz#a8115c55e4a702fe4d150abd3872822a7e09fc98"
   dependencies:
@@ -3079,9 +3079,9 @@ react-native-keyboard-aware-scroll-view@0.2.9:
   dependencies:
     react-timer-mixin "^0.13.3"
 
-react-native-ultimate-listview@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/react-native-ultimate-listview/-/react-native-ultimate-listview-3.0.2.tgz#76c822bde443f8175d10caf53f122209a79bd7ca"
+react-native-ultimate-listview@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-ultimate-listview/-/react-native-ultimate-listview-3.1.0.tgz#82d5f4ca87888e221bcd2b5c521b25b731a95f86"
 
 react-native-vector-icons@~4.1.1:
   version "4.1.1"
