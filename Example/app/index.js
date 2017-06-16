@@ -21,11 +21,8 @@ export default class Example extends Component {
         }
     }
 
-    sleep = (time) => {
-        return new Promise(resolve => {
-            setTimeout(() => resolve(), time);
-        })
-    };
+    sleep = (time) => new Promise(resolve => setTimeout(() => resolve(), time));
+
 
     onFetch = async (page = 1, startFetch, abortFetch) => {
         try {
@@ -79,8 +76,6 @@ export default class Example extends Component {
     };
 
     renderItem = (item, index, separator) => {
-        console.log(separator);
-
         if (this.state.layout === 'list') {
             return (
                 <FlatListItem item={item} index={index} onPress={this.onPressItem}/>
@@ -137,13 +132,12 @@ export default class Example extends Component {
                 </Header>
                 <UltimateListView
                     ref={(ref) => this.listView = ref}
-                    key={this.state.layout} //this is important to distinguish different FlatList
+                    key={this.state.layout} //this is important to distinguish different FlatList, default is numColumns
                     onFetch={this.onFetch}
                     keyExtractor={(item, index) => `${this.state.layout} - ${item}`}  //this is required when you are using FlatList
                     refreshableMode="advanced" //basic or advanced
 
-                    //-------FlatList--------
-                    item={this.renderItem}  //this takes two params (item, index)
+                    item={this.renderItem}  //this takes three params (item, index, separator)
                     numColumns={this.state.layout === 'list' ? 1 : 3} //to use grid layout, simply set gridColumn > 1
                     columnWrapperStyle={{height: 120}}  //use this line to customise style of each row in FlatList, only work when gridColumn > 1
 
