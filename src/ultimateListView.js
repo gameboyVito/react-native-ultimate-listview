@@ -455,6 +455,7 @@ export default class UltimateListView extends Component {
     render() {
         return (
             <FlatList renderScrollComponent={this.renderScrollComponent}
+                      onEndReachedThreshold={0.1}
                       {...this.props}
                       key={this.props.numColumns}
                       ref={(ref) => this._flatList = ref}
@@ -466,7 +467,6 @@ export default class UltimateListView extends Component {
                       ListFooterComponent={this.renderFooter}
                       ListEmptyComponent={this.renderEmptyView}
                       onEndReached={this.onEndReached}
-                      onEndReachedThreshold={0.1}
                       refreshControl={this.renderRefreshControl()}
                       contentContainerStyle={this.contentContainerStyle()}
                       numColumns={this.props.numColumns}

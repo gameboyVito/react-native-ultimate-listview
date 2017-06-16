@@ -10,6 +10,13 @@ This is an **enhanced FlatList** with all excellent extra features, comparing to
 
 
 
+**Quick installation**
+
+- If on react-native < 0.43: `yarn add react-native-ultimate-listview@3.0.2`
+- If on react-native >= 0.43 `yarn add react-native-ultimate-listview@3.1.2`
+
+
+
 # Demo
 
 |              | iOS                                      | Android                                  |
@@ -49,8 +56,7 @@ I have found some artical to explain why you need to use FlatList, instead of th
 # Breaking Changes
 
 - [ChangeLog](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/ChangeLog)
-
-
+- See the **Release Note**
 
 
 # Contribution
