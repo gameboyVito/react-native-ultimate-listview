@@ -380,7 +380,7 @@ export default class UltimateListView extends Component {
     };
 
     renderEmptyView = () => {
-        if (this.props.emptyView) {
+        if (this.state.paginationStatus !== PaginationStatus.firstLoad && this.props.emptyView) {
             return this.props.emptyView();
         }
 
@@ -452,25 +452,11 @@ export default class UltimateListView extends Component {
         return {minHeight: height + headerHeight};
     }
 
-    columnWrapperStyle() {
-        if (this.props.numColumns > 1) {
-            if (this.props.columnWrapperStyle) {
-                return this.props.columnWrapperStyle;
-            }
-
-            return {
-                justifyContent: 'flex-start',
-                height: 120,
-                paddingHorizontal: 0,
-                paddingTop: 20
-            }
-        }
-    }
-
     render() {
         return (
             <FlatList renderScrollComponent={this.renderScrollComponent}
                       {...this.props}
+                      key={this.props.numColumns}
                       ref={(ref) => this._flatList = ref}
                       removeClippedSubviews={false}
                       data={this.state.dataSource}
@@ -484,7 +470,7 @@ export default class UltimateListView extends Component {
                       refreshControl={this.renderRefreshControl()}
                       contentContainerStyle={this.contentContainerStyle()}
                       numColumns={this.props.numColumns}
-                      columnWrapperStyle={this.columnWrapperStyle()}
+                      columnWrapperStyle={this.columnWrapperStyle}
             />
         );
     }
