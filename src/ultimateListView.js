@@ -456,8 +456,8 @@ export default class UltimateListView extends Component {
         return (
             <FlatList renderScrollComponent={this.renderScrollComponent}
                       onEndReachedThreshold={0.1}
-                      {...this.props}
                       key={this.props.numColumns}
+                      {...this.props}
                       ref={(ref) => this._flatList = ref}
                       removeClippedSubviews={false}
                       data={this.state.dataSource}
