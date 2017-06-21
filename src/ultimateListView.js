@@ -390,11 +390,11 @@ export default class UltimateListView extends Component {
     renderFooter = () => {
         if (this.state.paginationStatus === PaginationStatus.firstLoad) {
             return this.paginationFetchingView();
-        } else if (this.state.paginationStatus === PaginationStatus.waiting && this.props.autoPagination === false && (this.props.withSections === true || this.getRows().length > 0)) {
+        } else if (this.state.paginationStatus === PaginationStatus.waiting && this.props.autoPagination === false) {
             return this.paginationWaitingView(this.onPaginate);
-        } else if (this.state.paginationStatus === PaginationStatus.waiting && this.props.autoPagination === true && (this.props.withSections === true || this.getRows().length > 0)) {
+        } else if (this.state.paginationStatus === PaginationStatus.waiting && this.props.autoPagination === true) {
             return this.paginationWaitingView();
-        } else if (this.getRows().length !== 0 && this.state.paginationStatus === PaginationStatus.allLoaded) {
+        } else if (this.state.paginationStatus === PaginationStatus.allLoaded) {
             return this.paginationAllLoadedView();
         }
 
@@ -456,8 +456,8 @@ export default class UltimateListView extends Component {
         return (
             <FlatList renderScrollComponent={this.renderScrollComponent}
                       onEndReachedThreshold={0.1}
-                      key={this.props.numColumns}
                       {...this.props}
+                      key={this.props.numColumns}
                       ref={(ref) => this._flatList = ref}
                       removeClippedSubviews={false}
                       data={this.state.dataSource}
@@ -470,8 +470,7 @@ export default class UltimateListView extends Component {
                       refreshControl={this.renderRefreshControl()}
                       contentContainerStyle={this.contentContainerStyle()}
                       numColumns={this.props.numColumns}
-                      columnWrapperStyle={this.columnWrapperStyle}
-            />
+                      columnWrapperStyle={this.columnWrapperStyle}/>
         );
     }
 }
