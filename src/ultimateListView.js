@@ -78,13 +78,13 @@ export default class UltimateListView extends Component {
         paginationBtnText: 'Load more...',
 
         //GridView
-        numColumns: 1,
-        columnWrapperStyle: null
+        numColumns: 1
     };
 
     static propTypes = {
         initialNumToRender: React.PropTypes.number,
         horizontal: React.PropTypes.bool,
+        gap: React.PropTypes.number,
 
         firstLoader: React.PropTypes.bool,
         scrollEnabled: React.PropTypes.bool,
@@ -139,8 +139,7 @@ export default class UltimateListView extends Component {
         paginationBtnText: React.PropTypes.string,
 
         //GridView
-        numColumns: React.PropTypes.number,
-        columnWrapperStyle: React.PropTypes.object
+        numColumns: React.PropTypes.number
     };
 
     constructor(props) {
@@ -453,11 +452,12 @@ export default class UltimateListView extends Component {
     }
 
     render() {
+        const {numColumns, gap} = this.props;
         return (
             <FlatList renderScrollComponent={this.renderScrollComponent}
                       onEndReachedThreshold={0.1}
+                      key={numColumns}
                       {...this.props}
-                      key={this.props.numColumns}
                       ref={(ref) => this._flatList = ref}
                       removeClippedSubviews={false}
                       data={this.state.dataSource}
@@ -469,8 +469,7 @@ export default class UltimateListView extends Component {
                       onEndReached={this.onEndReached}
                       refreshControl={this.renderRefreshControl()}
                       contentContainerStyle={this.contentContainerStyle()}
-                      numColumns={this.props.numColumns}
-                      columnWrapperStyle={this.columnWrapperStyle}/>
+                      numColumns={numColumns}/>
         );
     }
 }
