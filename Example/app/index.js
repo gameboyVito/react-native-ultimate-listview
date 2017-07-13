@@ -139,7 +139,6 @@ export default class Example extends Component {
 
                     item={this.renderItem}  //this takes three params (item, index, separator)
                     numColumns={this.state.layout === 'list' ? 1 : 3} //to use grid layout, simply set gridColumn > 1
-                    columnWrapperStyle={{height: 120}}  //use this line to customise style of each row in FlatList, only work when gridColumn > 1
 
                     //----Extra Config----
                     header={this.renderHeader}

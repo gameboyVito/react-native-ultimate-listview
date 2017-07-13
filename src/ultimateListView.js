@@ -84,7 +84,6 @@ export default class UltimateListView extends Component {
     static propTypes = {
         initialNumToRender: React.PropTypes.number,
         horizontal: React.PropTypes.bool,
-        gap: React.PropTypes.number,
 
         firstLoader: React.PropTypes.bool,
         scrollEnabled: React.PropTypes.bool,
@@ -452,7 +451,7 @@ export default class UltimateListView extends Component {
     }
 
     render() {
-        const {numColumns, gap} = this.props;
+        const {numColumns} = this.props;
         return (
             <FlatList renderScrollComponent={this.renderScrollComponent}
                       onEndReachedThreshold={0.1}
