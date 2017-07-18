@@ -13,7 +13,7 @@ This is an **enhanced FlatList** with all excellent extra features, comparing to
 **Quick installation**
 
 - If on react-native < 0.43: `yarn add react-native-ultimate-listview@3.0.2`
-- If on react-native >= 0.43 `yarn add react-native-ultimate-listview@3.1.5`
+- If on react-native >= 0.43 `yarn add react-native-ultimate-listview@3.1.6`
 
 
 

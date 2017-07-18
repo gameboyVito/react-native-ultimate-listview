@@ -253,7 +253,7 @@ export default class UltimateListView extends Component {
 
     postPaginate = (rows = [], pageLimit) => {
         this.setPage(this.getPage() + 1);
-        let mergedRows = null;
+        let mergedRows;
         let paginationStatus;
         if (rows.length === 0) {
             paginationStatus = PaginationStatus.allLoaded;
@@ -265,8 +265,8 @@ export default class UltimateListView extends Component {
         this.updateRows(mergedRows, paginationStatus);
     };
 
-    updateRows = (rows = [], paginationStatus) => {
-        if (rows !== null) {
+    updateRows = (rows, paginationStatus) => {
+        if (rows) {
             this.setRows(rows);
             this.setState({
                 dataSource: rows,
@@ -275,6 +275,7 @@ export default class UltimateListView extends Component {
             });
         } else {
             this.setState({
+                dataSource: this.getRows().slice(),
                 isRefreshing: false,
                 paginationStatus: paginationStatus
             });
