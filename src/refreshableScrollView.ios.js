@@ -16,7 +16,7 @@ import {dateFormat} from "./util";
 
 
 const {width, height}=Dimensions.get('window');
-const dateKey = 'ultimateRefreshDate';
+const DATE_KEY = 'ultimateRefreshDate';
 const RefreshStatus = {
     pullToRefresh: 0,
     releaseToRefresh: 1,
@@ -50,11 +50,15 @@ export default class RefreshableScrollView extends ScrollView {
     }
 
     componentDidMount() {
-        AsyncStorage.getItem(dateKey, (error, result) => {
+        AsyncStorage.getItem(DATE_KEY, (error, result) => {
             if (result) {
                 result = parseInt(result);
                 this.setState({
                     date: dateFormat(new Date(result), this.props.dateFormat),
+                });
+            } else {
+                this.setState({
+                    date: dateFormat(new Date(), this.props.dateFormat),
                 });
             }
         });
@@ -148,7 +152,7 @@ export default class RefreshableScrollView extends ScrollView {
                 refreshTitle: this.props.refreshableTitlePull,
                 date: dateFormat(now, this.props.dateFormat)
             });
-            AsyncStorage.setItem(dateKey, now.toString());
+            AsyncStorage.setItem(DATE_KEY, now.toString());
             Animated.timing(this.state.arrowAngle, {
                 toValue: 0,
                 duration: 50,
@@ -187,7 +191,7 @@ export default class RefreshableScrollView extends ScrollView {
     }
 
     renderSpinner() {
-        if (this.state.refreshStatus == RefreshStatus.refreshing) {
+        if (this.state.refreshStatus === RefreshStatus.refreshing) {
             return (
                 <ActivityIndicator style={{marginRight: 10}}/>
             )

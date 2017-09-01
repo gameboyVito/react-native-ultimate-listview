@@ -14,7 +14,7 @@ import {dateFormat} from "./util";
 
 
 const {width, height} = Dimensions.get('window');
-const dateKey = 'ultimateRefreshDate';
+const DATE_KEY = 'ultimateRefreshDate';
 const RefreshStatus = {
     pullToRefresh: 0,
     releaseToRefresh: 1,
@@ -49,11 +49,15 @@ export default class RefreshableScrollView extends ScrollView {
     componentDidMount() {
         const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : headerHeight;
         setTimeout(() => this.refs.scrollView.scrollTo({x: 0, y: height, animated: true}), 1);
-        AsyncStorage.getItem(dateKey, (error, result) => {
+        AsyncStorage.getItem(DATE_KEY, (error, result) => {
             if (result) {
                 result = parseInt(result);
                 this.setState({
                     date: dateFormat(new Date(result), this.props.dateFormat),
+                });
+            } else {
+                this.setState({
+                    date: dateFormat(new Date(), this.props.dateFormat),
                 });
             }
         });
@@ -69,7 +73,7 @@ export default class RefreshableScrollView extends ScrollView {
         if (this._dragFlag) {
             if (!this._isRefreshing) {
                 if (y <= 10) {
-                    if (this.state.refresStatus != RefreshStatus.releaseToRefresh) {
+                    if (this.state.refresStatus !== RefreshStatus.releaseToRefresh) {
                         this.setState({
                             refreshStatus: RefreshStatus.releaseToRefresh,
                             refreshTitle: this.props.refreshableTitleRelease
@@ -81,7 +85,7 @@ export default class RefreshableScrollView extends ScrollView {
                         }).start();
                     }
                 } else {
-                    if (this.state.refresStatus != RefreshStatus.pullToRefresh) {
+                    if (this.state.refresStatus !== RefreshStatus.pullToRefresh) {
                         this.setState({
                             refreshStatus: RefreshStatus.pullToRefresh,
                             refreshTitle: this.props.refreshableTitlePull
@@ -122,7 +126,7 @@ export default class RefreshableScrollView extends ScrollView {
         this._offsetY = y - height;
         //console.log('onScrollEndDrag()' + y);
         if (!this._isRefreshing) {
-            if (this.state.refreshStatus == RefreshStatus.releaseToRefresh) {
+            if (this.state.refreshStatus === RefreshStatus.releaseToRefresh) {
                 this._isRefreshing = true;
                 this.setState({
                     refreshStatus: RefreshStatus.refreshing,
@@ -163,7 +167,7 @@ export default class RefreshableScrollView extends ScrollView {
                 refreshTitle: this.props.refreshableTitlePull,
                 date: dateFormat(now, this.props.dateFormat)
             });
-            AsyncStorage.setItem(dateKey, now.toString());
+            AsyncStorage.setItem(DATE_KEY, now.toString());
             Animated.timing(this.state.arrowAngle, {
                 toValue: 0,
                 duration: 50,

@@ -13,7 +13,7 @@ This is an **enhanced FlatList** with all excellent extra features, comparing to
 **Quick installation**
 
 - If on react-native < 0.43: `yarn add react-native-ultimate-listview@3.0.2`
-- If on react-native >= 0.43 `yarn add react-native-ultimate-listview@3.1.6`
+- If on react-native >= 0.43 `yarn add react-native-ultimate-listview@3.1.7`
 
 
 
@@ -27,11 +27,11 @@ This is an **enhanced FlatList** with all excellent extra features, comparing to
 
 # Why FlatList
 
-I have found some artical to explain why you need to use FlatList, instead of the legacy ListView. There are some obvious reasons:
+I have found some articles to explain why you need to use FlatList, instead of the legacy ListView. There are some obvious reasons:
 
-1. FlatList just like the **UITableView** or **RecylerView**, which can dramatically reduce memory usage. It also provides more soomth animation when you have an extremely long list.
+1. FlatList just like the **UICollectionView** or **RecyclerView**, which can dramatically reduce memory usage. It also provides more soomth animation when you have an extremely long list.
 2. FlatList supports scrollToIndex function, which is pretty convenient when you want to scroll to an item with index, instead of depending the y-offset.
-3. FlatList recommend developer to use PureComponent to reduce unnessary re-rendering, this can really boost the performance and make your app run faster.
+3. FlatList recommend developer to use PureComponent to reduce unnecessary re-rendering, this can really boost the performance and make your app run faster.
 
 * [Chinese article](https://segmentfault.com/a/1190000008589705) 
 * [Official article](https://facebook.github.io/react-native/blog/2017/03/13/better-list-views.html) 
