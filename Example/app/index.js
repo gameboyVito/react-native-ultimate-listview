@@ -6,8 +6,8 @@ import LoadingSpinner from "./loadingSpinner";
 import ControlTab from "./controlTab";
 import FlatListItem from "./itemContainer/flatListItem";
 import FlatListGrid from "./itemContainer/flatListGrid";
-//import UltimateListView from "react-native-ultimate-listview";
-import UltimateListView from "../src/ultimateListView";
+import UltimateListView from "react-native-ultimate-listview";
+//import UltimateListView from "../src/ultimateListView";
 
 
 const {width, height} = Dimensions.get('window');
