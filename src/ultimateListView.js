@@ -19,7 +19,7 @@ const PaginationStatus = {
     waiting: 1,
     allLoaded: 2
 };
-const headerHeight = 80;
+
 export default class UltimateListView extends Component {
 
     static defaultProps = {
@@ -53,15 +53,18 @@ export default class UltimateListView extends Component {
         customRefreshControl: null,
 
         //Advanced RefreshView
-        refreshableTitlePull: 'Pull down to refresh',
+        refreshableTitlePull: 'Pull to refresh',
         refreshableTitleRefreshing: 'Loading...',
-        refreshableTitleRelease: 'Release to refresh',
+        refreshableTitleRelease: 'Release to load',
         customRefreshView: null,
-        customRefreshViewHeight: -1,
-        displayDate: true,
+        displayDate: false,
         dateFormat: 'yyyy-MM-dd hh:mm',
-        dateTitle: 'Last updated time: ',
-        arrowImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABD0lEQVRIS92V7w2BMRCHHxMwAhNgAmxgBCuYABtYwQY2wASYgBGYgPySEpq2d6+8EXFf+qHXe+5vr8GXpPElDj8JGgIzQKdkDSyAgycrVSKSwW5kdPcCLvKqgG4JS2egU3dEKZAYLmddSkAbOGU8d9lwKYU6bDKgvqch6gCNgK1Vp58DzcMMpRyfAsu6IiqBNLS6rzxH6rA90LIeZ+4vYbZ0PiVVo14AfcjhGsbBBAlQSpXlQLJmpa5Tyw4sq9H9Cpik3pRAqpFg8UeaYx/DYL+l7KFszZHqJVjTiCxZF6sZYpsWTBDtqOJesiJ6QHMwF8T9xQdaDHNDqoKkL5hWuAo+BrT4XOJNnctYSen/QHcJ7i8bTYJ5dAAAAABJRU5ErkJggg==',
+        dateTitle: 'Last updated: ',
+        arrowImageSource: require('./downArrow.png'),
+        arrowImageStyle: undefined,
+        refreshViewStyle: undefined,
+        dateStyle: undefined,
+        refreshViewHeight: 80,
 
         //Pagination
         pagination: true,
@@ -205,7 +208,7 @@ export default class UltimateListView extends Component {
     };
 
     onRefresh = () => {
-        //console.log('onRefresh()');
+        console.log('onRefresh()');
         if (this.mounted) {
             this.setState({
                 isRefreshing: true
@@ -228,26 +231,25 @@ export default class UltimateListView extends Component {
     endFetch = () => {
         //console.log('endRefresh()');
         if (this.mounted) {
-            if (this.props.refreshableMode === 'basic') {
-                this.setState({
-                    isRefreshing: false
-                });
-            } else {
-                if (this.props.refreshable) {
-                    this._flatList._listRef._scrollRef.endRefresh();
-                }
+            this.setState({isRefreshing: false});
+            if (this.props.refreshableMode === 'advanced' && this._flatList._listRef._scrollRef.onRefreshEnd) {
+                this._flatList._listRef._scrollRef.onRefreshEnd();
             }
         }
     };
 
     onPaginate = () => {
-        if (this.state.paginationStatus === PaginationStatus.allLoaded) {
-            return null;
-        } else {
-            this.setState({
-                paginationStatus: PaginationStatus.waiting
-            });
+        if (this.state.paginationStatus !== PaginationStatus.allLoaded && !this.state.isRefreshing) {
+            console.log('onPaginate()');
+            this.setState({paginationStatus: PaginationStatus.waiting});
             this.props.onFetch(this.getPage() + 1, this.postPaginate, this.endFetch);
+        }
+    };
+
+    onEndReached = () => {
+        //console.log('onEndReached()');
+        if (this.props.pagination && this.props.autoPagination && this.state.paginationStatus === PaginationStatus.waiting) {
+            this.onPaginate();
         }
     };
 
@@ -292,13 +294,6 @@ export default class UltimateListView extends Component {
             dataSource: rows
         });
     }
-
-    onEndReached = () => {
-        //console.log('onEndReached()');
-        if (this.props.pagination && this.props.autoPagination && this.state.paginationStatus === PaginationStatus.waiting) {
-            this.onPaginate();
-        }
-    };
 
     paginationFetchingView = () => {
         if (this.props.paginationFetchingView) {
@@ -406,7 +401,6 @@ export default class UltimateListView extends Component {
                 <RefreshableScrollView
                     {...props}
                     onRefresh={this.onRefresh}
-                    paginationStatus={this.state.paginationStatus}
                     ref={(ref) => this.scrollView = ref}/>
             );
         }
@@ -439,27 +433,14 @@ export default class UltimateListView extends Component {
         return null;
     };
 
-    contentContainerStyle() {
-        if (Platform.OS === 'ios') {
-            return null;
-        }
-
-        if (this.props.customRefreshViewHeight !== -1) {
-            return {minHeight: height + this.props.customRefreshViewHeight};
-        }
-
-        return {minHeight: height + headerHeight};
-    }
-
     render() {
         const {numColumns} = this.props;
         return (
             <FlatList renderScrollComponent={this.renderScrollComponent}
-                      onEndReachedThreshold={0.1}
                       key={numColumns}
+                      onEndReachedThreshold={0.1}
                       {...this.props}
                       ref={(ref) => this._flatList = ref}
-                      removeClippedSubviews={false}
                       data={this.state.dataSource}
                       renderItem={this.renderItem}
                       ItemSeparatorComponent={this.renderSeparator}
@@ -468,7 +449,6 @@ export default class UltimateListView extends Component {
                       ListEmptyComponent={this.renderEmptyView}
                       onEndReached={this.onEndReached}
                       refreshControl={this.renderRefreshControl()}
-                      contentContainerStyle={this.contentContainerStyle()}
                       numColumns={numColumns}/>
         );
     }

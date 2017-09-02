@@ -1,21 +1,21 @@
 import React, {Component} from "react";
 import {
-    StyleSheet,
-    Text,
-    View,
-    ScrollView,
     ActivityIndicator,
     Animated,
-    Easing,
-    Dimensions,
-    Image,
     AsyncStorage,
-    Platform
+    Dimensions,
+    Easing,
+    Image,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View
 } from "react-native";
 import {dateFormat} from "./util";
 
 
-const {width, height}=Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 const DATE_KEY = 'ultimateRefreshDate';
 const RefreshStatus = {
     pullToRefresh: 0,
@@ -27,7 +27,6 @@ const PaginationStatus = {
     waiting: 1,
     allLoaded: 2
 };
-const headerHeight = 80;
 
 export default class RefreshableScrollView extends ScrollView {
 
@@ -43,10 +42,6 @@ export default class RefreshableScrollView extends ScrollView {
             refreshTitle: this.props.refreshableTitlePull,
             date: this.props.date
         };
-    }
-
-    endRefresh() {
-        this.onRefreshEnd();
     }
 
     componentDidMount() {
@@ -70,7 +65,7 @@ export default class RefreshableScrollView extends ScrollView {
         this._offsetY = y;
         if (this._dragFlag) {
             if (!this._isRefreshing) {
-                const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : headerHeight;
+                const height = this.props.refreshViewHeight;
                 if (y <= -height) {
                     this.setState({
                         refreshStatus: RefreshStatus.releaseToRefresh,
@@ -113,7 +108,7 @@ export default class RefreshableScrollView extends ScrollView {
         this._dragFlag = false;
         const y = event.nativeEvent.contentOffset.y;
         this._offsetY = y;
-        const height = this.props.customRefreshView ? this.props.customRefreshViewHeight : headerHeight;
+        const height = this.props.refreshViewHeight;
         if (!this._isRefreshing) {
             if (this.state.refreshStatus === RefreshStatus.releaseToRefresh) {
                 this._isRefreshing = true;
@@ -165,26 +160,20 @@ export default class RefreshableScrollView extends ScrollView {
     renderRefreshHeader() {
         if (this.props.customRefreshView) {
             return (
-                <View style={{
-                    position: 'absolute',
-                    top: -this.props.customRefreshViewHeight + 5,
-                    left: 0,
-                    right: 0,
-                    height: this.props.customRefreshViewHeight,
-                }}>
+                <View style={[defaultHeaderStyles.header, this.props.refreshViewStyle]}>
                     {this.props.customRefreshView(this.state.refreshStatus, this._offsetY)}
                 </View>
             );
         }
 
         return (
-            <View style={defaultHeaderStyles.background}>
+            <View style={[defaultHeaderStyles.header, this.props.refreshViewStyle]}>
                 <View style={defaultHeaderStyles.status}>
                     {this.renderSpinner()}
                     <Text style={defaultHeaderStyles.statusTitle}>{this.state.refreshTitle}</Text>
                 </View>
                 {this.props.displayDate &&
-                <Text style={defaultHeaderStyles.date}>{this.props.dateTitle + this.state.date}</Text>
+                <Text style={[defaultHeaderStyles.date, this.props.dateStyle]}>{this.props.dateTitle + this.state.date}</Text>
                 }
             </View>
         );
@@ -198,9 +187,10 @@ export default class RefreshableScrollView extends ScrollView {
         }
         return (
             <Animated.Image
-                source={{uri: this.props.arrowImage}}
+                source={this.props.arrowImageSource}
                 resizeMode={'contain'}
                 style={[defaultHeaderStyles.arrow,
+                    this.props.arrowImageStyle,
                     {
                         transform: [{
                             rotateX: this.state.arrowAngle.interpolate({
@@ -230,17 +220,16 @@ export default class RefreshableScrollView extends ScrollView {
 }
 
 const defaultHeaderStyles = StyleSheet.create({
-    background: {
+    header: {
         position: 'absolute',
-        top: -headerHeight + 5,
+        top: -80,
         left: 0,
         right: 0,
-        height: headerHeight,
+        height: 80,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     status: {
-        height: 27,
         flexDirection: 'row',
         alignItems: 'center'
     },

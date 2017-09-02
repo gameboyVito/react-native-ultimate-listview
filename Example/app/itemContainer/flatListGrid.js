@@ -15,7 +15,7 @@ export default class Example extends PureComponent {
         const rowData = this.props.item;
         return (
             <TouchableOpacity onPress={() => this.props.onPress('GridView', rowID, rowData)}>
-                <View style={{margin: 0.5, width: width / 3}}>
+                <View style={{margin: 0.5, width: width / 3, paddingBottom: 15}}>
                     <Thumbnail square source={logo} style={styles.gridThumb}/>
                     <Text style={styles.gridText}>ID: {rowID}</Text>
                     <Text style={styles.gridText}>{rowData}</Text>

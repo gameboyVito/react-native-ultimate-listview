@@ -1,13 +1,13 @@
 import React, {Component} from "react";
-import {Alert, Dimensions, View} from "react-native";
+import {Alert, Dimensions, View, Platform} from "react-native";
 import {Button, Header, Icon, Input, Item, Left, Right, Text} from "native-base";
 import styles from "./styles";
 import LoadingSpinner from "./loadingSpinner";
 import ControlTab from "./controlTab";
 import FlatListItem from "./itemContainer/flatListItem";
 import FlatListGrid from "./itemContainer/flatListGrid";
-import UltimateListView from "react-native-ultimate-listview";
-//import UltimateListView from "../src/ultimateListView";
+//import UltimateListView from "react-native-ultimate-listview";
+import UltimateListView from "../src/ultimateListView";
 
 
 const {width, height} = Dimensions.get('window');
@@ -134,13 +134,14 @@ export default class Example extends Component {
                     ref={(ref) => this.listView = ref}
                     key={this.state.layout} //this is important to distinguish different FlatList, default is numColumns
                     onFetch={this.onFetch}
-                    keyExtractor={(item, index) => `${this.state.layout} - ${item}`}  //this is required when you are using FlatList
+                    keyExtractor={(item, index) => `${index} - ${item}`}  //this is required when you are using FlatList
                     refreshableMode="advanced" //basic or advanced
 
                     item={this.renderItem}  //this takes three params (item, index, separator)
                     numColumns={this.state.layout === 'list' ? 1 : 3} //to use grid layout, simply set gridColumn > 1
 
                     //----Extra Config----
+                    displayDate
                     header={this.renderHeader}
                     paginationFetchingView={this.renderPaginationFetchingView}
                     //sectionHeaderView={this.renderSectionHeaderView}   //not supported on FlatList
@@ -149,6 +150,12 @@ export default class Example extends Component {
                     //paginationWaitingView={this.renderPaginationWaitingView}
                     //emptyView={this.renderEmptyView}
                     //separator={this.renderSeparatorView}
+
+                    //new props on v3.2.0
+                    arrowImageStyle={{width: 20, height: 20, resizeMode: 'contain'}}
+                    dateStyle={{color: 'lightgray'}}
+                    refreshViewStyle={Platform.OS === 'ios' ? {height: 80, top: -80} : {height: 80}}
+                    refreshViewHeight={80}
                 />
             </View>
         );

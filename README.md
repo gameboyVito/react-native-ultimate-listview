@@ -55,15 +55,20 @@ I have found some articles to explain why you need to use FlatList, instead of t
 
 # Breaking Changes
 
-- [ChangeLog](https://github.com/gameboyVito/react-native-ultimate-listview/wiki/ChangeLog)
 - See the **Release Note**
+
+
 
 
 # Contribution
 
 @gameboyVito - gameboyvito@gmail.com
 
-​
+1. Fork this Repository
+2. After modifying the code, commit and push to the forked repository
+3. Open your Github, create a pull request to me. I will review it ASAP, thanks a lot.
+
+
 
 # License
 
