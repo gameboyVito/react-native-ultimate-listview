@@ -17,6 +17,13 @@ This is an **enhanced FlatList** with all excellent extra features, comparing to
 
 
 
+
+
+
+**Know Issue** (v3.2.0): On Android, if you are using CustomRefreshView, and the total hight of your first load data is less than your device height, then the RefreshView may still sticky on the top. However, if the data you loaded is beyond your screen, everything's fine. This issue only happen on Android, any PR is welcome.
+
+
+
 # Demo
 
 |              | iOS                                      | Android                                  |
