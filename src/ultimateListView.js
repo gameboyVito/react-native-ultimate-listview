@@ -315,7 +315,7 @@ export default class UltimateListView extends Component {
 
             return (
                 <View style={styles.paginationView}>
-                    <Text style={{alignSelf: 'center'}}>
+                    <Text style={styles.allLoadedText}>
                         {this.props.allLoadedText}
                     </Text>
                 </View>
@@ -388,7 +388,7 @@ export default class UltimateListView extends Component {
             return this.paginationWaitingView(this.onPaginate);
         } else if (this.state.paginationStatus === PaginationStatus.waiting && this.props.autoPagination === true) {
             return this.paginationWaitingView();
-        } else if (this.state.paginationStatus === PaginationStatus.allLoaded) {
+        } else if (this.getRows().length !== 0 && this.state.paginationStatus === PaginationStatus.allLoaded) {
             return this.paginationAllLoadedView();
         }
 
@@ -501,7 +501,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     allLoadedText: {
-        alignSelf: 'center'
+        alignSelf: 'center',
+        color: '#bfbfbf'
     },
     gridItem: {
         overflow: 'hidden',
