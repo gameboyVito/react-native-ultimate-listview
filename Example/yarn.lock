@@ -3153,9 +3153,9 @@ react-native-easy-grid@0.1.15:
     prop-types "^15.5.10"
     react-timer-mixin "^0.13.3"
 
-react-native-ultimate-listview@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-ultimate-listview/-/react-native-ultimate-listview-3.2.0.tgz#6c613af97da5fac03fc5350088431033f1eb3d38"
+react-native-ultimate-listview@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-ultimate-listview/-/react-native-ultimate-listview-3.2.2.tgz#682f13db53bcd4c6856b112d6a526a71e1b0fae6"
 
 react-native-vector-icons@~4.1.1:
   version "4.1.1"

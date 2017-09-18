@@ -43,6 +43,7 @@ export default class RefreshableScrollView extends ScrollView {
     }
 
     componentDidMount() {
+        console.warn('The advancedRefreshView is not ready for Android at this moment. \n\nIf the items are less than the height of device screen, the refreshView will not disappear. \n\nPlease consider setting the refreshableMode={Platform.OS === "ios" ? "advanced" : "basic"}, or feel free to send me a PR to resolve this problem. \n\nThanks a lot.');
         AsyncStorage.getItem(DATE_KEY, (error, result) => {
             if (result) {
                 result = parseInt(result);
@@ -160,7 +161,9 @@ export default class RefreshableScrollView extends ScrollView {
                 showRefreshHeader: true,
             });
             setTimeout(() => {
-                this.refs.scrollView.scrollTo({x: 0, y: this.props.refreshViewHeight, animated: true});
+                if (this.refs.scrollView.scrollTo) {
+                    this.refs.scrollView.scrollTo({x: 0, y: this.props.refreshViewHeight, animated: true});
+                }
                 this.setState({
                     refreshStatus: RefreshStatus.pullToRefresh,
                     refreshTitle: this.props.refreshableTitlePull,
