@@ -181,29 +181,27 @@ export default class RefreshableScrollView extends ScrollView {
     };
 
     renderRefreshHeader() {
-        if (this.state.refreshTitle !== "Pull to refresh") {
-            if (this.props.customRefreshView) {
-                return (
-                    <View style={[defaultHeaderStyles.header, this.props.refreshViewStyle]}>
-                        {this.props.customRefreshView(this.state.refreshStatus, this._offsetY)}
-                    </View>
-                );
-            }
-
+        if (this.props.customRefreshView) {
             return (
-                <View style={[defaultHeaderStyles.header, this.props.refreshViewStyle, {height: this.state.showRefreshHeader ? this.props.refreshViewHeight : 0}]}>
-                    <View style={defaultHeaderStyles.status}>
-                        {this.renderSpinner()}
-                        <Text style={defaultHeaderStyles.statusTitle}>{this.state.refreshTitle}</Text>
-                    </View>
-                    {this.props.displayDate &&
-                    <Text
-                        style={[defaultHeaderStyles.date, this.props.dateStyle]}>{this.props.dateTitle + this.state.date}</Text>
-                    }
+                <View style={[defaultHeaderStyles.header, this.props.refreshViewStyle]}>
+                    {this.props.customRefreshView(this.state.refreshStatus, this._offsetY)}
                 </View>
             );
         }
 
+        return (
+            <View
+                style={[defaultHeaderStyles.header, this.props.refreshViewStyle, {height: this.props.refreshViewHeight}]}>
+                <View style={defaultHeaderStyles.status}>
+                    {this.renderSpinner()}
+                    <Text style={defaultHeaderStyles.statusTitle}>{this.state.refreshTitle}</Text>
+                </View>
+                {this.props.displayDate &&
+                <Text
+                    style={[defaultHeaderStyles.date, this.props.dateStyle]}>{this.props.dateTitle + this.state.date}</Text>
+                }
+            </View>
+        );
     }
 
     renderSpinner() {
@@ -237,7 +235,7 @@ export default class RefreshableScrollView extends ScrollView {
                 {...this.props}
                 scrollEventThrottle={16}
                 onScroll={this.onScroll}
-                //contentContainerStyle={{paddingBottom: 80}}
+                contentContainerStyle={{minHeight: height}}
                 //onMomentumScrollEnd={this.onScrollEndDrag}
                 onScrollEndDrag={this.onScrollEndDrag}
                 onScrollBeginDrag={this.onScrollBeginDrag}>
