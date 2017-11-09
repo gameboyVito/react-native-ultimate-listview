@@ -1,0 +1,50 @@
+{
+  "extends": [
+    "airbnb"
+  ],
+  "parser": "babel-eslint",
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ios.js", ".android.js", ".json"]
+      }
+    }
+  },
+  "globals": {
+    "window": true,
+    "navigator": true,
+    "__DEV__": true
+  },
+  "rules": {
+    "no-unused-expressions": [2, {"allowTernary": true}],
+    "comma-dangle": [2, "never"],
+    "semi": [2, "never"],
+    "no-await-in-loop": 0,
+    "react/no-unused-state": 0,
+    "react/forbid-prop-types": 0,
+    "no-return-assign": 0,
+    "react/no-multi-comp": 0,
+    "react/jsx-no-bind": 0,
+    "react/no-did-mount-set-state": 0,
+    "react/jsx-filename-extension": 0,
+    "no-console": 0,
+    "no-use-before-define": 0,
+    "max-len": 0,
+    "no-mixed-operators": 0,
+    "import/no-named-as-default": 0,
+    "import/no-named-as-default-member": 0,
+    "no-underscore-dangle": 0,
+    "no-useless-constructor": 0,
+    "global-require": 0,
+    "react/prop-types": 0,
+    "no-unused-vars": 0,
+    "import/no-extraneous-dependencies": 0,
+    "no-restricted-syntax": [0, {
+      "selector": "ForOfStatement"
+    }],
+    "no-restricted-properties": [0, {
+      "object": "Math",
+      "property": "pow"
+    }]
+  }
+}

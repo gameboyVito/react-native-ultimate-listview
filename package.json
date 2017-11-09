@@ -1,13 +1,17 @@
 {
   "name": "react-native-ultimate-listview",
-  "version": "3.2.4",
+  "version": "3.3.0",
   "description": "A high performance FlatList providing customised pull-to-refresh | auto-pagination & infinite-scrolling | gridview layout | swipeable-row. The truly ultimate version that I have done the most tricky part for you, just simply follow the instructions shown below to put it in your app.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint src Example/src",
+    "eslint-fix": "eslint --fix src Example/src"
   },
   "keywords": [
     "flatlist",
+    "scrollview",
+    "refreshable-scrollview",
     "sectionlist",
     "virtualizedlist",
     "pull-to-refresh",
@@ -24,6 +28,22 @@
     "android",
     "ios"
   ],
+  "devDependencies": {
+    "babel-eslint": "^8.0.1",
+    "babel-jest": "21.2.0",
+    "babel-preset-react-native": "4.0.0",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-react-native": "^3.1.0",
+    "jest": "21.2.1",
+    "prop-types": "^15.6.0",
+    "react": "16.0.0-beta.5",
+    "react-native": "0.49.5",
+    "react-test-renderer": "16.0.0-beta.5"
+  },
   "author": {
     "name": "Chen Jiajie",
     "email": "gameboyvito@gmail.com"
