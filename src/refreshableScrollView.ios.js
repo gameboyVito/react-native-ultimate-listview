@@ -23,6 +23,7 @@ export default class RefreshableScrollView extends ScrollView {
     refreshableTitlePull: 'Pull to refresh',
     refreshableTitleRefreshing: 'Loading...',
     refreshableTitleRelease: 'Release to load',
+    refreshTitleStyle: undefined,
     customRefreshView: null,
     displayDate: false,
     dateFormat: 'yyyy-MM-dd hh:mm',
@@ -182,7 +183,7 @@ export default class RefreshableScrollView extends ScrollView {
       <View style={[defaultHeaderStyles.header, this.props.refreshViewStyle]}>
         <View style={defaultHeaderStyles.status}>
           {this.renderSpinner()}
-          <Text style={defaultHeaderStyles.statusTitle}>{this.state.refreshTitle}</Text>
+          <Text style={[defaultHeaderStyles.statusTitle, this.props.refreshTitleStyle]}>{this.state.refreshTitle}</Text>
         </View>
         {this.props.displayDate &&
         <Text style={[defaultHeaderStyles.date, this.props.dateStyle]}>{this.props.dateTitle + this.state.date}</Text>
