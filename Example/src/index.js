@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Alert, Dimensions, Platform, View } from 'react-native'
 import { Button, Header, Icon, Input, Item, Left, Right, Text } from 'native-base'
-import UltimateListView from 'react-native-ultimate-listview'
+import { UltimateListView } from 'react-native-ultimate-listview'
 // import { UltimateListView } from '../lib/index'
 import styles from './styles'
 import LoadingSpinner from './loadingSpinner'
