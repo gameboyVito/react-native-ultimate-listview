@@ -91,9 +91,9 @@ Or you can look through this link: [Usage](https://github.com/gameboyVito/react-
 
 # Why FlatList
 
-I have found some articles to explain why you need to use FlatList, instead of the legacy ListView. There are some obvious reasons:
+I have found some articles to explain why you need to use FlatList instead of the legacy ListView. There are some obvious reasons:
 
-1. FlatList just like the **UICollectionView** or **RecyclerView**, which can dramatically reduce memory usage. It also provides more soomth animation when you have an extremely long list.
+1. FlatList is just like the **UICollectionView** or **RecyclerView**, which can dramatically reduce memory usage. It also provides smoother animation when you have an extremely long list.
 2. FlatList supports scrollToIndex function, which is pretty convenient when you want to scroll to an item with index, instead of depending the y-offset.
 3. FlatList recommend developer to use PureComponent to reduce unnecessary re-rendering, this can really boost the performance and make your app run faster.
 
