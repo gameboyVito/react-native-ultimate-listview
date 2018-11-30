@@ -55,6 +55,7 @@ export default class UltimateListView extends Component {
     refreshableTitlePull: 'Pull to refresh',
     refreshableTitleRefreshing: 'Loading...',
     refreshableTitleRelease: 'Release to load',
+    refreshTitleStyle: undefined,
     customRefreshView: null,
     displayDate: false,
     dateFormat: 'yyyy-MM-dd hh:mm',
@@ -75,6 +76,7 @@ export default class UltimateListView extends Component {
     fetchingSpinnerSize: 'large',
     waitingSpinnerSize: 'small',
     waitingSpinnerText: 'Loading...',
+    waitingSpinnerTextStyle: undefined,
 
     // Pagination Button
     paginationBtnText: 'Load more...',
@@ -117,6 +119,7 @@ export default class UltimateListView extends Component {
     refreshableTitlePull: PropTypes.string,
     refreshableTitleRefreshing: PropTypes.string,
     refreshableTitleRelease: PropTypes.string,
+    refreshTitleStyle: PropTypes.object,
     customRefreshView: PropTypes.func,
     displayDate: PropTypes.bool,
     dateFormat: PropTypes.string,
@@ -138,6 +141,7 @@ export default class UltimateListView extends Component {
     fetchingSpinnerSize: PropTypes.any,
     waitingSpinnerSize: PropTypes.any,
     waitingSpinnerText: PropTypes.string,
+    waitingSpinnerTextStyle: PropTypes.object,
 
     // Pagination Button
     paginationBtnText: PropTypes.string,
@@ -294,7 +298,7 @@ export default class UltimateListView extends Component {
 
     return (
       <View style={styles.fetchingView}>
-        <Text style={styles.paginationViewText}>{this.props.waitingSpinnerText}</Text>
+        <Text style={[styles.paginationViewText, this.props.waitingSpinnerTextStyle]}>{this.props.waitingSpinnerText}</Text>
       </View>
     )
   }
@@ -328,7 +332,7 @@ export default class UltimateListView extends Component {
           <View style={styles.paginationView}>
             <ActivityIndicator color={this.props.spinnerColor} size={this.props.waitingSpinnerSize} />
             <Text
-              style={[styles.paginationViewText, { marginLeft: 5 }]}
+              style={[styles.paginationViewText, { marginLeft: 5 }, this.props.waitingSpinnerTextStyle]}
             >{this.props.waitingSpinnerText}
             </Text>
           </View>
