@@ -138,12 +138,12 @@ export default class RefreshableScrollView extends ScrollView {
         this.refs.scrollView.scrollToEnd(option);
     };
 
-    onRefreshEnd = () => {
+    onRefreshEnd = async() => {
         //console.log('onRefreshEnd()');
         if (this.state.refreshStatus === RefreshStatus.refreshing) {
             this._isRefreshing = false;
             const now = new Date().getTime();
-            this.setState({
+            await this.setState({
                 refreshStatus: RefreshStatus.pullToRefresh,
                 refreshTitle: this.props.refreshableTitlePull,
                 date: dateFormat(now, this.props.dateFormat)
