@@ -67,16 +67,16 @@ export default class UltimateListView extends Component {
         //Pagination
         pagination: true,
         autoPagination: true,
-        allLoadedText: 'End of List',
+        allLoadedText: '没有更多啦',
 
         //Spinner
         spinnerColor: undefined,
         fetchingSpinnerSize: 'large',
         waitingSpinnerSize: 'small',
-        waitingSpinnerText: 'Loading...',
+        waitingSpinnerText: '加载中...',
 
         //Pagination Button
-        paginationBtnText: 'Load more...',
+        paginationBtnText: '正在获取更多数据...',
 
         //GridView
         numColumns: 1
