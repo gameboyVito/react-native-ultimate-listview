@@ -31,8 +31,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gameboyVito/react-native-ultimate-listview.git"
+    "url": "git+https://github.com/pingxiaodou/react-native-ultimate-listview.git"
   },
-  "homepage": "https://github.com/gameboyVito/react-native-ultimate-listview#readme",
+  "homepage": "https://github.com/pingxiaodou/react-native-ultimate-listview#readme",
   "license": "MIT"
 }
