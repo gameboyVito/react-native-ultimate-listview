@@ -321,7 +321,7 @@ export default class UltimateListView extends Component {
 
             return (
                 <View style={styles.paginationView}>
-                    <Text style={{alignSelf: 'center'}}>
+                    <Text style={{alignSelf: 'center', color : '#999'}}>
                         {this.props.allLoadedText}
                     </Text>
                 </View>
