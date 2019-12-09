@@ -17,7 +17,8 @@ const { width, height } = Dimensions.get('window')
 const PaginationStatus = {
   firstLoad: 0,
   waiting: 1,
-  allLoaded: 2
+  allLoaded: 2,
+  fetching: 3
 }
 
 export default class UltimateListView extends Component {
@@ -180,15 +181,15 @@ export default class UltimateListView extends Component {
     }
   }
 
-  onPaginate = () => {
+  onPaginate = async () => {
     if (this.state.paginationStatus !== PaginationStatus.allLoaded && !this.state.isRefreshing) {
       console.log('onPaginate()')
-      this.setState({ paginationStatus: PaginationStatus.waiting })
+      await this.setState({ paginationStatus: PaginationStatus.fetching })
       this.props.onFetch(this.getPage() + 1, this.postPaginate, this.endFetch)
     }
   }
 
-  onEndReached = () => {
+  onEndReached = async () => {
     // console.log('onEndReached()');
     if (this.props.pagination && this.props.autoPagination && this.state.paginationStatus === PaginationStatus.waiting) {
       this.onPaginate()
@@ -238,7 +239,7 @@ export default class UltimateListView extends Component {
   endFetch = () => {
     // console.log('endRefresh()');
     if (this.mounted) {
-      this.setState({ isRefreshing: false })
+      this.setState({ isRefreshing: false, paginationStatus: PaginationStatus.allLoaded })
       if (this.props.refreshableMode === 'advanced' && this._flatList._listRef._scrollRef.onRefreshEnd) {
         this._flatList._listRef._scrollRef.onRefreshEnd()
       }
@@ -378,9 +379,9 @@ export default class UltimateListView extends Component {
   renderFooter = () => {
     if (this.state.paginationStatus === PaginationStatus.firstLoad) {
       return this.paginationFetchingView()
-    } else if (this.state.paginationStatus === PaginationStatus.waiting && this.props.autoPagination === false) {
+    } else if (this.state.paginationStatus === PaginationStatus.fetching && this.props.autoPagination === false) {
       return this.paginationWaitingView(this.onPaginate)
-    } else if (this.state.paginationStatus === PaginationStatus.waiting && this.props.autoPagination === true) {
+    } else if (this.state.paginationStatus === PaginationStatus.fetching && this.props.autoPagination === true) {
       return this.paginationWaitingView()
     } else if (this.getRows().length !== 0 && this.state.paginationStatus === PaginationStatus.allLoaded) {
       return this.paginationAllLoadedView()
