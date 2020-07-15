@@ -14,7 +14,7 @@ const PaginationStatus = {
   allLoaded: 2
 }
 
-export default class RefreshableScrollView extends ScrollView {
+export default class RefreshableScrollView extends React.Component {
   static defaultProps = {
     horizontal: false,
     scrollEnabled: true,
