@@ -98,7 +98,8 @@ export default class RefreshableScrollView extends React.Component {
             Animated.timing(this.state.arrowAngle, {
               toValue: 1,
               duration: 50,
-              easing: Easing.inOut(Easing.quad)
+              easing: Easing.inOut(Easing.quad),
+              useNativeDriver: true,
             }).start()
           }
         } else if (this.state.refreshStatus !== RefreshStatus.pullToRefresh) {
@@ -109,7 +110,8 @@ export default class RefreshableScrollView extends React.Component {
           Animated.timing(this.state.arrowAngle, {
             toValue: 0,
             duration: 50,
-            easing: Easing.inOut(Easing.quad)
+            easing: Easing.inOut(Easing.quad),
+            useNativeDriver: true,
           }).start()
         }
       }
@@ -194,7 +196,8 @@ export default class RefreshableScrollView extends React.Component {
       Animated.timing(this.state.arrowAngle, {
         toValue: 0,
         duration: 50,
-        easing: Easing.inOut(Easing.quad)
+        easing: Easing.inOut(Easing.quad),
+        useNativeDriver: true,
       }).start()
     }
   }
