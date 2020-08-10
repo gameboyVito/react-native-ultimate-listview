@@ -2,7 +2,6 @@ import React from 'react'
 import {
   ActivityIndicator,
   Animated,
-  AsyncStorage,
   Dimensions,
   Easing,
   ScrollView,
@@ -10,6 +9,7 @@ import {
   Text,
   View
 } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import dateFormat from './util'
 
 const { width, height } = Dimensions.get('window')

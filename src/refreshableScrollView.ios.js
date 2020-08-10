@@ -1,5 +1,7 @@
 import React from 'react'
-import { ActivityIndicator, Animated, AsyncStorage, Easing, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Animated, Easing, ScrollView, StyleSheet, Text, View } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
+
 import dateFormat from './util'
 
 const DATE_KEY = 'ultimateRefreshDate'
