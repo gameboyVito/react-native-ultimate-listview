@@ -229,6 +229,7 @@ export default class RefreshableScrollView extends React.Component {
         onScroll={this.onScroll}
         onScrollEndDrag={this.onScrollEndDrag}
         onScrollBeginDrag={this.onScrollBeginDrag}
+        contentInset={{ top: 80 }}
       >
         {this.renderRefreshHeader()}
         {this.props.children}
