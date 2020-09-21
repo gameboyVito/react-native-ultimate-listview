@@ -205,7 +205,7 @@ export default class UltimateListView extends Component {
   }
 
   onEndReached = ({ distanceFromEnd }) => {
-    if (distanceFromEnd > 0 && this.props.pagination && this.props.autoPagination && this.state.paginationStatus === PaginationStatus.waiting) {
+    if (this.props.pagination && this.props.autoPagination && this.state.paginationStatus === PaginationStatus.waiting) {
       this.onPaginate()
     }
   }
@@ -292,11 +292,11 @@ export default class UltimateListView extends Component {
     }
   }
 
-  updateDataSource(rows = []) {
+  updateDataSource(rows = [], callback) {
     this.setRows(rows)
     this.setState({
       dataSource: rows
-    })
+    }, callback)
   }
 
   paginationFetchingView = () => {
