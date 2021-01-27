@@ -463,6 +463,7 @@ export default class UltimateListView extends Component {
     const { numColumns } = this.props
     return (
       <FlatList
+        contentContainerStyle={this.state.dataSource.length === 0 && { flex: 1 }}
         renderScrollComponent={this.renderScrollComponent}
         key={numColumns}
         onEndReachedThreshold={0.1}
