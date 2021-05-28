@@ -2,7 +2,6 @@ import React from 'react'
 import {
   ActivityIndicator,
   Animated,
-  AsyncStorage,
   Dimensions,
   Easing,
   ScrollView,
@@ -13,7 +12,6 @@ import {
 import dateFormat from './util'
 
 const { width, height } = Dimensions.get('window')
-const DATE_KEY = 'ultimateRefreshDate'
 const RefreshStatus = {
   pullToRefresh: 0,
   releaseToRefresh: 1,
@@ -25,7 +23,7 @@ const PaginationStatus = {
   allLoaded: 2
 }
 
-export default class RefreshableScrollView extends ScrollView {
+export default class RefreshableScrollView extends React.Component {
   static defaultProps = {
     horizontal: false,
     scrollEnabled: true,
@@ -61,25 +59,6 @@ export default class RefreshableScrollView extends ScrollView {
     }
   }
 
-  async componentDidMount() {
-    console.warn('The advancedRefreshView is not ready for Android at this moment. \n\nIf the items are less than the height of device screen, the refreshView will not disappear. \n\nPlease consider setting the refreshableMode={Platform.OS === "ios" ? "advanced" : "basic"}, or feel free to send me a PR to resolve this problem. \n\nThanks a lot.')
-    try {
-      let result = await AsyncStorage.getItem(DATE_KEY)
-      if (result) {
-        result = parseInt(result, 10)
-        this.setState({
-          date: dateFormat(new Date(result), this.props.dateFormat)
-        })
-      } else {
-        this.setState({
-          date: dateFormat(new Date(), this.props.dateFormat)
-        })
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
   onScroll = (event) => {
     // console.log('onScroll()');
     const { y } = event.nativeEvent.contentOffset
@@ -98,7 +77,8 @@ export default class RefreshableScrollView extends ScrollView {
             Animated.timing(this.state.arrowAngle, {
               toValue: 1,
               duration: 50,
-              easing: Easing.inOut(Easing.quad)
+              easing: Easing.inOut(Easing.quad),
+              useNativeDriver: true,
             }).start()
           }
         } else if (this.state.refreshStatus !== RefreshStatus.pullToRefresh) {
@@ -109,7 +89,8 @@ export default class RefreshableScrollView extends ScrollView {
           Animated.timing(this.state.arrowAngle, {
             toValue: 0,
             duration: 50,
-            easing: Easing.inOut(Easing.quad)
+            easing: Easing.inOut(Easing.quad),
+            useNativeDriver: true,
           }).start()
         }
       }
@@ -190,11 +171,11 @@ export default class RefreshableScrollView extends ScrollView {
         })
       }, 1000)
 
-      AsyncStorage.setItem(DATE_KEY, now.toString())
       Animated.timing(this.state.arrowAngle, {
         toValue: 0,
         duration: 50,
-        easing: Easing.inOut(Easing.quad)
+        easing: Easing.inOut(Easing.quad),
+        useNativeDriver: true,
       }).start()
     }
   }
@@ -216,7 +197,7 @@ export default class RefreshableScrollView extends ScrollView {
           {this.renderSpinner()}
           <Text style={defaultHeaderStyles.statusTitle}>{this.state.refreshTitle}</Text>
         </View>
-        {this.props.displayDate &&
+        {this.props.displayDate && this.state.date &&
         <Text
           style={[defaultHeaderStyles.date, this.props.dateStyle]}
         >{this.props.dateTitle + this.state.date}

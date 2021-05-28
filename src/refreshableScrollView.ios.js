@@ -1,8 +1,8 @@
 import React from 'react'
-import { ActivityIndicator, Animated, AsyncStorage, Easing, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Animated, Easing, ScrollView, StyleSheet, Text, View } from 'react-native'
+
 import dateFormat from './util'
 
-const DATE_KEY = 'ultimateRefreshDate'
 const RefreshStatus = {
   pullToRefresh: 0,
   releaseToRefresh: 1,
@@ -14,7 +14,7 @@ const PaginationStatus = {
   allLoaded: 2
 }
 
-export default class RefreshableScrollView extends ScrollView {
+export default class RefreshableScrollView extends React.Component {
   static defaultProps = {
     horizontal: false,
     scrollEnabled: true,
@@ -49,24 +49,6 @@ export default class RefreshableScrollView extends ScrollView {
     }
   }
 
-  async componentDidMount() {
-    try {
-      let result = await AsyncStorage.getItem(DATE_KEY)
-      if (result) {
-        result = parseInt(result, 10)
-        this.setState({
-          date: dateFormat(new Date(result), this.props.dateFormat)
-        })
-      } else {
-        this.setState({
-          date: dateFormat(new Date(), this.props.dateFormat)
-        })
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
   onScroll = (event) => {
     // console.log('onScroll()');
     const { y } = event.nativeEvent.contentOffset
@@ -82,7 +64,8 @@ export default class RefreshableScrollView extends ScrollView {
           Animated.timing(this.state.arrowAngle, {
             toValue: 1,
             duration: 50,
-            easing: Easing.inOut(Easing.quad)
+            easing: Easing.inOut(Easing.quad),
+            useNativeDriver: true,
           }).start()
         } else {
           this.setState({
@@ -92,7 +75,8 @@ export default class RefreshableScrollView extends ScrollView {
           Animated.timing(this.state.arrowAngle, {
             toValue: 0,
             duration: 50,
-            easing: Easing.inOut(Easing.quad)
+            easing: Easing.inOut(Easing.quad),
+            useNativeDriver: true,
           }).start()
         }
       }
@@ -159,11 +143,11 @@ export default class RefreshableScrollView extends ScrollView {
         refreshTitle: this.props.refreshableTitlePull,
         date: dateFormat(now, this.props.dateFormat)
       })
-      AsyncStorage.setItem(DATE_KEY, now.toString())
       Animated.timing(this.state.arrowAngle, {
         toValue: 0,
         duration: 50,
-        easing: Easing.inOut(Easing.quad)
+        easing: Easing.inOut(Easing.quad),
+        useNativeDriver: true,
       }).start()
       this._scrollview.scrollTo({ x: 0, y: 0, animated: true })
     }
@@ -184,7 +168,7 @@ export default class RefreshableScrollView extends ScrollView {
           {this.renderSpinner()}
           <Text style={defaultHeaderStyles.statusTitle}>{this.state.refreshTitle}</Text>
         </View>
-        {this.props.displayDate &&
+        {this.props.displayDate && this.state.date &&
         <Text style={[defaultHeaderStyles.date, this.props.dateStyle]}>{this.props.dateTitle + this.state.date}</Text>
         }
       </View>
@@ -224,6 +208,7 @@ export default class RefreshableScrollView extends ScrollView {
         onScroll={this.onScroll}
         onScrollEndDrag={this.onScrollEndDrag}
         onScrollBeginDrag={this.onScrollBeginDrag}
+        contentInset={{ top: 80 }}
       >
         {this.renderRefreshHeader()}
         {this.props.children}
