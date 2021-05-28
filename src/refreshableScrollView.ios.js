@@ -1,10 +1,8 @@
 import React from 'react'
 import { ActivityIndicator, Animated, Easing, ScrollView, StyleSheet, Text, View } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
 
 import dateFormat from './util'
 
-const DATE_KEY = 'ultimateRefreshDate'
 const RefreshStatus = {
   pullToRefresh: 0,
   releaseToRefresh: 1,
@@ -48,24 +46,6 @@ export default class RefreshableScrollView extends React.Component {
       refreshStatus: RefreshStatus.pullToRefresh,
       refreshTitle: this.props.refreshableTitlePull,
       date: this.props.date
-    }
-  }
-
-  async componentDidMount() {
-    try {
-      let result = await AsyncStorage.getItem(DATE_KEY)
-      if (result) {
-        result = parseInt(result, 10)
-        this.setState({
-          date: dateFormat(new Date(result), this.props.dateFormat)
-        })
-      } else {
-        this.setState({
-          date: dateFormat(new Date(), this.props.dateFormat)
-        })
-      }
-    } catch (err) {
-      console.log(err)
     }
   }
 
@@ -163,7 +143,6 @@ export default class RefreshableScrollView extends React.Component {
         refreshTitle: this.props.refreshableTitlePull,
         date: dateFormat(now, this.props.dateFormat)
       })
-      AsyncStorage.setItem(DATE_KEY, now.toString())
       Animated.timing(this.state.arrowAngle, {
         toValue: 0,
         duration: 50,
@@ -189,7 +168,7 @@ export default class RefreshableScrollView extends React.Component {
           {this.renderSpinner()}
           <Text style={defaultHeaderStyles.statusTitle}>{this.state.refreshTitle}</Text>
         </View>
-        {this.props.displayDate &&
+        {this.props.displayDate && this.state.date &&
         <Text style={[defaultHeaderStyles.date, this.props.dateStyle]}>{this.props.dateTitle + this.state.date}</Text>
         }
       </View>
@@ -229,6 +208,7 @@ export default class RefreshableScrollView extends React.Component {
         onScroll={this.onScroll}
         onScrollEndDrag={this.onScrollEndDrag}
         onScrollBeginDrag={this.onScrollBeginDrag}
+        contentInset={{ top: 80 }}
       >
         {this.renderRefreshHeader()}
         {this.props.children}
