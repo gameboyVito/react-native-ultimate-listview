@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { ActivityIndicator, Animated, Easing, ScrollView, StyleSheet, Text, View } from 'react-native'
 import dateFormat from './util'
 import AsyncStorage from '@react-native-community/async-storage'
