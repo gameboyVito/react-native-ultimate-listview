@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import {
   ActivityIndicator,
   Animated,
-  AsyncStorage,
   Dimensions,
   Easing,
   ScrollView,
@@ -11,6 +10,7 @@ import {
   View
 } from 'react-native'
 import dateFormat from './util'
+import AsyncStorage from '@react-native-community/async-storage'
 
 const { width, height } = Dimensions.get('window')
 const DATE_KEY = 'ultimateRefreshDate'
@@ -25,7 +25,7 @@ const PaginationStatus = {
   allLoaded: 2
 }
 
-export default class RefreshableScrollView extends ScrollView {
+export default class RefreshableScrollView extends Component {
   static defaultProps = {
     horizontal: false,
     scrollEnabled: true,
